@@ -1,15 +1,14 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Constituency Model
+ * User Model
  *
- * @property Constituency $ParentConstituency
- * @property Constituency $ChildConstituency
+ * @property Candidacy $Candidacy
+ * @property Comment $Comment
  * @property Constituent $Constituent
- * @property Election $Election
- * @property Office $Office
+ * @property Vote $Vote
  */
-class Constituency extends AppModel {
+class User extends AppModel {
 
 /**
  * Display field
@@ -18,28 +17,8 @@ class Constituency extends AppModel {
  */
 	public $displayField = 'name';
 
-/**
- * Define Tree Behavior
- *
- */
-        public $actsAs = array('Tree');
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'ParentConstituency' => array(
-			'className' => 'Constituency',
-			'foreignKey' => 'parent_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
 
 /**
  * hasMany associations
@@ -47,9 +26,22 @@ class Constituency extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'ChildConstituency' => array(
-			'className' => 'Constituency',
-			'foreignKey' => 'parent_id',
+		'Candidacy' => array(
+			'className' => 'Candidacy',
+			'foreignKey' => 'user_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Comment' => array(
+			'className' => 'Comment',
+			'foreignKey' => 'user_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -62,7 +54,7 @@ class Constituency extends AppModel {
 		),
 		'Constituent' => array(
 			'className' => 'Constituent',
-			'foreignKey' => 'constituency_id',
+			'foreignKey' => 'user_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -73,22 +65,9 @@ class Constituency extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'Election' => array(
-			'className' => 'Election',
-			'foreignKey' => 'constituency_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'Office' => array(
-			'className' => 'Office',
-			'foreignKey' => 'constituency_id',
+		'Vote' => array(
+			'className' => 'Vote',
+			'foreignKey' => 'user_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

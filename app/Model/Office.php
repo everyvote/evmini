@@ -1,12 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Election Model
+ * Office Model
  *
  * @property Constituency $Constituency
  * @property Candidacy $Candidacy
  */
-class Election extends AppModel {
+class Office extends AppModel {
 
 /**
  * Display field
@@ -41,7 +41,7 @@ class Election extends AppModel {
 	public $hasMany = array(
 		'Candidacy' => array(
 			'className' => 'Candidacy',
-			'foreignKey' => 'election_id',
+			'foreignKey' => 'office_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

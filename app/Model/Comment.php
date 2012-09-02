@@ -1,19 +1,19 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Election Model
+ * Comment Model
  *
- * @property Constituency $Constituency
- * @property Candidacy $Candidacy
+ * @property User $User
+ * @property Vote $Vote
  */
-class Election extends AppModel {
+class Comment extends AppModel {
 
 /**
- * Display field
+ * Define Tree Behavior
  *
- * @var string
  */
-	public $displayField = 'name';
+        public $actsAs = array('Tree');
+
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -24,9 +24,9 @@ class Election extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Constituency' => array(
-			'className' => 'Constituency',
-			'foreignKey' => 'constituency_id',
+		'User' => array(
+			'className' => 'User',
+			'foreignKey' => 'user_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -39,9 +39,9 @@ class Election extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Candidacy' => array(
-			'className' => 'Candidacy',
-			'foreignKey' => 'election_id',
+		'Vote' => array(
+			'className' => 'Vote',
+			'foreignKey' => 'comment_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
