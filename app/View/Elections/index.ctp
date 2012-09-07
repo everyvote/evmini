@@ -8,4 +8,4 @@
 	<pre>
 		<?php print_r($currentUser); ?>
 	</pre>
-<? } ?>
+<?php } ?>
