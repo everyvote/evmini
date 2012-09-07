@@ -12,8 +12,7 @@ class ElectionsController extends AppController {
  * @var mixed
  */
 	public function index() { 
-		var_dump($this->Election->find('all'));
-
+		$this->set('elections', $this->Election->find('all'));
 	}
 
 }

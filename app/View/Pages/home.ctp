@@ -20,10 +20,9 @@ if (Configure::read('debug') == 0):
 endif;
 App::uses('Debugger', 'Utility');
 ?>
-<iframe src="http://cakephp.org/bake-banner" width="830" height="160" style="overflow:hidden; border:none;">
-	<p>For updates and important announcements, visit http://cakefest.org</p>
-</iframe>
-<h2><?php echo __d('cake_dev', 'Release Notes for CakePHP %s.', Configure::version()); ?></h2>
+<h2>EVMINI DEV</h2>
+Go To: <a href="<?php echo $this->Html->Url(array('controller'=>'elections')); ?>">Elections</a> 
+<h3 style="margin-top:20px">Debug Info:</h3>
 <a href="http://cakephp.org/changelogs/<?php echo Configure::version(); ?>"><?php echo __d('cake_dev', 'Read the changelog'); ?> </a>
 <?php
 if (Configure::read('debug') > 0):
