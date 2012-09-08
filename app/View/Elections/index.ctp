@@ -3,7 +3,7 @@
 	<pre>
 		<?php print_r($currentUser); ?>
 	</pre>
-<? } ?>
+<?php } ?>
 
         <div class="row well election-info">
             <img src="http://www.niu.edu/masterto/themes/gradient_brown/images/NIU_logo.gif"/> The elections happen. Vote on 'em.
