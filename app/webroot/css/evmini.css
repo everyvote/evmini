@@ -1,18 +1,23 @@
-
 .election-info {
-background-color:#FFF;
-width:90%; 
-margin:0 auto; 
-margin-bottom:15px;
-padding:5px;
+    background-color:#FFF;
+    width:90%; 
+    margin:0 auto; 
+    margin-top: 20px;
+    padding:5px;
 }
 
 .candidate-name {
     font-size:2em;
-    }
+}
     
 .candidate-frame {
-
     padding: 25px 0px 25px 0px;
-    
+}
+
+#header {
+    margin-bottom: 20px
+}
+
+#topnav {
+    margin-top: 60px;
 }

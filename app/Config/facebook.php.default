@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * To bypass facebook functionality, insert a user into the `users` table and
+ * then set FacebookUserOverride to the ID of the user.
+ * 
+ * Set to false to use facebook functionality.
+ */
+$config['FacebookUserOverride'] = 1;
+
+/**
+ * To use as Facebook app, set these values appropriately.
+ */
+$config['Facebook.appId']      = 'APPID';
+$config['Facebook.secret']     = 'SECRET';
+$config['Facebook.fileUpload'] = false;

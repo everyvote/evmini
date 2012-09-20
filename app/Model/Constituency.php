@@ -100,5 +100,31 @@ class Constituency extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+	
+	/**
+	 * Finds a constituency matching the term by name
+	 *
+	 * TODO: Cache me.  For now this is probably faster than querying by name field every time.
+	 * 
+	 * @param string $term
+	 */
+	public function search($term) {
+		$term = trim($term);
+		$constituencies = $this->find('all', array(
+			'fields' => array('id', 'name'),
+			'recursive' => -1
+		));
+		$results = array();
+		foreach ($constituencies as $c) {
+			if (false !== strpos($c['Constituency']['name'], $term)) {
+				$results[] = array(
+					'label' => $c['Constituency']['name'],
+					'value' => $c['Constituency']['id']
+				);
+			}
+		}
+		
+		return $results;
+	}
 
 }
