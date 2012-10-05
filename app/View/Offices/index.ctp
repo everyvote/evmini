@@ -1,30 +1,30 @@
-<div class="elections index">
-	<h2><?php echo __('Elections'); ?></h2>
+<div class="offices index">
+	<h2><?php echo __('Offices'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('constituency_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('description'); ?></th>
-			<th><?php echo $this->Paginator->sort('startdate'); ?></th>
-			<th><?php echo $this->Paginator->sort('enddate'); ?></th>
+			<th><?php echo $this->Paginator->sort('term_start'); ?></th>
+			<th><?php echo $this->Paginator->sort('term_end'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
-	foreach ($elections as $election): ?>
+	foreach ($offices as $office): ?>
 	<tr>
-		<td><?php echo h($election['Election']['id']); ?>&nbsp;</td>
+		<td><?php echo h($office['Office']['id']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($election['Constituency']['name'], array('controller' => 'constituencies', 'action' => 'view', $election['Constituency']['id'])); ?>
+			<?php echo $this->Html->link($office['Constituency']['name'], array('controller' => 'constituencies', 'action' => 'view', $office['Constituency']['id'])); ?>
 		</td>
-		<td><?php echo h($election['Election']['name']); ?>&nbsp;</td>
-		<td><?php echo h($election['Election']['description']); ?>&nbsp;</td>
-		<td><?php echo h($election['Election']['startdate']); ?>&nbsp;</td>
-		<td><?php echo h($election['Election']['enddate']); ?>&nbsp;</td>
+		<td><?php echo h($office['Office']['name']); ?>&nbsp;</td>
+		<td><?php echo h($office['Office']['description']); ?>&nbsp;</td>
+		<td><?php echo h($office['Office']['term_start']); ?>&nbsp;</td>
+		<td><?php echo h($office['Office']['term_end']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $election['Election']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $election['Election']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $election['Election']['id']), null, __('Are you sure you want to delete # %s?', $election['Election']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $office['Office']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $office['Office']['id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $office['Office']['id']), null, __('Are you sure you want to delete # %s?', $office['Office']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -47,7 +47,7 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('New Election'), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('New Office'), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Constituencies'), array('controller' => 'constituencies', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Constituency'), array('controller' => 'constituencies', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Candidacies'), array('controller' => 'candidacies', 'action' => 'index')); ?> </li>
