@@ -1,12 +1,13 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Office Model
+ * Candidate Model
  *
- * @property Constituency $Constituency
- * @property Candidate $Candidate
+ * @property User $User
+ * @property Election $Election
+ * @property Office $Office
  */
-class Office extends AppModel {
+class Candidate extends AppModel {
 
 /**
  * Validation rules
@@ -14,7 +15,7 @@ class Office extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'constituency_id' => array(
+		'user_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -24,39 +25,29 @@ class Office extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'name' => array(
+		'election_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'office_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'about_text' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'description' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'term_start' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'term_end' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -74,34 +65,26 @@ class Office extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Constituency' => array(
-			'className' => 'Constituency',
-			'foreignKey' => 'constituency_id',
+		'User' => array(
+			'className' => 'User',
+			'foreignKey' => 'user_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Election' => array(
+			'className' => 'Election',
+			'foreignKey' => 'election_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Office' => array(
+			'className' => 'Office',
+			'foreignKey' => 'office_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
 	);
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'Candidate' => array(
-			'className' => 'Candidate',
-			'foreignKey' => 'office_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
-
 }

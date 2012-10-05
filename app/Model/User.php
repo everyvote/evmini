@@ -3,7 +3,8 @@ App::uses('AppModel', 'Model');
 /**
  * User Model
  *
- * @property Candidacy $Candidacy
+ * @property Facebook $Facebook
+ * @property Candidate $Candidate
  * @property Comment $Comment
  * @property Constituent $Constituent
  * @property Vote $Vote
@@ -11,14 +12,39 @@ App::uses('AppModel', 'Model');
 class User extends AppModel {
 
 /**
- * Display field
+ * Validation rules
  *
- * @var string
+ * @var array
  */
-	public $displayField = 'name';
-
+	public $validate = array(
+		'name' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
+
+/**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'Facebook' => array(
+			'className' => 'Facebook',
+			'foreignKey' => 'facebook_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
 
 /**
  * hasMany associations
@@ -26,8 +52,8 @@ class User extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Candidacy' => array(
-			'className' => 'Candidacy',
+		'Candidate' => array(
+			'className' => 'Candidate',
 			'foreignKey' => 'user_id',
 			'dependent' => false,
 			'conditions' => '',
