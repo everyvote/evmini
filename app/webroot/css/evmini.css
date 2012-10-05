@@ -21,3 +21,16 @@
 #topnav {
     margin-top: 60px;
 }
+
+
+/* Header related styles */
+#ev_logo {
+    background: url("../img/ev-logo.png") no-repeat;
+    min-width: 331px;
+    min-height: 107px;
+}
+
+/* Candidacies tabbed section styles */
+.candidacies.view .tabbable ul.nav-tabs li a{
+    text-align: center;
+}
