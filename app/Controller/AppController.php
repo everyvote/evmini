@@ -55,13 +55,18 @@ class AppController extends Controller {
 	 * @var array
 	 */
 	public $uses = array('User');
+
+    public $helpers = array("Html", "Form", "TwitterBootstrap.TwitterBootstrap");
 	
 	/**
 	 * Initialize common controller data
 	 */
 	public function beforeFilter() {
 		// Initialize User Data
-		$this->_initUser();
+		// note: temporarily adding this to prevent errors for developers not using FB yet
+		if ($_SERVER['SERVER_ADDR'] == '50.76.92.83') {
+			$this->_initUser();
+		}
 	}
 	
 	/**
@@ -70,35 +75,20 @@ class AppController extends Controller {
 	 * @author khoople
 	 */
 	private function _initUser() {
-		Configure::load('facebook', 'default');
-		$facebookUserOverride = Configure::read('FacebookUserOverride');
+		$this->_initFacebook();
+		$facebookId = $this->_facebook->getUser();
 		
-		// If facebookUserOverride is false, get user data from facebook, otherwise 
-		// set current user to ID specified.
-		if (false !== $facebookUserOverride) {
-		    $user = $this->User->findById($facebookUserOverride);
-			if ($user) {
-				$this->_currentUser = $user;
-			} else {
-				throw new Exception("Facebook User Override ID " . $facebookUserOverride . " not found in DB.");
-			}
+		// If can't get facebook uid, they must accept the app and/or login
+		if (!$facebookId) {
+			$this->_redirectToLoginUrl();
+		}
+		
+		$user = $this->User->findByFacebookId($facebookId);
+		
+		if ($user) {
+			$this->_currentUser = $user;
 		} else {
-			$this->_initFacebook();
-			$facebookId = $this->_facebook->getUser();
-			
-			// If can't get facebook uid, they must accept the app and/or login
-			if (!$facebookId) {
-				$this->_redirectToLoginUrl();
-			}
-			
-			$user = $this->User->findByFacebookId($facebookId);
-			
-			// If user isn't found in db, create new user from facebook data.
-			if ($user) {
-				$this->_currentUser = $user;
-			} else {
-				$this->_currentUser = $this->_createUser($facebookId);
-			}
+			$this->_currentUser = $this->_createUser($facebookId);
 		}
 		
 		$this->set('currentUser', $this->_currentUser);
@@ -111,7 +101,9 @@ class AppController extends Controller {
 	 */
 	private function _initFacebook() {
 		if (!$this->_facebook) {
+			Configure::load('facebook', 'default');
 			$options = Configure::read('Facebook');
+			
 			$this->_facebook = new Facebook($options);
 		}
 	}
@@ -165,3 +157,4 @@ class AppController extends Controller {
 		exit();
 	}
 }
+
