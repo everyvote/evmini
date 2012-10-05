@@ -179,3 +179,25 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+/*
+ *
+ * OAuth plugin config.
+ * Download more strategies at: https://github.com/uzyn/opauth/wiki/List-of-strategies
+*/
+
+CakePlugin::load('Opauth', array('bootstrap' => true, 'routes' => true));
+CakePlugin::load('TwitterBootstrap');
+CakePlugin::load('Partials');
+
+// Setting up Facebook Strategy for OAuth plugin
+Configure::write('Opauth.Strategy.Facebook', array(
+    'app_id' => '',
+    'app_secret' => ''
+));
+
+/*Enable this if the project is not in the root of the httpd folder. Replace
+* `evmini` with the path of the application.
+ */
+Configure::write('Opauth.path', '/evmini/auth/');
+Configure::write('Opauth.callback_url', '/evmini/auth/callback');
