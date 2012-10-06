@@ -2,6 +2,9 @@
 
 This will be a small implementation of the EveryVote platform focusing on Student Government elections. Will be heavily integrated with Facebook.  There is nothing special working as of 8/29/12.
 
+Code is provided under the Affero General Public License
+http://www.affero.org/oagpl.html
+
 ### Vincent's Notes
 --------------------------
 As the new Fall semester is sucking my attention away, I've thrown up a copy of CakePHP to this repository and cobbled together a rough E-R diagram in MySQL workbench.
