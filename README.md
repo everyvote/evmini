@@ -2,8 +2,8 @@
 
 This will be a small implementation of the EveryVote platform focusing on Student Government elections. Will be heavily integrated with Facebook.  There is nothing special working as of 8/29/12.
 
-Code is provided under the Affero General Public License
-http://www.affero.org/oagpl.html
+Code is provided under the Affero General Public License version 3.0
+http://www.gnu.org/licenses/agpl-3.0.html
 
 ### Vincent's Notes
 --------------------------
