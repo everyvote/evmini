@@ -58,15 +58,14 @@ class AppController extends Controller {
 
     public $helpers = array("Html", "Form", "TwitterBootstrap.TwitterBootstrap");
 	
+	public $components = array('Session');
+	private $facebook;
 	/**
 	 * Initialize common controller data
 	 */
 	public function beforeFilter() {
 		// Initialize User Data
-		// note: temporarily adding this to prevent errors for developers not using FB yet
-		if ($_SERVER['SERVER_ADDR'] == '50.76.92.83') {
-			$this->_initUser();
-		}
+		$this->_initUser();
 	}
 	
 	/**
@@ -82,6 +81,7 @@ class AppController extends Controller {
 		if (!$facebookId) {
 			$this->_redirectToLoginUrl();
 		}
+		$this->loadModel('User');
 		
 		$user = $this->User->findByFacebookId($facebookId);
 		
@@ -100,6 +100,7 @@ class AppController extends Controller {
 	 * @author khoople
 	 */
 	private function _initFacebook() {
+		App::import('Vendor', 'facebook');
 		if (!$this->_facebook) {
 			Configure::load('facebook', 'default');
 			$options = Configure::read('Facebook');
@@ -120,12 +121,26 @@ class AppController extends Controller {
 	 */
 	private function _createUser($facebookId){
 		$me = $this->_facebook->api('/me', 'GET', array(
-			'fields' => 'id,name,username,picture'		
+			'fields' => 'id,name,username'
 		)); 
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_URL, 
+		    "http://graph.facebook.com/$facebookId/picture?type=large");
+		
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_NOBODY, true);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_exec($ch);
+		
+		$url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+		
+		curl_close($ch);
 		
 		$data['User'] = array(
 			'name'        => $me['name'],
-			'image'       => $me['picture']['data']['url'],
+			'image'       => $url,
 			'facebook_id' => $me['id']
 		);
 		
@@ -151,7 +166,8 @@ class AppController extends Controller {
 			'canvas'       => 1,
 			'fbconnect'    => 0,
 			'redirect_uri' => 'http://apps.facebook.com/' . $this->_facebook->getAppId(),
-			'prev'         => 'http://www.facebook.com'
+			'prev'         => 'http://www.facebook.com',
+			'scope'        => 'user_about_me,publish_stream'
 		));
 		echo "<script>top.location.href='$url';</script>";
 		exit();

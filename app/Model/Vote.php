@@ -64,7 +64,7 @@ class Vote extends AppModel {
 			'order' => ''
 		),
 		'Candidacy' => array(
-			'className' => 'Candidacy',
+			'className' => 'Candidate',
 			'foreignKey' => 'candidacy_id',
 			'conditions' => '',
 			'fields' => '',

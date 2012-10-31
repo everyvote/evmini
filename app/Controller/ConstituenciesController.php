@@ -14,7 +14,8 @@ class ConstituenciesController extends AppController {
  */
 	public function index() {
 		$this->Constituency->recursive = 0;
-		$this->set('constituencies', $this->paginate());
+		$data = $this->Constituency->find();
+		$this->set('constituencies', $data);
 	}
 
 /**
@@ -99,5 +100,15 @@ class ConstituenciesController extends AppController {
 		}
 		$this->Session->setFlash(__('Constituency was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+	
+	
+	public function loadLogo($id = null) {
+		$this->layout='ajax';
+		$this->Constituency->id = $id;
+		if (!$this->Constituency->exists()) {
+			throw new NotFoundException(__('Invalid constituency'));
+		}
+		$this->set('constituency', $this->Constituency->read(null, $id));
 	}
 }

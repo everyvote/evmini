@@ -37,13 +37,13 @@ class User extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Facebook' => array(
+		/*'Facebook' => array(
 			'className' => 'Facebook',
 			'foreignKey' => 'facebook_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		)*/
 	);
 
 /**

@@ -96,4 +96,24 @@ class VotesController extends AppController {
 		$this->Session->setFlash(__('Vote was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+	
+	
+	public function cast($candidate,$stance) {
+		$this->layout='ajax';
+		
+		$data['user_id'] = $this->_currentUser['User']['id'];
+		$data['candidacy_id'] = $candidate;
+		$data['stances_id'] = $stance;
+		$data['added'] = date('Y-m-d h:i:s');
+		
+		$this->Vote->Save($data);
+		
+		$votes = array('Votes'=>array(
+			'positive'=>$this->Vote->find('count',array('conditions'=>array('Vote.candidacy_id = '=>$candidate, 'Vote.stances_id = ' => 1))),
+			'neutral'=>$this->Vote->find('count',array('conditions'=>array('Vote.candidacy_id = '=>$candidate, 'Vote.stances_id = ' => 2))),
+			'negative'=>$this->Vote->find('count',array('conditions'=>array('Vote.candidacy_id = '=>$candidate, 'Vote.stances_id = ' => 3)))
+		));
+		
+		$this->set('votes', $votes);
+	}
 }

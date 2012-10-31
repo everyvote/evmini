@@ -100,4 +100,41 @@ class ElectionsController extends AppController {
 		$this->Session->setFlash(__('Election was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+/**
+ * listByConstituency method
+ *
+ * @param int $id
+ * @return void
+ */
+	public function listByConstituency($id) {
+		$this->layout = 'ajax';
+		$data = $this->Election->find('all',array('conditions' => array('Election.constituency_id = '=>$id)));
+		$this->set('elections', $data);
+	}
+	
+	public function load($id=null) {
+		$this->layout='ajax';
+		$this->Election->id = $id;
+		$this->loadModel('Office');
+		$this->loadModel('Candidate');
+		$candidate = $this->Candidate->find('first',array('conditions'=>array('Candidate.election_id = ' => $id, 'Candidate.user_id = '=>$this->_currentUser['User']['id'])));
+		if($candidate) {
+			$candidate = $candidate['Candidate']['office_id'];
+		}
+		else {
+			$candidate = false;
+		}
+		if (!$this->Election->exists()) {
+			throw new NotFoundException(__('Invalid election'));
+		}
+		$election = $this->Election->read(null, $id);
+		$data = array(
+			"description"=>$election['Election']['description'],
+			"moderate"=>$election['Election']['user_id']==$this->_currentUser['User']['id'] ? true : false,
+			"offices"=>$this->Office->find('all',array('conditions' => array('Office.election_id = '=>$id))),
+			"run" =>  $candidate
+		);
+		$this->set('election', $data);
+	}
 }

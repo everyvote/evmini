@@ -46,9 +46,14 @@ class CandidatesController extends AppController {
         //Get associated votes and comments to display
         $this->loadModel('Vote');
         $this->loadModel('Comment');
-
-        $this->set('votes', $this->Vote->findAllById($id));
-        $this->set('comments', $this->Vote->findAllByCandidacyId($id));
+		
+		$votes = array(
+				'positive'=>$this->Vote->find('count',array('conditions'=>array('Vote.candidacy_id = '=>$id, 'Vote.stances_id = ' => 1))),
+				'negative'=>$this->Vote->find('count',array('conditions'=>array('Vote.candidacy_id = '=>$id, 'Vote.stances_id = ' => 3))),
+				'casted'=>$this->Vote->find('first',array('conditions'=>array('Vote.candidacy_id = '=>$id, 'Vote.user_id = ' => $this->_currentUser['User']['id'])))
+			);
+        $this->set('votes', $votes);
+		$this->set('all_votes', $this->Vote->findAllByCandidacyId($id));
 	}
 
 /**
@@ -123,4 +128,60 @@ class CandidatesController extends AppController {
 		$this->Session->setFlash(__('Candidate was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+	
+	
+	public function listByElection($id,$filter=0,$sorting=0) {
+		$this->layout = 'ajax';
+		$data = array();
+		$this->loadModel('Vote');
+		foreach($this->Candidate->find('all',array('conditions' => array('Candidate.election_id = '=>$id))) as $candidate) {
+			$votes = array('Votes'=>array(
+				'positive'=>$this->Vote->find('count',array('conditions'=>array('Vote.candidacy_id = '=>$candidate['Candidate']['id'], 'Vote.stances_id = ' => 1))),
+				'negative'=>$this->Vote->find('count',array('conditions'=>array('Vote.candidacy_id = '=>$candidate['Candidate']['id'], 'Vote.stances_id = ' => 3))),
+				'casted'=>$this->Vote->find('first',array('conditions'=>array('Vote.candidacy_id = '=>$candidate['Candidate']['id'], 'Vote.user_id = ' => $this->_currentUser['User']['id'])))
+			));
+			$data[] = array_merge($candidate, $votes);
+		}
+		$this->set('candidates', $data);
+	}
+	
+	
+	public function run($id) {
+		$this->layout = 'ajax';
+		$this->loadModel('Office');
+		$office = $this->Office->read(null,$id);
+		
+		$data['user_id'] = $this->_currentUser['User']['id'];
+		$data['office_id'] = $id;
+		$data['about_text'] = mysql_escape_string($_POST["description"]);
+		$data['election_id'] = $office['Office']['election_id'];
+		
+		$this->Candidate->Save($data);
+	}
+	
+	public function leave($id) {
+		$this->layout = 'ajax';
+		$this->loadModel('Vote');
+		$this->Vote->deleteAll(array('candidacy_id = '=>$this->_currentUser['User']['id']),false);
+		$this->Candidate->deleteAll(array('Candidate.office_id = ' => $id, 'Candidate.user_id = '=>$this->_currentUser['User']['id']),false);
+	}
+
+	public function post($id) {
+		$this->layout='ajax';
+		$candidate = $this->Candidate->read(null,$id);
+		$post_data = array(
+        	'link' => "http://apps.facebook.com/483074268393372/candidates/view/".$id,
+        	'message'=> $candidate['User']['name']." running for ".$candidate['Office']['name'],
+        	'name' => $candidate['User']['name']." running for ".$candidate['Office']['name'],
+        	'picture' => $candidate['User']['image'],
+        	'description' => $candidate['Candidate']['about_text']
+    	);
+		try {
+		  $this->_facebook->api('/me/feed','POST',$post_data);
+		} catch(FacebookApiException $e) {
+		  $e_type = $e->getType();
+		  debug('Error: ' . $e_type);
+		}
+	}
+	
 }

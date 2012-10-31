@@ -1,60 +1,55 @@
-<div class="constituencies index">
-	<h2><?php echo __('Constituencies'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('name'); ?></th>
-			<th><?php echo $this->Paginator->sort('description'); ?></th>
-			<th><?php echo $this->Paginator->sort('parent_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('lft'); ?></th>
-			<th><?php echo $this->Paginator->sort('rght'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	<?php
-	foreach ($constituencies as $constituency): ?>
-	<tr>
-		<td><?php echo h($constituency['Constituency']['id']); ?>&nbsp;</td>
-		<td><?php echo h($constituency['Constituency']['name']); ?>&nbsp;</td>
-		<td><?php echo h($constituency['Constituency']['description']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($constituency['ParentConstituency']['name'], array('controller' => 'constituencies', 'action' => 'view', $constituency['ParentConstituency']['id'])); ?>
-		</td>
-		<td><?php echo h($constituency['Constituency']['lft']); ?>&nbsp;</td>
-		<td><?php echo h($constituency['Constituency']['rght']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $constituency['Constituency']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $constituency['Constituency']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $constituency['Constituency']['id']), null, __('Are you sure you want to delete # %s?', $constituency['Constituency']['id'])); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
 
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Constituency'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Constituencies'), array('controller' => 'constituencies', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Parent Constituency'), array('controller' => 'constituencies', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Constituents'), array('controller' => 'constituents', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Constituent'), array('controller' => 'constituents', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Elections'), array('controller' => 'elections', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Election'), array('controller' => 'elections', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Offices'), array('controller' => 'offices', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Office'), array('controller' => 'offices', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+			 <div class="row">
+				<div class="span1">
+					<p><a href="#"><img src="img/uni_logo.png" id="clogo" class="img-rounded hidden" /></a></p>
+				</div>
+				<div class="span8">
+					<p>
+						<div class="dropdown" id="constituencyselect">
+						  <strong>Constituency:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a constituency</span> <i class="icon-chevron-down"></i></a>
+						  <ul class="dropdown-menu" role="menu">
+							<?php foreach ($constituencies as $constituency): ?>
+								<?php if($constituency['id']) : ?>
+								<li id="c<?=h($constituency['id']);?>"><a href="#" onclick="selectConstituency(<?=h($constituency['id']);?>)"><?=h($constituency['name']);?></a></li>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						  						  						  						  						                            
+						  </ul>
+						</div>
+					</p>
+					<p>
+						<div class="dropdown hidden" id="electionsselect">
+						<strong>Election:</strong>  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select an election</span> <i class="icon-chevron-down"></i></a>
+						  <ul class="dropdown-menu" role="menu" id="electionslist">
+						  						  						  						  						                            
+						  </ul>
+						 </div>
+					</p>
+					<p id="electionDescription">
+						
+					</p>
+                </div>
+                <div class="span9 hidden" id="sorting">
+                	<div class="dropdown pull-left">
+					  <strong>Showing:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>All Offices</span> <i class="icon-chevron-down"></i></a>
+					  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						<li><a href="#">All Offices</a></li>
+						<span id="filterOffices"></span>	  						  						                            
+					  </ul>
+					</div>
+                	
+					<div class="dropdown pull-right">
+					  <strong>Sort by:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Date Added</span> <i class="icon-chevron-down"></i></a>
+					  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						<li><a href="#">Date Added</a></li>
+						<li><a href="#">Alphabetical</a></li>
+						<li><a href="#">Most support votes</a></li>
+						<li><a href="#">Most opposite votes</a></li>			  						                            
+					  </ul>
+					</div>					
+				</div>
+			</div>			  
+			<hr>
+			<div id="candidates">
+				
+			</div>

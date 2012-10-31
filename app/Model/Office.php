@@ -75,8 +75,8 @@ class Office extends AppModel {
  */
 	public $belongsTo = array(
 		'Constituency' => array(
-			'className' => 'Constituency',
-			'foreignKey' => 'constituency_id',
+			'className' => 'Election',
+			'foreignKey' => 'election_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

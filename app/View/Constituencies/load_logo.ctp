@@ -1,0 +1,1 @@
+<?=$constituency['Constituency']['logo']?>
