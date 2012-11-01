@@ -4,6 +4,11 @@
     <head>
         <?php echo $this->Html->charset(); ?>
         <title><?php echo $this->fetch('title'); ?></title>
+        <script type="text/javascript">
+            var url = '<?php echo $this->base; ?>/';
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <?php
             echo $this->Html->meta('icon');
 
@@ -87,8 +92,6 @@
 
         </div>
         <div id="debug"></div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <?=$this->Html->script('main.js');?>
         <?=$this->Html->script('vendor/bootstrap.min.js');?>
     </body>
