@@ -1,6 +1,6 @@
 # EveryVote Mini
 
-This code is provided under the GNU Affero General Public License version 3 http://www.gnu.org/licenses/agpl-3.0.html
+All EveryVote.org code is provided under the GNU Affero General Public License version 3 http://www.gnu.org/licenses/agpl-3.0.html
 
 This will be a small implementation of the EveryVote platform focusing on Student Government elections. Will be heavily integrated with Facebook.  There is nothing special working as of 8/29/12.
 
