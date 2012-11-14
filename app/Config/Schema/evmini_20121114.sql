@@ -1,0 +1,1 @@
+alter table elections add column mods varchar(255) default null;
