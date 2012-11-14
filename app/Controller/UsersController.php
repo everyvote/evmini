@@ -96,4 +96,15 @@ class UsersController extends AppController {
 		$this->Session->setFlash(__('User was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+	
+	public function json() {
+		$this->layout='ajax';
+		
+		$data = $this->User->find('all');
+		$users = array();
+		foreach($data as $user) {
+			$users[]=array('id'=>$user['User']['id'],'value'=>$user['User']['name'],'label'=>$user['User']['name']);
+		}
+		$this->set('users', $users);	
+	}
 }

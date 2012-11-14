@@ -4,9 +4,6 @@
     <head>
         <?php echo $this->Html->charset(); ?>
         <title><?php echo $this->fetch('title'); ?></title>
-        <script type="text/javascript">
-            var url = '<?php echo $this->base; ?>/';
-        </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <?php
@@ -14,16 +11,117 @@
 
             echo $this->Html->css('bootstrap.min.css');
             echo $this->Html->css('main.css');
-			/*
-			 * We don't need jQuery UI yet
-			 */
-            //echo $this->Html->script('jquery-ui-1.8.23.custom.min.js');
+            echo $this->Html->css('datepicker.css');
+            echo $this->Html->css('redmond/jquery-ui.min.css');
+            echo $this->Html->script('vendor/jquery-ui.min.js');
             echo $this->Html->script('vendor/modernizr-2.6.1-respond-1.1.0.min.js');
         ?>
     </head>
 
     <body>
         <div class="container">
+        	<div class="modal" style="display:none" id="addElection" tabindex="-1" role="dialog">
+        		
+			  <div class="modal-header">
+			  	<h6>Add New Election <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+			  </div>
+			  
+			  <div class="modal-body" style="height:500px;">
+			  	
+						<div class="dropdown" id="addEcDrop">
+						  <strong style="display:inline-block;width:140px;">Constituency:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a constituency</span> <i class="icon-chevron-down"></i></a>
+						  <ul class="dropdown-menu" role="menu">
+							<?php foreach ($constituencies as $constituency): ?>
+								<?php if($constituency['id']) : ?>
+								<li id="addEc_<?=h($constituency['id']);?>"><a href="#" onclick="addEc(<?=h($constituency['id']);?>)"><?=h($constituency['name']);?></a></li>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						  						  						  						  						                            
+						  </ul>
+						  <input type="hidden" name="addEc" id="addEc" />
+						</div>
+						
+						<div>
+							<strong style="display:inline-block;width:140px;">Election:</strong>
+							<input type="text" class="span5" id="addETitle" name="election" />
+						</div>
+						<div>
+							<strong style="display:inline-block;width:140px;">Election date:</strong>
+							 <input class="datepicker span5" name="date" id="addEDate" size="16" type="text">
+						</div>
+						<div>
+							<strong style="display:inline-block;width:140px;">Offices:</strong>
+							 <input name="offices" class="span5" size="16" type="text">
+							 <p style="text-align:right;font-size:12px;color:#999;">use commas to separate</p>
+						</div>
+						<div>
+							<strong style="display:inline-block;width:140px;">Moderator:</strong>
+							 <input id="moderators" class="span5" size="16" type="text">
+							 <ul id="moderatorsList"></ul>
+							 <input type="hidden" name="moderators" id="mods" />
+						</div>
+						<div>
+							<strong style="display:block;">Election description:</strong>
+							 <textarea name="description" id="addEDesc" style="width:510px;height:140px;resize:none;"cols="40" rows="10"></textarea>
+						</div>
+			  </div>
+			  <div class="modal-footer">
+			    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="addElection();"><em class="icon-ok icon-white"></em> Okay</button>
+			    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
+			  </div>
+        	</div>
+        	
+        	
+        	<div class="modal" style="display:none" id="editElection" tabindex="-1" role="dialog">
+        		
+			  <div class="modal-header">
+			  	<h6>Edit Election <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+			  </div>
+			  
+			  <div class="modal-body" style="height:500px;">
+			  	
+						<div class="dropdown" id="editEcDrop">
+						  <strong style="display:inline-block;width:140px;">Constituency:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a constituency</span> <i class="icon-chevron-down"></i></a>
+						  <ul class="dropdown-menu" role="menu">
+							<?php foreach ($constituencies as $constituency): ?>
+								<?php if($constituency['id']) : ?>
+								<li id="editEc_<?=h($constituency['id']);?>"><a href="#" onclick="editEc(<?=h($constituency['id']);?>)"><?=h($constituency['name']);?></a></li>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						  						  						  						  						                            
+						  </ul>
+						  <input type="hidden" name="editEc" id="editEc" />
+						</div>
+						
+						<div>
+							<strong style="display:inline-block;width:140px;">Election:</strong>
+							<input type="text" class="span5" id="editETitle" name="election" />
+						</div>
+						<div>
+							<strong style="display:inline-block;width:140px;">Election date:</strong>
+							 <input class="datepicker span5" name="date" id="editEDate" size="16" type="text">
+						</div>
+						<div>
+							<strong style="display:inline-block;width:140px;">Offices:</strong>
+							 <input name="offices" class="span5" size="16" type="text">
+							 <p style="text-align:right;font-size:12px;color:#999;">use commas to separate</p>
+						</div>
+						<div>
+							<strong style="display:inline-block;width:140px;">Moderator:</strong>
+							 <input id="emoderators" class="span5" size="16" type="text">
+							 <ul id="emoderatorsList"></ul>
+							 <input type="hidden" name="moderators" id="emods" />
+						</div>
+						<div>
+							<strong style="display:block;">Election description:</strong>
+							 <textarea name="description" id="editEDesc" style="width:510px;height:140px;resize:none;"cols="40" rows="10"></textarea>
+						</div>
+			  </div>
+			  <div class="modal-footer">
+			    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="updateElection();"><em class="icon-ok icon-white"></em> Okay</button>
+			    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
+			  </div>
+        	</div>
         	
 			<div class="modal" style="display:none" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-header">
@@ -72,7 +170,7 @@
 					<div class="span4 offset3 menu" id="menu">
 						<div>
 							<a class="btn btn-primary btn-small hidden" id="editE" href="#"><i class="icon-pencil icon-white"></i> Edit Election</a>
-							<a class="btn btn-small btn-primary hidden" id="addE" href="#"> <i class="icon-plus icon-white"></i> Add Election</a>
+							<a class="btn btn-small btn-primary" id="addE" href="#"> <i class="icon-plus icon-white"></i> Add Election</a>
 						</div> 
 						<div class="pt5">
 							<a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#">My Profile</a>
@@ -94,6 +192,143 @@
         <div id="debug"></div>
         <?=$this->Html->script('main.js');?>
         <?=$this->Html->script('vendor/bootstrap.min.js');?>
+        <?=$this->Html->script('bootstrap-datepicker.js');?>
+        <script>
+        var mods=[];
+        var emods=[];
+        var currentElection=0;
+		function addElection() {
+			$.ajax({
+				url: 'elections/add',
+				type: "POST",
+	            dataType: 'json',
+				data: {
+					constituency_id: $('#addEc').val(),
+					name: $('#addETitle').val(),
+					description: $('#addEDesc').val(),
+					startdate: $('#addEDate').val(),
+					mods: $('#mods').val()
+				},
+				success: function(data) {
+					result = eval(data);
+					if(result.status=="success") {
+						selectConstituency($('#addEc').val());
+						selectElection(result.election);
+						$('#addEc').val('');
+						$('#addETitle').val('');
+						$('#addEDesc').val('');
+						$('#addEDate').val('');
+						$('#mods').val('');
+						mods=[];
+					}
+				}
+			});
+			return false;
+		}
+		function updateElection() {
+			$.ajax({
+				url: 'elections/edit/'+currentElection,
+				type: "POST",
+	            dataType: 'json',
+				data: {
+					constituency_id: $('#editEc').val(),
+					name: $('#editETitle').val(),
+					description: $('#editEDesc').val(),
+					startdate: $('#editEDate').val(),
+					mods: $('#emods').val()
+				},
+				success: function(data) {
+					result = eval(data);
+					if(result.status=="success") {
+						alert("Election updated successfully!");
+					}
+				}
+			});
+			return false;
+		}
+		function getModerators() {
+			$.ajax({
+				url: 'users/json',
+	            dataType: 'json',
+	            async: false,
+				success: function(data) {
+					options = {
+						source:eval(data),
+						autoFocus: true,
+						select:function(event,item){
+							var mod=[];
+							mod[0] = item.item.id;
+							mod[1] = item.item.value;
+							mods.push(mod);
+							$('#moderators').val('');
+							updateModerators();
+							return false;
+						}
+					 };
+					 $('#moderators').autocomplete(options);
+					options = {
+						source:eval(data),
+						autoFocus: true,
+						select:function(event,item){
+							var mod=[];
+							mod[0] = item.item.id;
+							mod[1] = item.item.value;
+							emods.push(mod);
+							$('#emoderators').val('');
+							updateEModerators();
+							return false;
+						}
+					 };
+					 $('#emoderators').autocomplete(options);
+					 return true;
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+	                console.log(textStatus, errorThrown);
+	                return true;
+	            }
+			});
+		}
+		function updateModerators() {
+			var modlist = '';
+			var ids = [];
+			jQuery.each(mods, function(index, mod) {
+				modlist+="<li>"+mod[1]+" <a href='#' onclick='removeMod("+index+")'>[x]</a></li>";
+				ids.push(mod[0]);
+				
+			});
+			$('#mods').val(ids.join(","));
+			$('#moderatorsList').html(modlist);
+		}
+		function updateEModerators() {
+			var modlist = '';
+			var ids = [];
+			jQuery.each(emods, function(index, mod) {
+				modlist+="<li>"+mod[1]+" <a href='#' onclick='removeEMod("+index+")'>[x]</a></li>";
+				ids.push(mod[0]);
+				
+			});
+			$('#emods').val(ids.join(","));
+			$('#emoderatorsList').html(modlist);
+		}
+		function removeMod(index) {
+			mods.splice(index,1);
+			updateModerators();
+		}
+		function removeEMod(index) {
+			emods.splice(index,1);
+			updateEModerators();
+		}
+        $(document).ready(function(){
+        	$('#addE').click(function() {
+        		$('#addElection').modal('show');
+        	});
+        	$('#editE').click(function() {
+        		$('#editElection').modal('show');
+        	});
+        	$('.datepicker').datepicker();
+        	getModerators();
+        });
+        </script>
     </body>
 
 </html>

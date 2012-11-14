@@ -1,4 +1,5 @@
 var election=0;
+var url = "http://evmini.jobcloud.bg/";
 function selectConstituency(id) {
 	$('#constituencyselect a span').html($('#c'+id+" a").html());
 	$('#clogo').hide().removeClass('hidden');
@@ -42,12 +43,24 @@ function selectElection(id) {
 					$('#runUl').html(runUl);
 					$('#filterOffices').html(filterUi);
 					if(data.moderate) {
+						editEc(data.constituency_id);
+						$('#editETitle').val(data.name);
+						$('#editEDesc').val(data.description);
+						$('#editEDate').val(data.startdate);
+						currentElection = id;
 						if($('#editE').hasClass('hidden')) {
 							$('#editE').hide().removeClass('hidden').fadeIn('slow');
 						}
 						if($('#addE').hasClass('hidden')) {
 							$('#addE').hide().removeClass('hidden').fadeIn('slow');
 						}
+						$.each(data.mods,function(index,item){
+							var mod=[]
+							mod[0]=item.User.id;
+							mod[1]=item.User.name;
+							emods.push(mod);
+							updateEModerators();
+						});
 					}
 					else {
 						$('#editE').fadeOut('fast',function() {
@@ -133,4 +146,13 @@ function post(candidate) {
 			$('#share').html('Profile shared!').removeAttr('onclick').addClass('disabled');
 		}
 	});
+}
+
+function addEc(id) {
+	$('#addEc').val(id);
+	$('#addEcDrop a span').html($('#editEc_'+id+' a').html());
+}
+function editEc(id) {
+	$('#editEc').val(id);
+	$('#editEcDrop a span').html($('#editEc_'+id+' a').html());
 }

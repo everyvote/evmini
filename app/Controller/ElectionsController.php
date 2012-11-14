@@ -38,17 +38,21 @@ class ElectionsController extends AppController {
  * @return void
  */
 	public function add() {
+		$this->layout='ajax';
 		if ($this->request->is('post')) {
+			$data = $this->request->data;
+			$data['startdate'] = date('Y-m-d h:i:s',strtotime($data['startdate']));
 			$this->Election->create();
-			if ($this->Election->save($this->request->data)) {
-				$this->Session->setFlash(__('The election has been saved'));
-				$this->redirect(array('action' => 'index'));
+			if ($this->Election->save($data)) {
+				echo json_encode(array("status"=>"success","election"=>$this->Election->id));
 			} else {
-				$this->Session->setFlash(__('The election could not be saved. Please, try again.'));
+				echo json_encode(array("status"=>"error"));
 			}
 		}
+		/*
 		$constituencies = $this->Election->Constituency->find('list');
 		$this->set(compact('constituencies'));
+		 * */
 	}
 
 /**
@@ -64,7 +68,9 @@ class ElectionsController extends AppController {
 			throw new NotFoundException(__('Invalid election'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Election->save($this->request->data)) {
+			$data = $this->request->data;
+			$data['startdate'] = date('Y-m-d h:i:s',strtotime($data['startdate']));
+			if ($this->Election->save($data)) {
 				$this->Session->setFlash(__('The election has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -72,9 +78,9 @@ class ElectionsController extends AppController {
 			}
 		} else {
 			$this->request->data = $this->Election->read(null, $id);
-		}
+		}/*
 		$constituencies = $this->Election->Constituency->find('list');
-		$this->set(compact('constituencies'));
+		$this->set(compact('constituencies'));*/
 	}
 
 /**
@@ -118,6 +124,7 @@ class ElectionsController extends AppController {
 		$this->Election->id = $id;
 		$this->loadModel('Office');
 		$this->loadModel('Candidate');
+		$this->loadModel('User');
 		$candidate = $this->Candidate->find('first',array('conditions'=>array('Candidate.election_id = ' => $id, 'Candidate.user_id = '=>$this->_currentUser['User']['id'])));
 		if($candidate) {
 			$candidate = $candidate['Candidate']['office_id'];
@@ -129,9 +136,18 @@ class ElectionsController extends AppController {
 			throw new NotFoundException(__('Invalid election'));
 		}
 		$election = $this->Election->read(null, $id);
+		$moderators = array();
+		foreach(explode(',',$election['Election']['mods']) as $mod) {
+			$moderators[] = $this->User->find('first',array('conditions'=>array('User.id'=>$mod)));
+		}
+		
 		$data = array(
+			"name"=>$election['Election']['name'],
+			"startdate"=>date("m/d/Y",strtotime($election['Election']['startdate'])),
+			"constituency_id"=>$election['Election']['constituency_id'],
 			"description"=>$election['Election']['description'],
-			"moderate"=>$election['Election']['user_id']==$this->_currentUser['User']['id'] ? true : false,
+			"moderate"=>in_array($this->_currentUser['User']['id'],explode(',',$election['Election']['mods'])) ? true : false,
+			"mods"=>$moderators,
 			"offices"=>$this->Office->find('all',array('conditions' => array('Office.election_id = '=>$id))),
 			"run" =>  $candidate
 		);
