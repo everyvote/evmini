@@ -1,4 +1,4 @@
-<div class="elections form">
+<?/*<div class="elections form">
 <?php echo $this->Form->create('Election'); ?>
 	<fieldset>
 		<legend><?php echo __('Edit Election'); ?></legend>
@@ -25,3 +25,4 @@
 		<li><?php echo $this->Html->link(__('New Candidacy'), array('controller' => 'candidacies', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
+*/?>

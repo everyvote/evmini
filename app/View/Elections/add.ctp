@@ -1,3 +1,4 @@
+<?/*
 <div class="elections form">
 <?php echo $this->Form->create('Election'); ?>
 	<fieldset>
@@ -23,3 +24,4 @@
 		<li><?php echo $this->Html->link(__('New Candidacy'), array('controller' => 'candidacies', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
+*/?>
