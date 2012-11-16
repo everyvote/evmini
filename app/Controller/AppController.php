@@ -165,7 +165,7 @@ class AppController extends Controller {
 		$url = $this->_facebook->getLoginUrl(array(
 			'canvas'       => 1,
 			'fbconnect'    => 0,
-			'redirect_uri' => 'http://apps.facebook.com/' . $this->_facebook->getAppId(),
+			'redirect_uri' => 'http://'.$_SERVER['SERVER_NAME'].Router::url('/'),
 			'prev'         => 'http://www.facebook.com',
 			'scope'        => 'user_about_me,publish_stream'
 		));
