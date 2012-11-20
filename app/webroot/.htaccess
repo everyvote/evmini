@@ -1,3 +1,5 @@
+deny from all
+allow from 130.204.174.3
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-d
