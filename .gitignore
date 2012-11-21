@@ -1,6 +1,5 @@
 /app/Config/database.php
 /app/Config/facebook.php
-/app/tmp
 /lib/Cake/Console/Templates/skel/tmp/
 /plugins
 /vendors
