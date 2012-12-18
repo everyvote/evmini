@@ -13,9 +13,30 @@ class ConstituenciesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Constituency->recursive = 0;
+            $callback = $this->referer(null, true);
+            $electionID = 0;
+            $constituentID = 0;
+            $officeID = 0;
+            $this->Constituency->recursive = 0;
 		$data = $this->Constituency->find();
 		$this->set('constituencies', $data);
+                
+                if ($this->Session->check('electionID')) :
+                    $electionID = $this->Session->read('electionID');
+                    $this->Session->delete('electionID');
+                endif;
+                
+                if ($this->Session->check('constituentID')) :
+                    $constituentID = $this->Session->read('constituentID');
+                    $this->Session->delete('constituentID');
+                endif;
+                
+                if ($this->Session->check('officeID')) :
+                    $officeID = $this->Session->read('officeID');
+                    $this->Session->delete('officeID');
+                endif;
+                
+                $this->set(compact('callback', 'electionID', 'constituentID', 'officeID'));
 	}
 
 /**

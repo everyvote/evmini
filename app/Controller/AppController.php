@@ -60,6 +60,7 @@ class AppController extends Controller {
 	
 	public $components = array('Session');
 	private $facebook;
+        public $showBack = FALSE;
 	/**
 	 * Initialize common controller data
 	 */
@@ -67,6 +68,12 @@ class AppController extends Controller {
 		// Initialize User Data
 		$this->_initUser();
 	}
+        
+        public function beforeRender() {
+            parent::beforeRender();
+            $this->set('back', $this->showBack);
+            
+        }
 	
 	/**
 	 * Initialize user data
@@ -74,16 +81,25 @@ class AppController extends Controller {
 	 * @author khoople
 	 */
 	private function _initUser() {
+            
 		$this->_initFacebook();
 		$facebookId = $this->_facebook->getUser();
+                
 		
 		// If can't get facebook uid, they must accept the app and/or login
-		if (!$facebookId) {
-			$this->_redirectToLoginUrl();
-		}
+                
+                // CPB
+		//if (!$facebookId) {
+		//	$this->_redirectToLoginUrl();
+		//}
 		$this->loadModel('User');
 		
-		$user = $this->User->findByFacebookId($facebookId);
+                //CPB
+		//$user = $this->User->findByFacebookId($facebookId);
+                $user = $this->User->findByFacebookId('1904038');
+                
+               
+                
 		
 		if ($user) {
 			$this->_currentUser = $user;

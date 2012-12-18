@@ -25,11 +25,20 @@ class ElectionsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+            $this->autoRender = false;
+            
 		$this->Election->id = $id;
 		if (!$this->Election->exists()) {
 			throw new NotFoundException(__('Invalid election'));
 		}
-		$this->set('election', $this->Election->read(null, $id));
+		//$this->set('election', $this->Election->read(null, $id));
+                
+                $election = $this->Election->read(null, $id);
+                $this->Session->write('electionID', $id);
+                $this->Session->write('constituentID', $election['Election']['constituency_id']);
+                $this->Session->write('officeID', 0);
+                
+                $this->redirect(array('controller' => 'constituencies', 'action' => 'index', 'home'));
 	}
 
 /**
@@ -42,11 +51,23 @@ class ElectionsController extends AppController {
 		if ($this->request->is('post')) {
 			$data = $this->request->data;
 			$data['startdate'] = date('Y-m-d h:i:s',strtotime($data['startdate']));
+                        $data['enddate'] = date('Y-m-d h:i:s',strtotime($data['enddate']));
+                        
 			$this->Election->create();
 			if ($this->Election->save($data)) {
-				echo json_encode(array("status"=>"success","election"=>$this->Election->id));
+                            // Save the Office Data
+                            if (!empty($data['offices'])) :
+                                $offices = explode(",", $data['offices']);
+                                foreach($offices as $office) :
+                                    $this->Election->Office->create();
+                                    $this->Election->Office->save(array('election_id' => $this->Election->id,
+                                                                        'name'        => trim($office)));
+                                endforeach;
+                            endif;
+                            
+                            echo json_encode(array("status"=>"success","election"=>$this->Election->id));
 			} else {
-				echo json_encode(array("status"=>"error"));
+                            echo json_encode(array("status"=>"error"));
 			}
 		}
 		/*
@@ -70,9 +91,10 @@ class ElectionsController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			$data = $this->request->data;
 			$data['startdate'] = date('Y-m-d h:i:s',strtotime($data['startdate']));
-			if ($this->Election->save($data)) {
-				$this->Session->setFlash(__('The election has been saved'));
-				$this->redirect(array('action' => 'index'));
+                        $data['enddate'] = date('Y-m-d h:i:s',strtotime($data['enddate']));
+			if ($this->Election->save($data)) {    
+                            $this->Session->setFlash(__('The election has been saved'));
+                            $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The election could not be saved. Please, try again.'));
 			}
@@ -144,6 +166,7 @@ class ElectionsController extends AppController {
 		$data = array(
 			"name"=>$election['Election']['name'],
 			"startdate"=>date("m/d/Y",strtotime($election['Election']['startdate'])),
+                        "enddate"=>date("m/d/Y",strtotime($election['Election']['enddate'])),
 			"constituency_id"=>$election['Election']['constituency_id'],
 			"description"=>$election['Election']['description'],
 			"moderate"=>in_array($this->_currentUser['User']['id'],explode(',',$election['Election']['mods'])) ? true : false,
@@ -153,4 +176,27 @@ class ElectionsController extends AppController {
 		);
 		$this->set('election', $data);
 	}
+        
+        
+         public function post($id) {
+        $this->layout = 'ajax';
+        if ($this->request->is('post')) {
+            $election = $this->Election->read(null, $id);
+            $post_data = array(
+                //'link' => "http://apps.facebook.com/483074268393372/candidates/view/".$id,
+                'link' => "http://www.everyvote.org/election/view/" . $id,
+                //'message' => $candidate['User']['name'] . " running for " . $candidate['Office']['name'],
+                'message' => $this->request->data['message'],
+                'name' => $election['Election']['name'] ,
+                //'picture' => $candidate['User']['image'],
+                'description' => $election['Election']['description']
+            );
+            try {
+                $this->_facebook->api('/me/feed', 'POST', $post_data);
+            } catch (FacebookApiException $e) {
+                $e_type = $e->getType();
+                debug('Error: ' . $e_type);
+            }
+        }
+    }
 }

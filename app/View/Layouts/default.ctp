@@ -16,6 +16,7 @@
             echo $this->Html->css('main.css');
             echo $this->Html->css('datepicker.css');
             echo $this->Html->css('redmond/jquery-ui.min.css');
+            echo $this->Html->css('bootstrap-combobox.css');
             echo $this->Html->script('vendor/jquery-ui.min.js');
             echo $this->Html->script('vendor/modernizr-2.6.1-respond-1.1.0.min.js');
         ?>
@@ -52,9 +53,13 @@
 							<strong style="display:inline-block;width:140px;">Election date:</strong>
 							 <input class="datepicker span5" name="date" id="addEDate" size="16" type="text">
 						</div>
+                                                <div>
+							<strong style="display:inline-block;width:140px;">Close date:</strong>
+							 <input class="datepicker span5" name="closedate" id="addCDate" size="16" type="text">
+						</div>
 						<div>
 							<strong style="display:inline-block;width:140px;">Offices:</strong>
-							 <input name="offices" class="span5" size="16" type="text">
+							 <input name="offices" id="addEOffices" class="span5" size="16" type="text">
 							 <p style="text-align:right;font-size:12px;color:#999;">use commas to separate</p>
 						</div>
 						<div>
@@ -104,9 +109,13 @@
 							<strong style="display:inline-block;width:140px;">Election date:</strong>
 							 <input class="datepicker span5" name="date" id="editEDate" size="16" type="text">
 						</div>
+                                                <div>
+							<strong style="display:inline-block;width:140px;">Close date:</strong>
+							 <input class="datepicker span5" name="closedate" id="editCDate" size="16" type="text">
+						</div>
 						<div>
 							<strong style="display:inline-block;width:140px;">Offices:</strong>
-							 <input name="offices" class="span5" size="16" type="text">
+							 <input name="offices" id="editEOffices" class="span5" size="16" type="text">
 							 <p style="text-align:right;font-size:12px;color:#999;">use commas to separate</p>
 						</div>
 						<div>
@@ -125,22 +134,6 @@
 			    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
 			  </div>
         	</div>
-        	
-			<div class="modal" style="display:none" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-header">
-			  	<h6>My Profile <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
-			    
-			  </div>
-			  <div class="modal-body">
-			  	<div class="row">
-			  		<div class="span1"><img src="<?=$currentUser['User']['image']?>" alt="<?=$currentUser['User']['name']?>" class="img-rounded" /></div>
-			  		<div class="span5"><h5><?=$currentUser['User']['name']?></h5></div>
-			  	</div>
-			  </div>
-			  <div class="modal-footer">
-			    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><em class="icon-ok icon-white"></em> Okay</button>
-			  </div>
-			</div>
 			
 			<div class="modal" style="display:none" id="runForOffice" tabindex="-1" role="dialog" aria-labelledby="runForOfficeLabel" aria-hidden="true">
 			  <div class="modal-header">
@@ -164,12 +157,70 @@
 			    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-x"></em> Cancel</button>
 			  </div>
 			</div>
+            
+            
+            <div class="modal" style="display:none; width: 660px;" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-header">
+			  	<h6>My Profile <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+			    
+			  </div>
+			  <div class="modal-body">
+                              
+                              <?php 
+                                if (isset($allConstituencies)  && !empty($allConstituencies)) :
+                              
+                                foreach($allConstituencies as $profile) :?>
+                              
+                              
+			  	<div class="row">
+			  		<div class="span1">
+                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']; ?>">
+                                            <img src="<?=$currentUser['User']['image']?>" alt="<?=$currentUser['User']['name']?>" class="img-rounded" />
+                                            </a>
+                                        </div>
+			  		<div class="span2">
+                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']; ?>">
+                                            <h5><?=$currentUser['User']['name']?></h5>
+                                            </a>
+                                        </div>
+                                        <div class="span4">
+                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']; ?>">
+                                            <h6 style="margin: 10px 0 0     0;"><?php echo $profile['Election']['Constituency']['name']; ?></h6>
+                                            </a>
+                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']; ?>">
+                                            <h6 style="margin: 0 0 10px;"><?php echo $profile['Election']['name']; ?></h6>
+                                            </a>
+                                        </div>
+			  	</div>
+                              <div class="row"></div>
+                              
+                              <?php endforeach; 
+                              
+                              else: ?>
+                              <div class="row">
+			  		<div class="span1">
+                                            <img src="<?=$currentUser['User']['image']?>" alt="<?=$currentUser['User']['name']?>" class="img-rounded" />
+                                        </div>
+			  		<div class="span2"><h5><?=$currentUser['User']['name']?></h5></div>
+			  	</div>
+                              
+                              <?php endif; ?>
+			  </div>
+			  <div class="modal-footer">
+			    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><em class="icon-ok icon-white"></em> Okay</button>
+			  </div>
+			</div>
+            
 			
             <!-- Header container -->
 			<div class="row">
-			  	   	<div class="span2">
-						<a href="<?=Router::url('/', true)?>"><?=$this->Html->image(Router::url('/', true).'img/copy-logo.png')?></a>
-	                </div>         
+                            <div class="span2">
+                                <a href="<?=Router::url('/', true)?>"><?=$this->Html->image(Router::url('/', true).'img/copy-logo.png')?></a>
+                                <?php if($back) : ?>
+                                <a class="btn btn-small btn-primary" id="back" href="/">Return to Election</a>
+                                <?php endif; ?>
+                                
+                            </div>         
 					<div class="span4 offset3 menu" id="menu">
 						<div>
 							<a class="btn btn-primary btn-small hidden" id="editE" href="#"><i class="icon-pencil icon-white"></i> Edit Election</a>
@@ -196,6 +247,7 @@
         <?=$this->Html->script('main.js');?>
         <?=$this->Html->script('vendor/bootstrap.min.js');?>
         <?=$this->Html->script('bootstrap-datepicker.js');?>
+        <?=$this->Html->script('bootstrap-combobox.js');?>
         <script>
         var mods=[];
         var emods=[];
@@ -210,6 +262,8 @@
 					name: $('#addETitle').val(),
 					description: $('#addEDesc').val(),
 					startdate: $('#addEDate').val(),
+                                        enddate: $('#addCDate').val(),
+                                        offices: $('#addEOffices').val(),
 					mods: $('#mods').val()
 				},
 				success: function(data) {
@@ -221,6 +275,8 @@
 						$('#addETitle').val('');
 						$('#addEDesc').val('');
 						$('#addEDate').val('');
+                                                $('#addCDate').val('');
+                                                $('#addEOffices').val(''),
 						$('#mods').val('');
 						mods=[];
 					}
@@ -238,6 +294,8 @@
 					name: $('#editETitle').val(),
 					description: $('#editEDesc').val(),
 					startdate: $('#editEDate').val(),
+                                        enddate: $('#editCDate').val(),
+                                        offices: $('#editEOffices').val(),
 					mods: $('#emods').val()
 				},
 				success: function(data) {
@@ -329,8 +387,23 @@
         		$('#editElection').modal('show');
         	});
         	$('.datepicker').datepicker();
+                $('.combobox').combobox();
+                
+                $(".combobox").change(function() {
+                    if ($(this).val()) {
+                        selectConstituency($(this).val());
+                    }
+                });
         	getModerators();
         });
+        
+        <?php if (!empty($callback) && $callback != "/"): ?>
+
+     $(".combobox").val(<?php echo $constituentID; ?>);
+    selectConstituency(<?php echo $constituentID; ?>);
+    selectElection(<?php echo $officeID; ?>);
+<?php endif; ?>
+
         </script>
     </body>
 
