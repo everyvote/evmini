@@ -57,8 +57,9 @@ class CandidatesController extends AppController {
         $all_votes = $this->Vote->findAllByCandidacyId($id);
 
         // Get all the elections for this user.
-        $allConstituencies = $this->Candidate->find('all', array('condiditions' => array('Candidate.user_id' => $candidate['Candidate']['user_id']),
-            'recursive' => 2));
+        $allConstituencies = $this->Candidate->find('all', array('conditions' => array('Candidate.user_id' => $this->_currentUser['User']['id']),
+            'recursive' => 2)); 
+        
         $this->set(compact('candidate', 'votes', 'all_votes', 'allConstituencies'));
 
         $this->Session->write('electionID', $candidate['Candidate']['election_id']);
@@ -194,9 +195,7 @@ class CandidatesController extends AppController {
         if ($this->request->is('post')) {
             $candidate = $this->Candidate->read(null, $id);
             $post_data = array(
-                //'link' => "http://apps.facebook.com/483074268393372/candidates/view/".$id,
-                'link' => "http://www.everyvote.org/candidates/view/" . $id,
-                //'message' => $candidate['User']['name'] . " running for " . $candidate['Office']['name'],
+                'link' => "http://mini.everyvote.org/candidates/view/" . $id,
                 'message' => $this->request->data['message'],
                 'name' => $candidate['User']['name'] . " running for " . $candidate['Office']['name'],
                 'picture' => $candidate['User']['image'],
@@ -208,7 +207,7 @@ class CandidatesController extends AppController {
                 $e_type = $e->getType();
                 debug('Error: ' . $e_type);
             }
-        }
+        }    
     }
 
     function editAbout($id = null) {
