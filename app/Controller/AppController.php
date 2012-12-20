@@ -88,17 +88,13 @@ class AppController extends Controller {
 		
 		// If can't get facebook uid, they must accept the app and/or login
                 
-                // CPB
-		//if (!$facebookId) {
-		//	$this->_redirectToLoginUrl();
-		//}
+                //CPB
+		if (!$facebookId) {
+			$this->_redirectToLoginUrl();
+		}
 		$this->loadModel('User');
 		
-                //CPB
-		//$user = $this->User->findByFacebookId($facebookId);
-                $user = $this->User->findByFacebookId('1904038');
-                
-               
+		$user = $this->User->findByFacebookId($facebookId);
                 
 		
 		if ($user) {
