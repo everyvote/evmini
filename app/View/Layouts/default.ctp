@@ -174,20 +174,20 @@
                               
 			  	<div class="row">
 			  		<div class="span1">
-                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']; ?>">
+                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']; ?>/<?php echo $profile['Candidate']['election_id']; ?>">
                                             <img src="<?=$currentUser['User']['image']?>" alt="<?=$currentUser['User']['name']?>" class="img-rounded" />
                                             </a>
                                         </div>
 			  		<div class="span2">
-                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']; ?>">
+                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']?>/<?php echo $profile['Candidate']['election_id']; ?>">
                                             <h5><?=$currentUser['User']['name']?></h5>
                                             </a>
                                         </div>
                                         <div class="span4">
-                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']; ?>">
+                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']?>/<?php echo $profile['Candidate']['election_id']; ?>">
                                             <h6 style="margin: 10px 0 0     0;"><?php echo $profile['Election']['Constituency']['name']; ?></h6>
                                             </a>
-                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']; ?>">
+                                            <a href="/candidates/view/<?php echo $profile['Candidate']['id']; ?>/<?php echo $profile['Candidate']['election_id']?>">
                                             <h6 style="margin: 0 0 10px;"><?php echo $profile['Election']['name']; ?></h6>
                                             </a>
                                         </div>
@@ -217,7 +217,7 @@
                             <div class="span2">
                                 <a href="<?=Router::url('/', true)?>"><?=$this->Html->image(Router::url('/', true).'img/copy-logo.png')?></a>
                                 <?php if($back) : ?>
-                                <a class="btn btn-small btn-primary" id="back" href="/">Return to Election</a>
+                                <a class="btn btn-small btn-primary" id="back" href="/elections/view/<?php echo $electionID; ?>">Return to Election</a>
                                 <?php endif; ?>
                                 
                             </div>         
@@ -395,15 +395,13 @@
                     }
                 });
         	getModerators();
+		
+		 <?php if (!empty($callback) && $callback != "/"): ?>
+		    selectConstituency(<?php echo $constituentID; ?>);
+		    selectElection(<?php echo $officeID; ?>);
+		<?php endif; ?>
         });
         
-        <?php if (!empty($callback) && $callback != "/"): ?>
-
-     $(".combobox").val(<?php echo $constituentID; ?>);
-    selectConstituency(<?php echo $constituentID; ?>);
-    selectElection(<?php echo $officeID; ?>);
-<?php endif; ?>
-
         </script>
     </body>
 

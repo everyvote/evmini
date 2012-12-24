@@ -12,7 +12,8 @@
                 <div class="span3">
 					<p><?= $this->Html->link(
 						$this->Html->image($candidate['User']['image'], array('class'=>"img_rounded")),
-						array('action' => 'view', $candidate['Candidate']['id']),
+						"/candidates/view/".$candidate['Candidate']['id']."/".$candidate['Candidate']['election_id'],
+						//array('action' => 'view', array($candidate['Candidate']['id'], $candidate['Candidate']['election_id'])),
 						array('class'=>'thumbnail','escape'=>false)); 
 					?></p>
 					<p class="pagination-centered" id="votes<?=$candidate['Candidate']['id']?>">
@@ -38,7 +39,8 @@
                 <div class="span6">
                     <h3><?= $this->Html->link(
 						$candidate['User']['name'],
-						array('action' => 'view', $candidate['Candidate']['id'])); 
+						//array('action' => 'view', $candidate['Candidate']['id']));
+						"/candidates/view/".$candidate['Candidate']['id']."/".$candidate['Candidate']['election_id']);
 					?></h3>
                     <p><strong>Running for:</strong> <?=$candidate['Office']['name']?> <em>(<?=$candidate['Office']['term_end']?>)</em></p>
                     <p><?=$candidate['Candidate']['about_text']?></p>

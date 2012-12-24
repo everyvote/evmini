@@ -36,7 +36,7 @@ class CandidatesController extends AppController {
      */
     //Check this out: http://book.cakephp.org/2.0/en/models/retrieving-your-data.html
 
-    public function view($id = null) {
+    public function view($id = null, $electionID = null) {
         $this->Candidate->id = $id;
         if (!$this->Candidate->exists()) {
             throw new NotFoundException(__('Invalid candidate'));
@@ -60,11 +60,11 @@ class CandidatesController extends AppController {
         $allConstituencies = $this->Candidate->find('all', array('conditions' => array('Candidate.user_id' => $this->_currentUser['User']['id']),
             'recursive' => 2)); 
         
-        $this->set(compact('candidate', 'votes', 'all_votes', 'allConstituencies'));
+        $this->set(compact('candidate', 'votes', 'all_votes', 'allConstituencies','electionID'));
 
-        $this->Session->write('electionID', $candidate['Candidate']['election_id']);
-        $this->Session->write('constituentID', $constituancy['Constituency']['id']);
-        $this->Session->write('officeID', $candidate['Candidate']['office_id']);
+        //$this->Session->write('electionID', $candidate['Candidate']['election_id']);
+        //$this->Session->write('constituentID', $constituancy['Constituency']['id']);
+        //$this->Session->write('officeID', $candidate['Candidate']['office_id']);
     }
 
     /**
@@ -162,10 +162,27 @@ class CandidatesController extends AppController {
                     ));
             $data[] = array_merge($candidate, $votes);
         }
+        
+        // Sorting to work around db design issues
+        
+        if ($sorting == 3 || $sorting == 4) :
+            $sortedCandidates = array();
+            $cnt = 1;
+                foreach ($data as $sorted) :
+                    if ($sorting == 3 ) :
+                        $sortedCandidates[$sorted['Votes']['positive'] . "." . $cnt] = $sorted;
+                    else:
+                        $sortedCandidates[$sorted['Votes']['negative'] . "." . $cnt] = $sorted;
+                    endif;
+                    $cnt++;
+                endforeach;
+            krsort($sortedCandidates);
+            $data = $sortedCandidates;
+        endif;
 
         $this->set('candidates', $data);
     }
-
+    
     public function run($id) {
 
         $this->layout = 'ajax';

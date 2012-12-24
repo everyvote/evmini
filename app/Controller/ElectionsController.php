@@ -41,9 +41,12 @@ class ElectionsController extends AppController {
         $electionID = $id;
         $constituentID = $election['Election']['constituency_id'];
         $officeID = $id;
+        $callback = '/candidate';
         
-        $callback = "/facebook";
-        $this->set(compact('callback', 'electionID', 'constituentID', 'officeID'));
+        $allConstituencies = $this->Election->Candidate->find('all', array('conditions' => array('Candidate.user_id' => $this->_currentUser['User']['id']),
+                                                                           'recursive' => 2));
+        
+        $this->set(compact('callback','election', 'electionID', 'constituentID', 'officeID', 'allConstituencies'));
 
         //$this->redirect(array('controller' => 'constituencies', 'action' => 'index', 'home'));
     }

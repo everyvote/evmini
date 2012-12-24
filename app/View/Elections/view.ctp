@@ -11,7 +11,7 @@
                                                     <option></option>
                                                     <?php foreach ($constituencies as $constituency): ?>
                                                         <?php if($constituency['id']) : ?>
-                                                            <option value="<?=h($constituency['id']);?>"><?=h($constituency['name']);?></option>
+                                                            <option value="<?=h($constituency['id']);?>"  <?php echo ($constituentID == $constituency['id']) ? "selected" : ""; ?> ><?=h($constituency['name']);?></option>
                                                         <?php endif; ?>
 
                                                     <?php endforeach; ?>
@@ -36,8 +36,8 @@
 						</div>
 					</p>
 					<p>
-						<div class="dropdown hidden" id="electionsselect">
-						<strong>Election:</strong>  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select an election</span> <i class="icon-chevron-down"></i></a>
+						<div class="dropdown" id="electionsselect">
+						<strong>Election:</strong>  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span><?php echo $election['Election']['name']; ?></span> <i class="icon-chevron-down"></i></a>
 						  <ul class="dropdown-menu" role="menu" id="electionslist">
 						  						  						  						  						                            
 						  </ul>

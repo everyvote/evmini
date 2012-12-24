@@ -6,6 +6,8 @@ App::uses('AppController', 'Controller');
  * @property Constituency $Constituency
  */
 class ConstituenciesController extends AppController {
+    
+    var $uses = array('Candidate', 'Constituency');
 
 /**
  * index method
@@ -21,22 +23,25 @@ class ConstituenciesController extends AppController {
 		$data = $this->Constituency->find();
 		$this->set('constituencies', $data);
                 
-                if ($this->Session->check('electionID')) :
-                    $electionID = $this->Session->read('electionID');
-                    $this->Session->delete('electionID');
-                endif;
+                //if ($this->Session->check('electionID')) :
+                //    $electionID = $this->Session->read('electionID');
+                //    $this->Session->delete('electionID');
+                //endif;
+                //
+                //if ($this->Session->check('constituentID')) :
+                //    $constituentID = $this->Session->read('constituentID');
+                //    $this->Session->delete('constituentID');
+                //endif;
+                //
+                //if ($this->Session->check('officeID')) :
+                //    $officeID = $this->Session->read('officeID');
+                //    $this->Session->delete('officeID');
+                //endif;
+		
+		  $allConstituencies = $this->Candidate->find('all', array('conditions' => array('Candidate.user_id' => $this->_currentUser['User']['id']),
+            'recursive' => 2)); 
                 
-                if ($this->Session->check('constituentID')) :
-                    $constituentID = $this->Session->read('constituentID');
-                    $this->Session->delete('constituentID');
-                endif;
-                
-                if ($this->Session->check('officeID')) :
-                    $officeID = $this->Session->read('officeID');
-                    $this->Session->delete('officeID');
-                endif;
-                
-                $this->set(compact('callback', 'electionID', 'constituentID', 'officeID'));
+                $this->set(compact('allConstituencies'));
 	}
 
 /**
