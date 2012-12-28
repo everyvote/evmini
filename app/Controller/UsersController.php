@@ -40,7 +40,15 @@ class UsersController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->User->create();
-			if ($this->User->save($this->request->data)) {
+                        if (!empty($this->request->data['offices'])) :
+                            $offices = explode(",", $this->request->data['offices']);
+                            $eOffice = array();
+                            foreach($offices as $office) :
+                                $eOffice[] = array('name' => $office);
+                            endforeach;
+                            $this->request->data['Office'] = $eOffice;
+                        endif;
+			if ($this->User->saveMany($this->request->data, array('deep' => TRUE))) {
 				$this->Session->setFlash(__('The user has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {

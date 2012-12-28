@@ -17,7 +17,7 @@
 			</p>
         </div>
         <div class="span6">
-            <button class="btn pull-right btn-small btn-primary" id="share" onclick="post(<?=$candidate['Candidate']['id']?>);"><i class="icon-white icon-bullhorn"></i> Share the profile</button>
+            <button class="btn pull-right btn-small btn-primary" id="share" data-toggle="modal" data-target="#shareModal"><i class="icon-white icon-bullhorn"></i> Share the profile</button>
             <h3><a href="#"><?=$candidate['User']['name']?></a></h3>
             <p><strong>Running for:</strong> <?=$candidate['Office']['name']?> <em>(<?=$candidate['Office']['term_end']?>)</em></p>
 			<p><?= $this->EvText->format($candidate['Candidate']['about_text']) ?></p>
@@ -94,24 +94,69 @@
     		<?php endforeach; ?>
     	</div>
     </div>
-</div>
 
-<div class="modal" style="display:none" id="add-comment-hover" tabindex="-1" role="dialog">
-    <form action="<?= $this->base ?>/candidates/addComment" method="post" id="add-comment-form">
-        <input type="hidden" name="candidate_id" value="<?= $candidate['Candidate']['id'] ?>" />
+    <div class="modal" style="display:none" id="add-comment-hover" tabindex="-1" role="dialog">
+        <form action="<?= $this->base ?>/candidates/addComment" method="post" id="add-comment-form">
+            <input type="hidden" name="candidate_id" value="<?= $candidate['Candidate']['id'] ?>" />
+            <input type="hidden" name="election_id" value="<?= $electionID ?>" />
+            <div class="modal-header">
+                <h6>Add a Comment <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+            </div>
+
+            <div class="modal-body" style="height:180px;">
+                <div>
+                    <strong style="display:block;">Comment:</strong>
+                    <textarea name="comment" style="width:510px;height:140px;resize:none;"cols="40" rows="10"></textarea>
+        		</div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="save-comment"><em class="icon-ok icon-white"></em> Submit</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal" style="display:none" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
         <div class="modal-header">
-            <h6>Add a Comment <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
-        </div>
+            <h6>My Profile <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
 
-        <div class="modal-body" style="height:180px;">
-            <div>
-                <strong style="display:block;">Comment:</strong>
-                <textarea name="comment" style="width:510px;height:140px;resize:none;"cols="40" rows="10"></textarea>
-    		</div>
         </div>
+        <div class="modal-body">
+			  	<div class="row">
+			  		<div class="span2"><img src="<?=$currentUser['User']['image']?>" alt="<?=$currentUser['User']['name']?>" class="img-rounded" /></div>
+			  		<div class="span4">
+			  			<h5><?=$currentUser['User']['name']?></h5>
+			  			<h6>About me:</h6>
+			  			<p>
+			  				<textarea id="aboutprofile" style="resize:none;width:300px" cols="30" rows="5"><?= $candidate['Candidate']['about_text'] ?></textarea>
+			  			</p>
+			  		</div>
+			  	</div>
+			  </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="save-comment"><em class="icon-ok icon-white"></em> Submit</button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
+            <button class="btn btn-primary" id="aboutupd" data-dismiss="modal" aria-hidden="true" onclick="editAbout(<?= $candidate['Candidate']['id'];?>)"><em class="icon-ok icon-white"></em>Okay</button>
         </div>
-    </form>
+    </div>
+
+    <div class="modal" style="display:none" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <h6>Share the Profile <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+
+        </div>
+        <div class="modal-body">
+			  	<div class="row">
+			  		<div class="span2"><img src="<?=$currentUser['User']['image']?>" alt="<?=$currentUser['User']['name']?>" class="img-rounded" /></div>
+			  		<div class="span4">
+			  			<h5><?=$currentUser['User']['name']?></h5>
+			  			<h6>Message:</h6>
+			  			<p>
+			  				<textarea id="message" style="resize:none;width:300px" cols="30" rows="5"></textarea>
+			  			</p>
+			  		</div>
+			  	</div>
+			  </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="aboutupd" data-dismiss="modal" aria-hidden="true" onclick="post(<?= $candidate['Candidate']['id'];?>)"><em class="icon-ok icon-white"></em>Share</button>
+        </div>
+    </div>
 </div>

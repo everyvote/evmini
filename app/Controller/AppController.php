@@ -60,6 +60,7 @@ class AppController extends Controller {
 	
 	public $components = array('Session');
 	private $facebook;
+        public $showBack = FALSE;
 	/**
 	 * Initialize common controller data
 	 */
@@ -67,6 +68,12 @@ class AppController extends Controller {
 		// Initialize User Data
 		$this->_initUser();
 	}
+        
+        public function beforeRender() {
+            parent::beforeRender();
+            $this->set('back', $this->showBack);
+            
+        }
 	
 	/**
 	 * Initialize user data
@@ -74,16 +81,21 @@ class AppController extends Controller {
 	 * @author khoople
 	 */
 	private function _initUser() {
+            
 		$this->_initFacebook();
 		$facebookId = $this->_facebook->getUser();
+                
 		
 		// If can't get facebook uid, they must accept the app and/or login
+                
+                //CPB
 		if (!$facebookId) {
 			$this->_redirectToLoginUrl();
 		}
 		$this->loadModel('User');
 		
 		$user = $this->User->findByFacebookId($facebookId);
+                
 		
 		if ($user) {
 			$this->_currentUser = $user;
@@ -165,7 +177,7 @@ class AppController extends Controller {
 		$url = $this->_facebook->getLoginUrl(array(
 			'canvas'       => 1,
 			'fbconnect'    => 0,
-			'redirect_uri' => 'http://apps.facebook.com/' . $this->_facebook->getAppId(),
+			'redirect_uri' => 'http://'.$_SERVER['SERVER_NAME'].Router::url('/'),
 			'prev'         => 'http://www.facebook.com',
 			'scope'        => 'user_about_me,publish_stream'
 		));

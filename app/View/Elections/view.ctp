@@ -1,83 +1,92 @@
-<div class="elections view">
-<h2><?php  echo __('Election'); ?></h2>
-	<dl>
-		<dt><?php echo __('Id'); ?></dt>
-		<dd>
-			<?php echo h($election['Election']['id']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Constituency'); ?></dt>
-		<dd>
-			<?php echo $this->Html->link($election['Constituency']['name'], array('controller' => 'constituencies', 'action' => 'view', $election['Constituency']['id'])); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Name'); ?></dt>
-		<dd>
-			<?php echo h($election['Election']['name']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Description'); ?></dt>
-		<dd>
-			<?php echo h($election['Election']['description']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Startdate'); ?></dt>
-		<dd>
-			<?php echo h($election['Election']['startdate']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Enddate'); ?></dt>
-		<dd>
-			<?php echo h($election['Election']['enddate']); ?>
-			&nbsp;
-		</dd>
-	</dl>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Election'), array('action' => 'edit', $election['Election']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Election'), array('action' => 'delete', $election['Election']['id']), null, __('Are you sure you want to delete # %s?', $election['Election']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Elections'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Election'), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Constituencies'), array('controller' => 'constituencies', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Constituency'), array('controller' => 'constituencies', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Candidacies'), array('controller' => 'candidacies', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Candidacy'), array('controller' => 'candidacies', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
-<div class="related">
-	<h3><?php echo __('Related Candidacies'); ?></h3>
-	<?php if (!empty($election['Candidacy'])): ?>
-	<table cellpadding = "0" cellspacing = "0">
-	<tr>
-		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('User Id'); ?></th>
-		<th><?php echo __('Election Id'); ?></th>
-		<th><?php echo __('Office Id'); ?></th>
-		<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	<?php
-		$i = 0;
-		foreach ($election['Candidacy'] as $candidacy): ?>
-		<tr>
-			<td><?php echo $candidacy['id']; ?></td>
-			<td><?php echo $candidacy['user_id']; ?></td>
-			<td><?php echo $candidacy['election_id']; ?></td>
-			<td><?php echo $candidacy['office_id']; ?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'candidacies', 'action' => 'view', $candidacy['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'candidacies', 'action' => 'edit', $candidacy['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'candidacies', 'action' => 'delete', $candidacy['id']), null, __('Are you sure you want to delete # %s?', $candidacy['id'])); ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
-<?php endif; ?>
+<button class="btn pull-right btn-small btn-primary" id="share" data-toggle="modal" data-target="#shareModal"><i class="icon-white icon-bullhorn"></i> Share This Election</button>
+			 <div class="row">
+				<div class="span1">
+					<p><a href="#"><img src="img/uni_logo.png" id="clogo" class="img-rounded hidden" /></a></p>
+				</div>
+				<div class="span8">
+					<p>
+						<div class="dropdown" id="constituencyselect">
+						  <strong>Constituency:</strong>
+                                                  <select class="combobox">
+                                                    <option></option>
+                                                    <?php foreach ($constituencies as $constituency): ?>
+                                                        <?php if($constituency['id']) : ?>
+                                                            <option value="<?=h($constituency['id']);?>"  <?php echo ($constituentID == $constituency['id']) ? "selected" : ""; ?> ><?=h($constituency['name']);?></option>
+                                                        <?php endif; ?>
 
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('New Candidacy'), array('controller' => 'candidacies', 'action' => 'add')); ?> </li>
-		</ul>
-	</div>
-</div>
+                                                    <?php endforeach; ?>
+
+
+                                                  </select>
+
+
+<!--
+                                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a constituency</span> <i class="icon-chevron-down"></i></a>
+
+						  <ul class="dropdown-menu" role="menu">
+							<?php foreach ($constituencies as $constituency): ?>
+								<?php if($constituency['id']) : ?>
+								<li id="c<?=h($constituency['id']);?>"><a href="#" onclick="selectConstituency(<?=h($constituency['id']);?>)"><?=h($constituency['name']);?></a></li>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						  						  						  						  						                            
+						  </ul>
+-->
+
+						</div>
+					</p>
+					<p>
+						<div class="dropdown" id="electionsselect">
+						<strong>Election:</strong>  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span><?php echo $election['Election']['name']; ?></span> <i class="icon-chevron-down"></i></a>
+						  <ul class="dropdown-menu" role="menu" id="electionslist">
+						  						  						  						  						                            
+						  </ul>
+						 </div>
+					</p>
+					<p id="electionDescription">
+						
+					</p>
+                </div>
+                <div class="span9 hidden" id="sorting">
+                	<div class="dropdown pull-left">
+					  <strong>Showing:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>All Offices</span> <i class="icon-chevron-down"></i></a>
+					  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						<li><a href="#" onclick="filterElections(0);">All Offices</a></li>
+						<span id="filterOffices"></span>	  						  						                            
+					  </ul>
+					</div>
+                	
+					<div class="dropdown pull-right">
+					  <strong>Sort by:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Date Added</span> <i class="icon-chevron-down"></i></a>
+					  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						<li id="1"><a href="#" onclick="sortElection(1);">Date Added</a></li>
+						<li id="2"><a href="#" onclick="sortElection(2);">Alphabetical</a></li>
+						<li id="3"><a href="#" onclick="sortElection(3);">Most support votes</a></li>
+						<li id="4"><a href="#" onclick="sortElection(4);">Most opposite votes</a></li>			  						                            
+					  </ul>
+					</div>					
+				</div>
+			</div>			  
+			<hr>
+			<div id="candidates">
+				
+			</div>
+<div class="modal" style="display:none" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <h6>Share this Election <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+
+        </div>
+        <div class="modal-body">
+			  	<div class="row">
+			  		<div class="span4">
+			  			<h6>Message:</h6>
+			  			<p>
+			  				<textarea id="message" style="resize:none;width:300px" cols="30" rows="5"></textarea>
+			  			</p>
+			  		</div>
+			  	</div>
+			  </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="aboutupd" data-dismiss="modal" aria-hidden="true" onclick="postElection()"><em class="icon-ok icon-white"></em>Share</button>
+        </div>
+    </div>
