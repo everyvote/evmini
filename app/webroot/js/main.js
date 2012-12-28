@@ -131,13 +131,13 @@ function vote(candidate,id) {
             success: function(data) {
                 //$('#votes'+candidate+" .btn").attr('onclick','').addClass('disabled');
                 //if(id==1) {
-                //	$('#votes'+candidate+"_3").removeClass('btn-danger');
-                //	$('#votes'+candidate+"_3 .icon-white").removeClass('icon-white');
+                //    $('#votes'+candidate+"_3").removeClass('btn-danger');
+                //    $('#votes'+candidate+"_3 .icon-white").removeClass('icon-white');
                 //}
                 //else if(id==3) {
-                //	$('#votes'+candidate+'_1').removeClass('btn-success');
-                //		$('#votes'+candidate+"_1 .icon-white").removeClass('icon-white');
-                //	}
+                //    $('#votes'+candidate+'_1').removeClass('btn-success');
+                //        $('#votes'+candidate+"_1 .icon-white").removeClass('icon-white');
+                //    }
                 data = eval( '(' + data + ')' );
                 $('#votes_c'+candidate+'_1').html(data.Votes.positive);
                 $('#votes_c'+candidate+'_2').html(data.Votes.neutral);

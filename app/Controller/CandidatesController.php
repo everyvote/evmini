@@ -60,7 +60,7 @@ class CandidatesController extends AppController {
 
         // Get comments
         $this->Comment->order = 'Comment.date DESC';
-		$comments = $this->Comment->findAllByCandidacyId($id);
+        $comments = $this->Comment->findAllByCandidacyId($id);
 
         // Get all the elections for this user.
         $allConstituencies = $this->Candidate->find('all', array('conditions' => array('Candidate.user_id' => $this->_currentUser['User']['id']),
@@ -196,57 +196,57 @@ class CandidatesController extends AppController {
         return true;
     }
 
-	public function run($id) {
-		$this->layout = 'ajax';
-		$this->loadModel('Office');
-		$office = $this->Office->read(null,$id);
+    public function run($id) {
+        $this->layout = 'ajax';
+        $this->loadModel('Office');
+        $office = $this->Office->read(null,$id);
 
-		$data['user_id'] = $this->_currentUser['User']['id'];
-		$data['office_id'] = $id;
-		$data['about_text'] = $_POST["description"];
-		$data['election_id'] = $office['Office']['election_id'];
+        $data['user_id'] = $this->_currentUser['User']['id'];
+        $data['office_id'] = $id;
+        $data['about_text'] = $_POST["description"];
+        $data['election_id'] = $office['Office']['election_id'];
 
-		$this->Candidate->Save($data);
-	}
+        $this->Candidate->Save($data);
+    }
 
-	public function leave($id) {
-		$this->layout = 'ajax';
-		$this->loadModel('Vote');
-		$this->Vote->deleteAll(array('Candidacy.user_id = '=>$this->_currentUser['User']['id']),false);
-		$this->Candidate->deleteAll(array('Candidate.office_id = ' => $id, 'Candidate.user_id = '=>$this->_currentUser['User']['id']),false);
-	}
+    public function leave($id) {
+        $this->layout = 'ajax';
+        $this->loadModel('Vote');
+        $this->Vote->deleteAll(array('Candidacy.user_id = '=>$this->_currentUser['User']['id']),false);
+        $this->Candidate->deleteAll(array('Candidate.office_id = ' => $id, 'Candidate.user_id = '=>$this->_currentUser['User']['id']),false);
+    }
 
-	public function post($id) {
-		$this->layout='ajax';
-		$candidate = $this->Candidate->read(null,$id);
-		$post_data = array(
-        	'link' => "http://apps.facebook.com/483074268393372/candidates/view/".$id,
-        	'message'=> $candidate['User']['name']." running for ".$candidate['Office']['name'],
-        	'name' => $candidate['User']['name']." running for ".$candidate['Office']['name'],
-        	'picture' => $candidate['User']['image'],
-        	'description' => $candidate['Candidate']['about_text']
-    	);
-		try {
-		  $this->_facebook->api('/me/feed','POST',$post_data);
-		} catch(FacebookApiException $e) {
-		  $e_type = $e->getType();
-		  debug('Error: ' . $e_type);
-		}
-	}
+    public function post($id) {
+        $this->layout='ajax';
+        $candidate = $this->Candidate->read(null,$id);
+        $post_data = array(
+            'link' => "http://apps.facebook.com/483074268393372/candidates/view/".$id,
+            'message'=> $candidate['User']['name']." running for ".$candidate['Office']['name'],
+            'name' => $candidate['User']['name']." running for ".$candidate['Office']['name'],
+            'picture' => $candidate['User']['image'],
+            'description' => $candidate['Candidate']['about_text']
+        );
+        try {
+          $this->_facebook->api('/me/feed','POST',$post_data);
+        } catch(FacebookApiException $e) {
+          $e_type = $e->getType();
+          debug('Error: ' . $e_type);
+        }
+    }
 
-	public function addComment() {
-	    if ($this->request->is('post')) {
-    	    $this->loadModel('Comment');
-    	    $this->Comment->create();
-    	    $comment['Comment'] = array(
-    	       'user_id' => $this->_currentUser['User']['id'],
-    	       'candidacy_id' => $this->request->data('candidate_id'),
-    	       'body' => $this->request->data('comment'),
-    	       'date' => date('Y-m-d H:i:s')
-    	    );
-    	    $this->Comment->save($comment);
-	    }
-	    $this->redirect(array('controller' => 'candidates', 'action' => 'view', $this->request->data('candidate_id'), $this->request->data('election_id')));
-	    exit();
-	}
+    public function addComment() {
+        if ($this->request->is('post')) {
+            $this->loadModel('Comment');
+            $this->Comment->create();
+            $comment['Comment'] = array(
+               'user_id' => $this->_currentUser['User']['id'],
+               'candidacy_id' => $this->request->data('candidate_id'),
+               'body' => $this->request->data('comment'),
+               'date' => date('Y-m-d H:i:s')
+            );
+            $this->Comment->save($comment);
+        }
+        $this->redirect(array('controller' => 'candidates', 'action' => 'view', $this->request->data('candidate_id'), $this->request->data('election_id')));
+        exit();
+    }
 }
