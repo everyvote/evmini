@@ -1,88 +1,117 @@
+<?php $this->Html->script('candidate', array('inline' => false)); ?>
+
 <div class="candidacies view">
     <h2><?php  echo __('Candidate Profile'); ?></h2>
-    
+
+	<div class="row">
+        <div class="span3">
+			<p><a href="#" class="thumbnail"><img src="<?=$candidate['User']['image']?>" class="img-rounded" /></a></p>
+			<p class="pagination-centered" id="votes<?=$candidate['Candidate']['id']?>">
+			<?php if(!$votes['casted']['Vote']['stances_id']) : ?>
+			<a class="btn btn-small btn-success" id="votes<?=$candidate['Candidate']['id']?>_1" href="#" onclick="vote(<?=$candidate['Candidate']['id']?>,1);"><i class="icon-thumbs-up"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_1"><?=$votes['positive']?></span></a>
+        	<a class="btn btn-small btn-danger" id="votes<?=$candidate['Candidate']['id']?>_3" href="#" onclick="vote(<?=$candidate['Candidate']['id']?>,3);"><i class="icon-thumbs-down"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_3"><?=$votes['negative']?></span></a>
+			<?php else : ?>
+			<a class="btn btn-small disabled <?=$votes['casted']['Vote']['stances_id']==1 ? 'btn-success' : '' ?>" id="votes<?=$candidate['Candidate']['id']?>_1" href="#"><i class="icon-thumbs-up"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_1"><?=$votes['positive']?></span></a>
+        	<a class="btn btn-small disabled <?=$votes['casted']['Vote']['stances_id']==3 ? 'btn-danger' : '' ?>" id="votes<?=$candidate['Candidate']['id']?>_3" href="#"><i class="icon-thumbs-down"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_3"><?=$votes['negative']?></span></a>
+			<?php endif; ?>
+			</p>
+        </div>
+        <div class="span6">
+            <button class="btn pull-right btn-small btn-primary" id="share" onclick="post(<?=$candidate['Candidate']['id']?>);"><i class="icon-white icon-bullhorn"></i> Share the profile</button>
+            <h3><a href="#"><?=$candidate['User']['name']?></a></h3>
+            <p><strong>Running for:</strong> <?=$candidate['Office']['name']?> <em>(<?=$candidate['Office']['term_end']?>)</em></p>
+			<p><?= $this->EvText->format($candidate['Candidate']['about_text']) ?></p>
+        </div>
+	</div>
+
+    <hr>
+
     <div class="row">
+		<div class="btn-group span6" data-toggle="buttons-radio">
+			<button class="show-comments btn btn-small active">Comments <span class="badge"><?=count($comments)?></span></button>
+			<button id="show-supporters" class="show-votes btn btn-success btn-small">Supporters <span class="badge badge-success"><?=$votes['positive']?></span></button>
+			<button id="show-opposers" class="show-votes btn btn-danger btn-small">Opposers <span class="badge badge-important"><?=$votes['negative']?></span></button>
+		</div>
+		<div class="span3">
+		    <button class="btn btn-small btn-primary pull-right add-comment" id="add-comment-<?= $candidate['Candidate']['id'] ?>"><i class="icon-comment"></i> Add new comment <span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_2"><?=count($comments)?></span></a>
+	    </div>
+	</div>
 
-                <div class="span3">
+    <hr>
 
-					<p><a href="#" class="thumbnail"><img src="<?=$candidate['User']['image']?>" class="img-rounded" /></a></p>
-
-                	
-					<p class="pagination-centered" id="votes<?=$candidate['Candidate']['id']?>">
-					<?php if(!$votes['casted']['Vote']['stances_id']) : ?>
-					<a class="btn btn-small btn-success" id="votes<?=$candidate['Candidate']['id']?>_1" href="#" onclick="vote(<?=$candidate['Candidate']['id']?>,1);"><i class="icon-thumbs-up"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_1"><?=$votes['positive']?></span></a>
-                	<a class="btn btn-small btn-danger" id="votes<?=$candidate['Candidate']['id']?>_3" href="#" onclick="vote(<?=$candidate['Candidate']['id']?>,3);"><i class="icon-thumbs-down"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_3"><?=$votes['negative']?></span></a>
-					<?php else : ?>
-					<a class="btn btn-small disabled <?=$votes['casted']['Vote']['stances_id']==1 ? 'btn-success' : '' ?>" id="votes<?=$candidate['Candidate']['id']?>_1" href="#"><i class="icon-thumbs-up"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_1"><?=$votes['positive']?></span></a>
-                	<a class="btn btn-small disabled <?=$votes['casted']['Vote']['stances_id']==3 ? 'btn-danger' : '' ?>" id="votes<?=$candidate['Candidate']['id']?>_3" href="#"><i class="icon-thumbs-down"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_3"><?=$votes['negative']?></span></a>	
-					<?php endif; ?>
-					</p>
-					<p class="pagination-centered">
-                		<a class="btn btn-small" href="#" onclick="comment(<?=$candidate['Candidate']['id']?>);"><i class="icon-comment"></i> Add new comment <span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_2"><?=0?></span></a>
-					</p>
-
-				</div>
-
-								
-
-                <div class="span6">
-
-                    <button class="btn pull-right btn-small btn-primary" id="share" onclick="post(<?=$candidate['Candidate']['id']?>);"><i class="icon-white icon-bullhorn"></i> Share the profile</button>
-                    <h3><a href="#"><?=$candidate['User']['name']?></a></h3>
-
-                    <p><strong>Running for:</strong> <?=$candidate['Office']['name']?> <em>(<?=$candidate['Office']['term_end']?>)</em></p>
-
-
-					<p><?=$candidate['Candidate']['about_text']?></p>
-
-					
-
-                </div>
-
-            </div>
-
-            <hr>
-
-
-            <div class="row">
-
-				<div class="span9">
-
-				<div class="btn-group" data-toggle="buttons-radio">
-
-				  <button class="btn btn-small active" onclick="$('.support').fadeIn();$('.oppose').fadeIn();">See all votes <span class="badge"><?=$votes['positive']+$votes['negative']?></span></button>
-				  
-				  <button class="btn btn-success btn-small" onclick="$('.support').fadeIn();$('.oppose').fadeOut();">See all supporters <span class="badge badge-success"><?=$votes['positive']?></span></button>
-
-				  <button class="btn btn-danger btn-small" onclick="$('.support').fadeOut();$('.oppose').fadeIn();">See all opposers <span class="badge badge-important"><?=$votes['negative']?></span></button>
-
-				</div>
-
-				</div>
-
-			</div>
-
-            <hr>
-			<?php foreach($all_votes as $vote) : ?>
-				<div class="row <?=($vote['Vote']['stances_id']==1) ? 'support' : 'oppose'?>">
-	                <div class="span1">
-						<p><a href="#" class="thumbnail"><img src="<?=$vote['User']['image']?>" class="img-rounded"></a></p>
-					</div>
-                <div class="span3 bordered">
-                    <p><strong><a href="#"><?=$vote['User']['name']?></a></strong> <br>
+    <div class="row">
+        <div id="comments">
+        	<? foreach ($comments as $comment): ?>
+        		<div class="row comment-row">
+        			<div class="comment-user-image span1"><a href="#" class="thumbnail"><img src="<?=$comment['User']['image']?>" class="img-rounded" /></a></div>
+        			<div class="comment-main span8">
+        				<div class="row">
+                		    <div class="comment-user-name span5">
+                		    	<a href="#" class="bold-link"><?= htmlentities($comment['User']['name']) ?></a>
+                		    	<?php
+                		    	    // Get stance
+                		    	    $stance = 0;
+                 		    	    foreach ($all_votes as $vote) {
+                 		    	        if ($vote['User']['id'] == $comment['User']['id']) {
+                 		    	            $stance = $vote['Vote']['stances_id'];
+                 		    	            break;
+                 		    	        }
+                 		    	    }
+                 		    	?>
+                		    	<?php if ($stance == 1): ?>
+                            	   <span class="label label-success">Supporter</span>
+                            	<?php else: ?>
+                            	   <span class="label label-important">Opposer</span>
+                            	<?php endif; ?>
+                		    </div>
+                		    <div class="comment-date span3"><?= date('M j, Y g:i a', strtotime($comment['Comment']['date'])) ?></div>
+            		    </div>
+            		    <div class="row">
+            				<div class="comment-body span7 row"><?= $this->EvText->format($comment['Comment']['body']) ?></div>
+            			</div>
+        			</div>
+        		</div>
+        	<? endforeach; ?>
+        </div>
+        <div id="votes" style="display:none">
+    		<?php foreach($all_votes as $vote) : ?>
+    			<div class="row <?=($vote['Vote']['stances_id']==1) ? 'support' : 'oppose'?>">
+                    <div class="span1">
+    					<a href="#" class="thumbnail"><img src="<?=$vote['User']['image']?>" class="img-rounded" /></a>
+    				</div>
+                    <div class="span5 bordered">
+                		<a href="#" class="bold-link"><?= htmlentities($vote['User']['name']) ?></a><br/>
                     	<?php if($vote['Vote']['stances_id']==1) : ?>
-                    	<span class="label label-success">Supporter</span>	
+                    	<span class="label label-success">Supporter</span>
                     	<?php else: ?>
-                    	<span class="label label-important">Opposer</span>	
+                    	<span class="label label-important">Opposer</span>
                     	<?php endif; ?>
-					<?/*<strong>Running for:</strong> Senator <em>(03-21-2012)</em></p>*/?>
+                    </div>
+                    <div class="span3">
+                     	<p><strong>Date:</strong> <?= date('M j, Y g:i a', strtotime($comment['Comment']['date'])) ?></p>
+    				</div>
                 </div>
-                <div class="span2">
-					<!-- Button to trigger modal -->
-					<a href="#" role="button" class="btn btn-small"><i class="icon-comment"></i> View Comments</a>
-				</div>
-                <div class="span2">
-                 	<p><strong>Date:</strong> <?=date('Y-m-d',strtotime($vote['Vote']['added']))?></p>
-				</div>
-            </div>
-			<?php endforeach; ?>
+    		<?php endforeach; ?>
+    	</div>
+    </div>
+</div>
+
+<div class="modal" style="display:none" id="add-comment-hover" tabindex="-1" role="dialog">
+    <form action="<?= $this->base ?>/candidates/addComment" method="post" id="add-comment-form">
+        <input type="hidden" name="candidate_id" value="<?= $candidate['Candidate']['id'] ?>" />
+        <div class="modal-header">
+            <h6>Add a Comment <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+        </div>
+
+        <div class="modal-body" style="height:180px;">
+            <div>
+                <strong style="display:block;">Comment:</strong>
+                <textarea name="comment" style="width:510px;height:140px;resize:none;"cols="40" rows="10"></textarea>
+    		</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="save-comment"><em class="icon-ok icon-white"></em> Submit</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
+        </div>
+    </form>
+</div>

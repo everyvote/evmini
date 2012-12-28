@@ -60,6 +60,13 @@ class Comment extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'Candidate' => array(
+			'className' => 'Candidate',
+			'foreignKey' => 'candidacy_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 

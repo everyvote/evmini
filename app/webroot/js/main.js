@@ -1,5 +1,4 @@
 var election=0;
-var url = "http://evmini.jobcloud.bg/";
 function selectConstituency(id) {
 	$('#constituencyselect a span').html($('#c'+id+" a").html());
 	$('#clogo').hide().removeClass('hidden');
@@ -155,4 +154,7 @@ function addEc(id) {
 function editEc(id) {
 	$('#editEc').val(id);
 	$('#editEcDrop a span').html($('#editEc_'+id+' a').html());
+}
+function comment(candidacy_id) {
+	
 }

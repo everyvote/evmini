@@ -5,6 +5,9 @@
         <?php echo $this->Html->charset(); ?>
         <title><?php echo $this->fetch('title'); ?></title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript">
+            var url = '<?php echo $this->base; ?>/';
+        </script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <?php
             echo $this->Html->meta('icon');
@@ -13,21 +16,24 @@
             echo $this->Html->css('main.css');
             echo $this->Html->css('datepicker.css');
             echo $this->Html->css('redmond/jquery-ui.min.css');
+            echo $this->fetch('css');
+
             echo $this->Html->script('vendor/jquery-ui.min.js');
             echo $this->Html->script('vendor/modernizr-2.6.1-respond-1.1.0.min.js');
+            echo $this->fetch('script');
         ?>
     </head>
 
     <body>
         <div class="container">
         	<div class="modal" style="display:none" id="addElection" tabindex="-1" role="dialog">
-        		
+
 			  <div class="modal-header">
 			  	<h6>Add New Election <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
 			  </div>
-			  
+
 			  <div class="modal-body" style="height:500px;">
-			  	
+
 						<div class="dropdown" id="addEcDrop">
 						  <strong style="display:inline-block;width:140px;">Constituency:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a constituency</span> <i class="icon-chevron-down"></i></a>
 						  <ul class="dropdown-menu" role="menu">
@@ -36,11 +42,11 @@
 								<li id="addEc_<?=h($constituency['id']);?>"><a href="#" onclick="addEc(<?=h($constituency['id']);?>)"><?=h($constituency['name']);?></a></li>
 								<?php endif; ?>
 							<?php endforeach; ?>
-						  						  						  						  						                            
+
 						  </ul>
 						  <input type="hidden" name="addEc" id="addEc" />
 						</div>
-						
+
 						<div>
 							<strong style="display:inline-block;width:140px;">Election:</strong>
 							<input type="text" class="span5" id="addETitle" name="election" />
@@ -70,16 +76,16 @@
 			    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
 			  </div>
         	</div>
-        	
-        	
+
+
         	<div class="modal" style="display:none" id="editElection" tabindex="-1" role="dialog">
-        		
+
 			  <div class="modal-header">
 			  	<h6>Edit Election <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
 			  </div>
-			  
+
 			  <div class="modal-body" style="height:500px;">
-			  	
+
 						<div class="dropdown" id="editEcDrop">
 						  <strong style="display:inline-block;width:140px;">Constituency:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a constituency</span> <i class="icon-chevron-down"></i></a>
 						  <ul class="dropdown-menu" role="menu">
@@ -88,11 +94,11 @@
 								<li id="editEc_<?=h($constituency['id']);?>"><a href="#" onclick="editEc(<?=h($constituency['id']);?>)"><?=h($constituency['name']);?></a></li>
 								<?php endif; ?>
 							<?php endforeach; ?>
-						  						  						  						  						                            
+
 						  </ul>
 						  <input type="hidden" name="editEc" id="editEc" />
 						</div>
-						
+
 						<div>
 							<strong style="display:inline-block;width:140px;">Election:</strong>
 							<input type="text" class="span5" id="editETitle" name="election" />
@@ -122,11 +128,11 @@
 			    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
 			  </div>
         	</div>
-        	
+
 			<div class="modal" style="display:none" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			  <div class="modal-header">
 			  	<h6>My Profile <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
-			    
+
 			  </div>
 			  <div class="modal-body">
 			  	<div class="row">
@@ -138,11 +144,11 @@
 			    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><em class="icon-ok icon-white"></em> Okay</button>
 			  </div>
 			</div>
-			
+
 			<div class="modal" style="display:none" id="runForOffice" tabindex="-1" role="dialog" aria-labelledby="runForOfficeLabel" aria-hidden="true">
 			  <div class="modal-header">
 			  	<h6>Run for <span id="runFor"></span> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
-			    
+
 			  </div>
 			  <div class="modal-body">
 			  	<div class="row">
@@ -161,22 +167,22 @@
 			    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-x"></em> Cancel</button>
 			  </div>
 			</div>
-			
+
             <!-- Header container -->
 			<div class="row">
 			  	   	<div class="span2">
 						<a href="<?=Router::url('/', true)?>"><?=$this->Html->image(Router::url('/', true).'img/copy-logo.png')?></a>
-	                </div>         
+	                </div>
 					<div class="span4 offset3 menu" id="menu">
 						<div>
 							<a class="btn btn-primary btn-small hidden" id="editE" href="#"><i class="icon-pencil icon-white"></i> Edit Election</a>
 							<a class="btn btn-small btn-primary" id="addE" href="#"> <i class="icon-plus icon-white"></i> Add Election</a>
-						</div> 
+						</div>
 						<div class="pt5">
 							<a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#">My Profile</a>
 							<div class="dropdown inline-block">
 							<a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#">Run for Office</a>
-							  <ul class="dropdown-menu" role="menu" id="runUl" aria-labelledby="dLabel">				  						                            
+							  <ul class="dropdown-menu" role="menu" id="runUl" aria-labelledby="dLabel">
 							  </ul>
 							  </div>
 							<a class="btn btn-small btn-danger hidden" id="leave" href="#">Leave Race</a>
@@ -184,7 +190,7 @@
                     </div>
 			 </div>
 			 <hr>
-			 
+
 
         <?php echo $this->fetch('content'); ?>
 
@@ -294,7 +300,7 @@
 			jQuery.each(mods, function(index, mod) {
 				modlist+="<li>"+mod[1]+" <a href='#' onclick='removeMod("+index+")'>[x]</a></li>";
 				ids.push(mod[0]);
-				
+
 			});
 			$('#mods').val(ids.join(","));
 			$('#moderatorsList').html(modlist);
@@ -305,7 +311,7 @@
 			jQuery.each(emods, function(index, mod) {
 				modlist+="<li>"+mod[1]+" <a href='#' onclick='removeEMod("+index+")'>[x]</a></li>";
 				ids.push(mod[0]);
-				
+
 			});
 			$('#emods').val(ids.join(","));
 			$('#emoderatorsList').html(modlist);

@@ -7,7 +7,7 @@ App::uses('AppController', 'Controller');
  */
 class CandidatesController extends AppController {
 
-    public $helpers = array("Html", "Form", "Partials.Partial");
+    public $helpers = array("Html", "Form", "Partials.Partial", "EvText");
 
 /**
  * index method
@@ -46,7 +46,7 @@ class CandidatesController extends AppController {
         //Get associated votes and comments to display
         $this->loadModel('Vote');
         $this->loadModel('Comment');
-		
+
 		$votes = array(
 				'positive'=>$this->Vote->find('count',array('conditions'=>array('Vote.candidacy_id = '=>$id, 'Vote.stances_id = ' => 1))),
 				'negative'=>$this->Vote->find('count',array('conditions'=>array('Vote.candidacy_id = '=>$id, 'Vote.stances_id = ' => 3))),
@@ -54,6 +54,10 @@ class CandidatesController extends AppController {
 			);
         $this->set('votes', $votes);
 		$this->set('all_votes', $this->Vote->findAllByCandidacyId($id));
+
+		$this->Comment->order = 'Comment.date DESC';
+		$this->set('comments', $this->Comment->findAllByCandidacyId($id));
+
 	}
 
 /**
@@ -128,8 +132,8 @@ class CandidatesController extends AppController {
 		$this->Session->setFlash(__('Candidate was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
-	
-	
+
+
 	public function listByElection($id,$filter=0,$sorting=0) {
 		$this->layout = 'ajax';
 		$data = array();
@@ -144,25 +148,25 @@ class CandidatesController extends AppController {
 		}
 		$this->set('candidates', $data);
 	}
-	
-	
+
+
 	public function run($id) {
 		$this->layout = 'ajax';
 		$this->loadModel('Office');
 		$office = $this->Office->read(null,$id);
-		
+
 		$data['user_id'] = $this->_currentUser['User']['id'];
 		$data['office_id'] = $id;
-		$data['about_text'] = mysql_escape_string($_POST["description"]);
+		$data['about_text'] = $_POST["description"];
 		$data['election_id'] = $office['Office']['election_id'];
-		
+
 		$this->Candidate->Save($data);
 	}
-	
+
 	public function leave($id) {
 		$this->layout = 'ajax';
 		$this->loadModel('Vote');
-		$this->Vote->deleteAll(array('candidacy_id = '=>$this->_currentUser['User']['id']),false);
+		$this->Vote->deleteAll(array('Candidacy.user_id = '=>$this->_currentUser['User']['id']),false);
 		$this->Candidate->deleteAll(array('Candidate.office_id = ' => $id, 'Candidate.user_id = '=>$this->_currentUser['User']['id']),false);
 	}
 
@@ -183,5 +187,21 @@ class CandidatesController extends AppController {
 		  debug('Error: ' . $e_type);
 		}
 	}
-	
+
+	public function addComment() {
+	    if ($this->request->is('post')) {
+    	    $this->loadModel('Comment');
+    	    $this->Comment->create();
+    	    $comment['Comment'] = array(
+    	       'user_id' => $this->_currentUser['User']['id'],
+    	       'candidacy_id' => $this->request->data('candidate_id'),
+    	       'body' => $this->request->data('comment'),
+    	       'date' => date('Y-m-d H:i:s')
+    	    );
+    	    $this->Comment->save($comment);
+	    }
+	    $this->redirect(array('controller' => 'candidates', 'action' => 'view', $this->request->data('candidate_id')));
+	    exit();
+	}
+
 }

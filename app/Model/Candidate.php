@@ -87,4 +87,14 @@ class Candidate extends AppModel {
 			'order' => ''
 		)
 	);
+	
+	public $hasMany = array(
+		'Comment' =>  array(
+			'className' => 'Comment',
+			'foreignKey' => 'candidacy_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
 }
