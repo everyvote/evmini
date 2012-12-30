@@ -1,0 +1,15 @@
+*
+!.gitignore
+!cache
+!cache/persistent
+!cache/persistent/empty
+!cache/models
+!cache/models/empty
+!cache/views
+!cache/views/empty
+!logs
+!logs/empty
+!tests
+!tests/empty
+!sessions
+!sessions/empty
