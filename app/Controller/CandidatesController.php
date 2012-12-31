@@ -190,6 +190,7 @@ class CandidatesController extends AppController {
     }
 
     function editAbout($id = null) {
+        $this->layout = 'ajax';
         $this->Candidate->id = $id;
         $this->Candidate->save(array('about_text' => $_POST['description']));
 
