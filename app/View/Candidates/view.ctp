@@ -53,17 +53,17 @@
                                 <a href="#" class="bold-link"><?= htmlentities($comment['User']['name']) ?></a>
                                 <?php
                                     // Get stance
-                                    $stance = 0;
-                                     foreach ($all_votes as $vote) {
-                                         if ($vote['User']['id'] == $comment['User']['id']) {
-                                             $stance = $vote['Vote']['stances_id'];
-                                             break;
-                                         }
-                                     }
-                                 ?>
+                                    $stance = null;
+                                    foreach ($all_votes as $vote) {
+                                        if ($vote['User']['id'] == $comment['User']['id']) {
+                                            $stance = $vote['Vote']['stances_id'];
+                                            break;
+                                        }
+                                    }
+                                ?>
                                 <?php if ($stance == 1): ?>
                                    <span class="label label-success">Supporter</span>
-                                <?php else: ?>
+                                <?php elseif ($stance == 3): ?>
                                    <span class="label label-important">Opposer</span>
                                 <?php endif; ?>
                             </div>
