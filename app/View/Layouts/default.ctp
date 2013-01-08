@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="addElection();"><em class="icon-ok icon-white"></em> Okay</button>
+                    <button class="btn btn-primary" disabled="disabled" data-dismiss="modal" aria-hidden="true" onclick="addElection();"><em class="icon-ok icon-white"></em> Okay</button>
                     <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
                 </div>
             </div>
@@ -241,8 +241,8 @@
                     name: $('#addETitle').val(),
                     description: $('#addEDesc').val(),
                     startdate: $('#addEDate').val(),
-                                        enddate: $('#addCDate').val(),
-                                        offices: $('#addEOffices').val(),
+                    enddate: $('#addCDate').val(),
+                    offices: $('#addEOffices').val(),
                     mods: $('#mods').val()
                 },
                 success: function(data) {
@@ -254,8 +254,8 @@
                         $('#addETitle').val('');
                         $('#addEDesc').val('');
                         $('#addEDate').val('');
-                                                $('#addCDate').val('');
-                                                $('#addEOffices').val(''),
+                        $('#addCDate').val('');
+                        $('#addEOffices').val(''),
                         $('#mods').val('');
                         mods=[];
                     }
@@ -360,8 +360,15 @@
         }
         $(document).ready(function(){
             $('#addE').click(function() {
+                mods = []
+                var mod=[];
+                mod[0] = '<?php echo $currentUser['User']['id']; ?>'
+                mod[1] = '<?php echo $currentUser['User']['name']; ?>'
+                mods.push(mod);
+                updateModerators();
                 $('#addElection').modal('show');
             });
+            
             $('#editE').click(function() {
                 $('#editElection').modal('show');
             });

@@ -40,7 +40,7 @@ function selectElection(id) {
                 filterUi = "";
                 $.each(data.offices, function(i, office) {
                     runUl += "<li><a href='#' onclick='run("+data.offices[i].Office.id+",\""+data.offices[i].Office.name+"\")'>"+data.offices[i].Office.name+"</li>";
-                    filterUi += "<li><a href='#' onclick='filterElections("+data.offices[i].Office.id+");'>"+data.offices[i].Office.name+"</li>";
+                    filterUi += "<li id='o-"+data.offices[i].Office.id+"'><a href='#' onclick='filterElections("+data.offices[i].Office.id+");'>"+data.offices[i].Office.name+"</li>";
                 });
                 $('#runUl').html(runUl);
                 $('#filterOffices').html(filterUi);
@@ -146,9 +146,9 @@ function vote(candidate,id) {
         });
     }
 }
-function post(candidate) {
+function post(candidate,electionID) {
     $.ajax({
-        url:url+'candidates/post/'+candidate,
+        url:url+'candidates/post/'+candidate+'/'+electionID,
         type: "POST",
         data: {
             message: $('#message').val()
@@ -175,6 +175,7 @@ function postElection() {
 function addEc(id) {
     $('#addEc').val(id);
     $('#addEcDrop a span').html($('#editEc_'+id+' a').html());
+    $('div.modal-footer button.btn-primary').removeAttr('disabled');
 }
 function editEc(id) {
     $('#editEc').val(id);
@@ -196,9 +197,25 @@ function editAbout(id) {
 }
 
 function sortElection(id) {
+    $('#sort-list span').html($('#sorting div.pull-right ul li[id='+id+'] a').html());
+    $('#filter-list span').html('All Offices');
     loadCandidates(election,0,id);
 }
 
 function filterElections(id) {
+    $('#filter-list span').html($('#sorting div.pull-left ul li[id=o-'+id+'] a').html());
+    $('#sort-list span').html('Date Added');
     loadCandidates(election, id, 0);
+}
+
+function removeComment(id) {
+    $.ajax({
+        url:url+'comments/delete/'+id,
+        type: "POST",
+        data: {
+            },
+        success: function(data) {
+            window.location.reload();
+        }
+    });
 }

@@ -1,5 +1,4 @@
 <?php $this->Html->script('candidate', array('inline' => false)); ?>
-
 <div class="candidacies view">
     <h2><?php  echo __('Candidate Profile'); ?></h2>
 
@@ -46,10 +45,12 @@
         <div id="comments">
             <? foreach ($comments as $comment): ?>
                 <div class="row comment-row">
-                    <div class="comment-user-image span1"><a href="#" class="thumbnail"><img src="<?=$comment['User']['image']?>" class="img-rounded" /></a></div>
+                    <div class="comment-user-image span1">
+                        <a href="#" class="thumbnail"><img src="<?=$comment['User']['image']?>" class="img-rounded" /></a>
+                    </div>
                     <div class="comment-main span8">
                         <div class="row">
-                            <div class="comment-user-name span5">
+                            <div class="comment-user-name span6">
                                 <a href="#" class="bold-link"><?= htmlentities($comment['User']['name']) ?></a>
                                 <?php
                                     // Get stance
@@ -67,10 +68,19 @@
                                    <span class="label label-important">Opposer</span>
                                 <?php endif; ?>
                             </div>
-                            <div class="comment-date span3"><?= date('M j, Y g:i a', strtotime($comment['Comment']['date'])) ?></div>
+                            
+                            <div class="comment-date span2 row">
+                                <?php if ( ($comment['User']['id'] == $currentUser['User']['id']) ||
+                                           (in_array($currentUser['User']['id'], $moderators)) ) : ?>
+                                <span style="float:right;">
+                                    <a onclick="return confirm('Are you sure you wish to delete this comment?');" href="javascript:removeComment(<?php echo $comment['Comment']['id']; ?>);">[x]</a>
+                                </span>
+                                <?php endif; ?>
+                            </div>
                         </div>
                         <div class="row">
-                            <div class="comment-body span7 row"><?= $this->EvText->format($comment['Comment']['body']) ?></div>
+                            <div class="comment-body span6"><?= $this->EvText->format($comment['Comment']['body']) ?></div>
+                            <div class="comment-date span2 row" style="margin-left:10px;width:150px;"><?= date('M j, Y g:i a', strtotime($comment['Comment']['date'])) ?></div>
                         </div>
                     </div>
                 </div>
@@ -159,7 +169,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" id="aboutupd" data-dismiss="modal" aria-hidden="true" onclick="post(<?= $candidate['Candidate']['id'];?>)"><em class="icon-ok icon-white"></em>Share</button>
+            <button class="btn btn-primary" id="aboutupd" data-dismiss="modal" aria-hidden="true" onclick="post(<?= $candidate['Candidate']['id'] . "," . $electionID; ?>)"><em class="icon-ok icon-white"></em>Share</button>
         </div>
     </div>
 </div>

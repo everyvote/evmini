@@ -38,11 +38,10 @@ class CandidatesController extends AppController {
 
     public function view($id = null, $electionID = null) {
         $this->Candidate->id = $id;
-        if (!$this->Candidate->exists()) {
-            throw new NotFoundException(__('Invalid candidate'));
-        }
         $candidate = $this->Candidate->read(null, $id);
         $constituancy = $this->Candidate->Election->find('first', array('id' => $candidate['Candidate']['election_id']));
+        
+        $moderators = array_values(explode(",",$constituancy['Election']['mods']));
 
         $this->showBack = TRUE;
         //Get associated votes and comments to display
@@ -66,11 +65,8 @@ class CandidatesController extends AppController {
         $allConstituencies = $this->Candidate->find('all', array('conditions' => array('Candidate.user_id' => $this->_currentUser['User']['id']),
             'recursive' => 2));
 
-        $this->set(compact('candidate', 'votes', 'all_votes', 'allConstituencies','electionID', 'comments'));
+        $this->set(compact('candidate', 'votes', 'all_votes', 'allConstituencies','electionID', 'comments','moderators'));
 
-        //$this->Session->write('electionID', $candidate['Candidate']['election_id']);
-        //$this->Session->write('constituentID', $constituancy['Constituency']['id']);
-        //$this->Session->write('officeID', $candidate['Candidate']['office_id']);
     }
 
     /**
@@ -217,12 +213,13 @@ class CandidatesController extends AppController {
         $this->Candidate->deleteAll(array('Candidate.office_id = ' => $id, 'Candidate.user_id = '=>$this->_currentUser['User']['id']),false);
     }
 
-    public function post($id) {
+    public function post($id, $electionID) {
         $this->layout='ajax';
         $candidate = $this->Candidate->read(null,$id);
         $post_data = array(
-            'link' => "http://apps.facebook.com/483074268393372/candidates/view/".$id,
-            'message'=> $candidate['User']['name']." running for ".$candidate['Office']['name'],
+            'link' => "http://mini.everyvote.org/candidates/view/".$id."/".$electionID,
+            //'message'=> $candidate['User']['name']." running for ".$candidate['Office']['name'],
+            'message' => $this->request->data['message'],
             'name' => $candidate['User']['name']." running for ".$candidate['Office']['name'],
             'picture' => $candidate['User']['image'],
             'description' => $candidate['Candidate']['about_text']

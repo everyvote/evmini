@@ -8,7 +8,6 @@ App::uses('AppController', 'Controller');
 class CommentsController extends AppController {
 
 
-
 /**
  * index method
  *
@@ -88,18 +87,14 @@ class CommentsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
+	
 		$this->Comment->id = $id;
 		if (!$this->Comment->exists()) {
 			throw new NotFoundException(__('Invalid comment'));
 		}
 		if ($this->Comment->delete()) {
-			$this->Session->setFlash(__('Comment deleted'));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect($this->referer());
 		}
-		$this->Session->setFlash(__('Comment was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		$this->redirect($this->referer());
 	}
 }
