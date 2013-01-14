@@ -33,6 +33,13 @@
 						
 					</p>
                 </div>
+                <div class="span9">
+                    <p id="electionModerator">
+                    
+                    
+                    </p>
+                
+                </div>
                 <div class="span9 hidden" id="sorting">
                 	<div class="dropdown pull-left">
 					  <strong>Showing:</strong> <a id="filter-list" class="dropdown-toggle" data-toggle="dropdown" href="#"><span>All Offices</span> <i class="icon-chevron-down"></i></a>

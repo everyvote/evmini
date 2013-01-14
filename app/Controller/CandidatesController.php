@@ -146,6 +146,20 @@ class CandidatesController extends AppController {
         $this->layout = 'ajax';
         $data = array();
         $this->loadModel('Vote');
+        
+        // Pull the Moderators
+        $election = $this->Candidate->Election->find('first', array('conditions' => array('Election.id' => $id)));
+        $mods = explode(",", $election['Election']['mods']);
+        
+        $moderators = array();
+        if (is_array($mods)) :
+            foreach($mods as $mod):
+                $user = $this->Candidate->User->find('first', array('conditions' => array('User.id' => $mod)));
+                $moderators[] = $user['User']['name'];
+            endforeach;
+        endif;
+        
+        
         $conditions[] = array('Candidate.election_id = ' => $id);
 
         if ($filter != 0) :
@@ -182,7 +196,7 @@ class CandidatesController extends AppController {
             $data = $sortedCandidates;
         endif;
 
-        $this->set('candidates', $data);
+        $this->set('candidates', $data, $moderators);
     }
 
     function editAbout($id = null) {

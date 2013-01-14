@@ -34,6 +34,14 @@
 						
             </p>
         </div>
+        
+        <div class="span9">
+            <p id="electionModerator">
+                    
+                    
+            </p>
+                
+        </div>
                 
         <div class="span9 hidden" id="sorting">
             <div class="dropdown pull-left">
