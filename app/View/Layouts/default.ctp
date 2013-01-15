@@ -34,7 +34,7 @@
 
                 <div class="modal-body" style="height:500px;">
                     <div class="dropdown" id="addEcDrop">
-                        <strong style="display:inline-block;width:140px;">Constituency:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a constituency</span> <i class="icon-chevron-down"></i></a>
+                        <strong style="display:inline-block;width:140px;"><?=ucfirst($CONSTITUENCY)?></strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a <?=$CONSTITUENCY?></span> <i class="icon-chevron-down"></i></a>
                         <ul class="dropdown-menu" role="menu">
                             <?php foreach ($constituencies as $id => $constituency): ?>
                                   <li id="addEc_<?=h($id);?>"><a href="#" onclick="addEc(<?=h($id);?>)"><?=h($constituency);?></a></li>
@@ -82,7 +82,7 @@
                 </div>
                     <div class="modal-body" style="height:500px;">
                     <div class="dropdown" id="editEcDrop">
-                        <strong style="display:inline-block;width:140px;">Constituency:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a constituency</span> <i class="icon-chevron-down"></i></a>
+                        <strong style="display:inline-block;width:140px;"><?=$CONSTITUENCY?></strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a <?=$CONSTITUENCY?></span> <i class="icon-chevron-down"></i></a>
                         <ul class="dropdown-menu" role="menu">
                             <?php foreach ($constituencies as $id => $constituency): ?>
                                     <li id="editEc_<?=h($id);?>"><a href="#" onclick="editEc(<?=h($id);?>)"><?=h($constituency);?></a></li>

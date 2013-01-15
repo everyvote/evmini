@@ -5,7 +5,7 @@
 				<div class="span9">
 					<p>
 						<div class="dropdown span6" id="constituencyselect" style="margin: 0;">
-						  <strong>Constituency:</strong>
+						  <strong><?=ucfirst(Inflector::pluralize($CONSTITUENCY))?></strong>
 						      <select class="combobox">
     						      <option></option>
     						      <?php foreach ($constituencies as $id => $constituency): ?>

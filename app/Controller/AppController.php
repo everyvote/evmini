@@ -71,6 +71,14 @@ class AppController extends Controller {
 
         public function beforeRender() {
             parent::beforeRender();
+			
+			
+			// The following is a constant that represents a kind of constituency.
+			// Could be university, town, government, club, etc.
+			// Keep 'em lowercase and unpluralized for use.
+        	$this->set('CONSTITUENCY', "university");
+			
+			
             $this->set('back', $this->showBack);
 
         }
