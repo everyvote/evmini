@@ -57,7 +57,7 @@
                     <div>
                         <strong style="display:inline-block;width:140px;">Offices:</strong>
                         <input name="offices" id="addEOffices" class="span5" size="16" type="text">
-                        <p style="text-align:right;font-size:12px;color:#999;">use commas to separate</p>
+                        <p style="font-size:12px;color:#999;">use commas to separate, include district #s (example: Senator - District 1, Senator - District 2, etc.)</p>
                     </div>
                     <div>
                         <strong style="display:inline-block;width:140px;">Moderator:</strong>
@@ -105,7 +105,7 @@
                     <div>
                         <strong style="display:inline-block;width:140px;">Offices:</strong>
                         <input name="offices" id="editEOffices" class="span5" size="16" type="text">
-                        <p style="text-align:right;font-size:12px;color:#999;">use commas to separate</p>
+                        <p style="text-align:right;font-size:12px;color:#999;">use commas to separate, include district #s (example: Senator - District 1, Senator - District 2, etc.)</p>
                     </div>
                     <div>
                         <strong style="display:inline-block;width:140px;">Moderator:</strong>

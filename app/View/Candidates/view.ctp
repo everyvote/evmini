@@ -63,9 +63,9 @@
                                     }
                                 ?>
                                 <?php if ($stance == 1): ?>
-                                   <span class="label label-success">Supporter</span>
+                                   <span class="label label-success">Supporting</span>
                                 <?php elseif ($stance == 3): ?>
-                                   <span class="label label-important">Opposer</span>
+                                   <span class="label label-important">Opposing</span>
                                 <?php endif; ?>
                             </div>
                             
@@ -95,9 +95,9 @@
                     <div class="span5 bordered">
                         <a href="#" class="bold-link"><?= htmlentities($vote['User']['name']) ?></a><br/>
                         <?php if($vote['Vote']['stances_id']==1) : ?>
-                        <span class="label label-success">Supporter</span>
+                        <span class="label label-success">Supporting</span>
                         <?php else: ?>
-                        <span class="label label-important">Opposer</span>
+                        <span class="label label-important">Opposing</span>
                         <?php endif; ?>
                     </div>
                     <div class="span3">
