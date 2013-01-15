@@ -18,7 +18,7 @@
         <div class="span6">
             <button class="btn pull-right btn-small btn-primary" id="share" data-toggle="modal" data-target="#shareModal"><i class="icon-white icon-bullhorn"></i> Share the profile</button>
             <h3><a href="#"><?=$candidate['User']['name']?></a></h3>
-            <p><strong>Running for:</strong> <?=$candidate['Office']['name']?> <em>(<?=$candidate['Office']['term_end']?>)</em></p>
+            <p><strong>Running for:</strong> <?=$candidate['Office']['name']?></p>
             <p id="aboutme"><?= $this->EvText->format($candidate['Candidate']['about_text']) ?></p>
             <?php if ($candidate['User']['id'] == $currentUser['User']['id']): ?>
                 <p><a data-toggle="modal" data-target="#aboutModal" href="#">Edit Profile</a></p>

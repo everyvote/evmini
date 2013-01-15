@@ -37,7 +37,7 @@
 						$candidate['User']['name'],
 						"/candidates/view/".$candidate['Candidate']['id']."/".$candidate['Candidate']['election_id']);
 					?></h3>
-                    <p><strong>Running for:</strong> <?=$candidate['Office']['name']?> <em>(<?=$candidate['Office']['term_end']?>)</em></p>
+                    <p><strong>Running for:</strong> <?=$candidate['Office']['name']?></p>
                     <p><?=substr($candidate['Candidate']['about_text'], 0, 350) ?>...</p>
                 </div>
             </div>
