@@ -8,10 +8,8 @@
                     <strong>Constituency:</strong>
                     <select class="combobox">
                         <option></option>
-                        <?php foreach ($constituencies as $constituency): ?>
-                        <?php if($constituency['id']) : ?>
-                        <option value="<?=h($constituency['id']);?>"  <?php echo ($constituentID == $constituency['id']) ? "selected" : ""; ?> ><?=h($constituency['name']);?></option>
-                        <?php endif; ?>
+                        <?php foreach ($constituencies as $id => $constituency): ?>
+                        <option value="<?=h($id);?>"  <?php echo ($constituentID == $id) ? "selected" : ""; ?> ><?=h($constituency);?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>

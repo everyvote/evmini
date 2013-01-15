@@ -36,10 +36,8 @@
                     <div class="dropdown" id="addEcDrop">
                         <strong style="display:inline-block;width:140px;">Constituency:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a constituency</span> <i class="icon-chevron-down"></i></a>
                         <ul class="dropdown-menu" role="menu">
-                            <?php foreach ($constituencies as $constituency): ?>
-                                <?php if($constituency['id']) : ?>
-                                  <li id="addEc_<?=h($constituency['id']);?>"><a href="#" onclick="addEc(<?=h($constituency['id']);?>)"><?=h($constituency['name']);?></a></li>
-                                <?php endif; ?>
+                            <?php foreach ($constituencies as $id => $constituency): ?>
+                                  <li id="addEc_<?=h($id);?>"><a href="#" onclick="addEc(<?=h($id);?>)"><?=h($constituency);?></a></li>
                             <?php endforeach; ?>
                         </ul>
                         <input type="hidden" name="addEc" id="addEc" />
@@ -86,10 +84,8 @@
                     <div class="dropdown" id="editEcDrop">
                         <strong style="display:inline-block;width:140px;">Constituency:</strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a constituency</span> <i class="icon-chevron-down"></i></a>
                         <ul class="dropdown-menu" role="menu">
-                            <?php foreach ($constituencies as $constituency): ?>
-                                <?php if($constituency['id']) : ?>
-                                    <li id="editEc_<?=h($constituency['id']);?>"><a href="#" onclick="editEc(<?=h($constituency['id']);?>)"><?=h($constituency['name']);?></a></li>
-                                <?php endif; ?>
+                            <?php foreach ($constituencies as $id => $constituency): ?>
+                                    <li id="editEc_<?=h($id);?>"><a href="#" onclick="editEc(<?=h($id);?>)"><?=h($constituency);?></a></li>
                             <?php endforeach; ?>
                         </ul>
                         <input type="hidden" name="editEc" id="editEc" />

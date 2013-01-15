@@ -11,6 +11,7 @@ App::uses('AppModel', 'Model');
  */
 class Constituency extends AppModel {
 
+	public $actsAs = array('Tree');
 /**
  * Validation rules
  *

@@ -28,7 +28,7 @@ class ElectionsController extends AppController {
      */
     public function view($id = null) {
         
-        $data = $this->Election->Constituency->find();
+        $data = $this->Election->Constituency->find('list', array('fields' =>	array('id', 'name') )    );
         $this->set('constituencies', $data);
 
         $this->Election->id = $id;

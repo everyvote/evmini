@@ -17,11 +17,13 @@ class ConstituenciesController extends AppController {
 	public function index() {
             $callback = $this->referer(null, true);
             $electionID = 0;
-            $constituentID = 0;
+            $constituentID = 0;  
             $officeID = 0;
             $this->Constituency->recursive = 0;
-		$data = $this->Constituency->find();
-		$this->set('constituencies', $data);
+			
+			$data = $this->Constituency->find('list', array('fields' =>	array('id', 'name') )    );
+												
+			$this->set('constituencies', $data);
                 
                 //if ($this->Session->check('electionID')) :
                 //    $electionID = $this->Session->read('electionID');
