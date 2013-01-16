@@ -170,6 +170,14 @@ class CandidatesController extends AppController {
         if ($sorting == '2'):
             $order = array('User.name');
         endif;
+		
+		// If the sort flag is set to 5, then have the model sort randomly.
+		if ($sorting == '5'):
+			
+			$order = array('rand()');
+			
+		endif;
+		
         foreach ($this->Candidate->find('all', array('conditions' => $conditions, 'order' => $order)) as $candidate) {
             $votes = array('Votes' => array(
                     'positive' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $candidate['Candidate']['id'], 'Vote.stances_id = ' => 1))),

@@ -78,7 +78,10 @@ function selectElection(id) {
                 if($('#sorting').hasClass('hidden')) {
                     $('#sorting').hide().removeClass('hidden').fadeIn('slow');
                 }
-                loadCandidates(id,0,0);
+                
+                // Load set of candidates randomly.
+                loadCandidates(id,0,5);
+                
                 election = id;
             });
             $('#electionModerator').fadeOut('fast', function() {
@@ -213,7 +216,7 @@ function sortElection(id) {
 
 function filterElections(id) {
     $('#filter-list span').html($('#sorting div.pull-left ul li[id=o-'+id+'] a').html());
-    $('#sort-list span').html('Date Added');
+    $('#sort-list span').html('Random');
     loadCandidates(election, id, 0);
 }
 
