@@ -84,7 +84,9 @@ function selectElection(id) {
             $('#electionModerator').fadeOut('fast', function() {
                 _mods = "";
                 $.each(data.mods,function(index,item){
-                    _mods += item.User.name + "<br/>";
+                    if (item) {
+                        _mods += item.User.name + "<br/>";
+                    }
                 });
                 if (_mods != "") {
                     $(this).html("<strong>Moderator(s):</strong><br/>" + _mods).fadeIn('slow');

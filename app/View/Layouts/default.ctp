@@ -118,6 +118,12 @@
                         <input type="hidden" name="moderators" id="emods" />
                     </div>
                     <div>
+                        <strong style="display:inline-block;width:140px;">Block Users:</strong>
+                        <input id="eblockuser" class="span5" size="16" type="text">
+                        <ul id="eblockuserList"></ul>
+                        <input type="hidden" name="blockusers" id="eblockusrs" />
+                    </div>
+                    <div>
                         <strong style="display:block;">Election description:</strong>
                         <textarea name="description" id="editEDesc" style="width:510px;height:140px;resize:none;"cols="40" rows="10"></textarea>
                     </div>
@@ -263,6 +269,79 @@
             });
             return false;
         }
+        
+        function updateElection() {
+            $.ajax({
+                url: 'elections/edit/'+currentElection,
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    constituency_id: $('#editEc').val(),
+                    name: $('#editETitle').val(),
+                    description: $('#editEDesc').val(),
+                    startdate: $('#editEDate').val(),
+                                        enddate: $('#editCDate').val(),
+                                        offices: $('#editEOffices').val(),
+                    mods: $('#emods').val()
+                },
+                success: function(data) {
+                    result = eval(data);
+                    if(result.status=="success") {
+                        alert("Election updated successfully!");
+                    }
+                }
+            });
+            return false;
+        }
+        
+        function getUsers() {
+            $.ajax({
+                url: 'users/json',
+                dataType: 'json',
+                async: false,
+                success: function(data) {
+                    options = {
+                        source:eval(data),
+                        autoFocus: true,
+                        select:function(event,item){
+                            var mod=[];
+                            mod[0] = item.item.id;
+                            mod[1] = item.item.value;
+                            mods.push(mod);
+                            $('#blockusers').val('');
+                            updateModerators();
+                            return false;
+                        }
+                     };
+                     $('#blockusers').autocomplete(options);
+                    options = {
+                        source:eval(data),
+                        autoFocus: true,
+                        select:function(event,item){
+                            var mod=[];
+                            mod[0] = item.item.id;
+                            mod[1] = item.item.value;
+                            emods.push(mod);
+                            $('#eblockusers').val('');
+                            updateEModerators();
+                            return false;
+                        }
+                     };
+                     $('#eblockusers').autocomplete(options);
+                     return true;
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                  //  console.log(textStatus, errorThrown);  NOT SUPPORTeD IN IE
+                  alert(errorThrown);
+                    return true;
+                }
+            });
+        }
+        
+        
+        
+        
+        
         function updateElection() {
             $.ajax({
                 url: 'elections/edit/'+currentElection,
@@ -323,7 +402,8 @@
                      return true;
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
+                    //console.log(textStatus, errorThrown);   NPT SUPPORTED IN IE9
+                    alert(ErrorThrown);
                     return true;
                 }
             });
