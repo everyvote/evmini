@@ -48,7 +48,7 @@
 					</div>
                 	
 					<div class="dropdown pull-right">
-					  <strong>Sort by:</strong> <a id="sort-list" class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Date Added</span> <i class="icon-chevron-down"></i></a>
+					  <strong>Sort by:</strong> <a id="sort-list" class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Random</span> <i class="icon-chevron-down"></i></a>
 					  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 						<li id="5"><a href="#" onclick="sortElection(5);">Random</a></li>
 						<li id="1"><a href="#" onclick="sortElection(1);">Date Added</a></li>
