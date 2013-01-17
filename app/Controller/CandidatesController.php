@@ -42,6 +42,7 @@ class CandidatesController extends AppController {
         $constituancy = $this->Candidate->Election->find('first', array('id' => $candidate['Candidate']['election_id']));
         
         $moderators = array_values(explode(",",$constituancy['Election']['mods']));
+        $blockUsers = array_values(explode(",",$constituancy['Election']['blockusers']));
 
         $this->showBack = TRUE;
         //Get associated votes and comments to display
@@ -49,8 +50,8 @@ class CandidatesController extends AppController {
         $this->loadModel('Comment');
 
         $votes = array(
-            'positive' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $id, 'Vote.stances_id = ' => 1))),
-            'negative' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $id, 'Vote.stances_id = ' => 3))),
+            'positive' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $id, 'Vote.stances_id = ' => 1, 'Vote.user_id NOT' => $blockUsers))),
+            'negative' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $id, 'Vote.stances_id = ' => 3, 'Vote.user_id NOT' => $blockUsers))),
             'casted' => $this->Vote->find('first', array('conditions' => array('Vote.candidacy_id = ' => $id, 'Vote.user_id = ' => $this->_currentUser['User']['id'])))
         );
 
@@ -59,7 +60,7 @@ class CandidatesController extends AppController {
 
         // Get comments
         $this->Comment->order = 'Comment.date DESC';
-        $comments = $this->Comment->findAllByCandidacyId($id);
+        $comments = $this->Comment->find('all',  array('conditions' => array('Comment.candidacy_id' => $id, 'Comment.user_id NOT' => $blockUsers)) );
 
         // Get all the elections for this user.
         $allConstituencies = $this->Candidate->find('all', array('conditions' => array('Candidate.user_id' => $this->_currentUser['User']['id']),

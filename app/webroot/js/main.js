@@ -63,7 +63,6 @@ function selectElection(id) {
                         mod[0]=item.User.id;
                         mod[1]=item.User.name;
                         emods.push(mod);
-                        //updateEModerators();
                         updateEModerators();
                     });
                 }
