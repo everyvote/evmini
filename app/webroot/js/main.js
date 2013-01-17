@@ -63,8 +63,22 @@ function selectElection(id) {
                         mod[0]=item.User.id;
                         mod[1]=item.User.name;
                         emods.push(mod);
+                        mods.push(mod);
                         updateEModerators();
                     });
+                    
+                    eblocks = [];
+                    $.each(data.blockusers,function(index,item){
+                        if (item) {
+                        var mod=[]
+                        mod[0]=item.User.id;
+                        mod[1]=item.User.name;
+                        eusers.push(mod);
+                        users.push(mod);
+                        updateEBlockUsers();
+                        }
+                    });
+                    
                 }
                 else {
                     $('#editE').fadeOut('fast',function() {
@@ -94,6 +108,7 @@ function selectElection(id) {
         }
     });
 }
+
 function loadCandidates(election,filter,sorting) {
     $.ajax({
         url:url+'candidates/listByElection/'+election+'/'+filter+'/'+sorting,

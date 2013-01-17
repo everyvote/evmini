@@ -119,9 +119,9 @@
                     </div>
                     <div>
                         <strong style="display:inline-block;width:140px;">Block Users:</strong>
-                        <input id="eblockuser" class="span5" size="16" type="text">
+                        <input id="eblockusers" class="span5" size="16" type="text">
                         <ul id="eblockuserList"></ul>
-                        <input type="hidden" name="blockusers" id="eblockusrs" />
+                        <input type="hidden" name="blockusers" id="eblock" />
                     </div>
                     <div>
                         <strong style="display:block;">Election description:</strong>
@@ -236,10 +236,12 @@
         <script>
         var mods=[];
         var emods=[];
+        var users=[];
+        var eusers=[];
         var currentElection=0;
         function addElection() {
             $.ajax({
-                url: 'elections/add',
+                url: '/elections/add',
                 type: "POST",
                 dataType: 'json',
                 data: {
@@ -272,7 +274,7 @@
         
         function updateElection() {
             $.ajax({
-                url: 'elections/edit/'+currentElection,
+                url: '/elections/edit/'+currentElection,
                 type: "POST",
                 dataType: 'json',
                 data: {
@@ -280,9 +282,10 @@
                     name: $('#editETitle').val(),
                     description: $('#editEDesc').val(),
                     startdate: $('#editEDate').val(),
-                                        enddate: $('#editCDate').val(),
-                                        offices: $('#editEOffices').val(),
-                    mods: $('#emods').val()
+                    enddate: $('#editCDate').val(),
+                    offices: $('#editEOffices').val(),
+                    mods: $('#emods').val(),
+                    blockusers: $('#eblock').val()
                 },
                 success: function(data) {
                     result = eval(data);
@@ -296,7 +299,7 @@
         
         function getUsers() {
             $.ajax({
-                url: 'users/json',
+                url: '/users/json',
                 dataType: 'json',
                 async: false,
                 success: function(data) {
@@ -307,13 +310,13 @@
                             var mod=[];
                             mod[0] = item.item.id;
                             mod[1] = item.item.value;
-                            mods.push(mod);
+                            users.push(mod);
                             $('#blockusers').val('');
-                            updateModerators();
+                            updateBlockUsers();
                             return false;
                         }
                      };
-                     $('#blockusers').autocomplete(options);
+                    $('#blockusers').autocomplete(options);
                     options = {
                         source:eval(data),
                         autoFocus: true,
@@ -321,9 +324,9 @@
                             var mod=[];
                             mod[0] = item.item.id;
                             mod[1] = item.item.value;
-                            emods.push(mod);
+                            eusers.push(mod);
                             $('#eblockusers').val('');
-                            updateEModerators();
+                            updateEBlockUsers();
                             return false;
                         }
                      };
@@ -332,42 +335,15 @@
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                   //  console.log(textStatus, errorThrown);  NOT SUPPORTeD IN IE
-                  alert(errorThrown);
-                    return true;
+                  alert('errorThrown');
+                  return true;
                 }
             });
         }
         
-        
-        
-        
-        
-        function updateElection() {
-            $.ajax({
-                url: 'elections/edit/'+currentElection,
-                type: "POST",
-                dataType: 'json',
-                data: {
-                    constituency_id: $('#editEc').val(),
-                    name: $('#editETitle').val(),
-                    description: $('#editEDesc').val(),
-                    startdate: $('#editEDate').val(),
-                                        enddate: $('#editCDate').val(),
-                                        offices: $('#editEOffices').val(),
-                    mods: $('#emods').val()
-                },
-                success: function(data) {
-                    result = eval(data);
-                    if(result.status=="success") {
-                        alert("Election updated successfully!");
-                    }
-                }
-            });
-            return false;
-        }
         function getModerators() {
             $.ajax({
-                url: 'users/json',
+                url: '/users/json',
                 dataType: 'json',
                 async: false,
                 success: function(data) {
@@ -379,31 +355,21 @@
                             mod[0] = item.item.id;
                             mod[1] = item.item.value;
                             mods.push(mod);
-                            $('#moderators').val('');
-                            updateModerators();
-                            return false;
-                        }
-                     };
-                     $('#moderators').autocomplete(options);
-                    options = {
-                        source:eval(data),
-                        autoFocus: true,
-                        select:function(event,item){
-                            var mod=[];
-                            mod[0] = item.item.id;
-                            mod[1] = item.item.value;
                             emods.push(mod);
+                            $('#moderators').val('');
                             $('#emoderators').val('');
+                            updateModerators();
                             updateEModerators();
                             return false;
                         }
                      };
+                     $('#moderators').autocomplete(options);
                      $('#emoderators').autocomplete(options);
                      return true;
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     //console.log(textStatus, errorThrown);   NPT SUPPORTED IN IE9
-                    alert(ErrorThrown);
+                    alert('ErrorThrown');
                     return true;
                 }
             });
@@ -419,17 +385,43 @@
             $('#mods').val(ids.join(","));
             $('#moderatorsList').html(modlist);
         }
+        
         function updateEModerators() {
             var modlist = '';
             var ids = [];
             jQuery.each(emods, function(index, mod) {
-                modlist+="<li>"+mod[1]+" <a href='#' onclick='removeEMod("+index+")'>[x]</a></li>";
+                modlist+="<li>"+mod[1]+" <a href='#' onclick='removeMod("+index+")'>[x]</a></li>";
                 ids.push(mod[0]);
 
             });
             $('#emods').val(ids.join(","));
             $('#emoderatorsList').html(modlist);
         }
+        
+        function updateBlockUsers() {
+            var userlist = '';
+            var ids = [];
+            jQuery.each(users, function(index, user) {
+                userlist+="<li>"+user[1]+" <a href='#' onclick='removeUser("+index+")'>[x]</a></li>";
+                ids.push(user[0]);
+
+            });
+            $('#block').val(ids.join(","));
+            $('#blockuserList').html(userlist);
+        }
+        
+        function updateEBlockUsers() {
+            var userlist = '';
+            var ids = [];
+            jQuery.each(eusers, function(index, user) {
+                userlist+="<li>"+user[1]+" <a href='#' onclick='removeEUser("+index+")'>[x]</a></li>";
+                ids.push(user[0]);
+
+            });
+            $('#eblock').val(ids.join(","));
+            $('#eblockuserList').html(userlist);
+        }
+        
         function removeMod(index) {
             mods.splice(index,1);
             updateModerators();
@@ -438,6 +430,15 @@
             emods.splice(index,1);
             updateEModerators();
         }
+        function removeUser(index) {
+            users.splice(index,1);
+            updateBlockUsers();
+        }
+        function removeEUser(index) {
+            eusers.splice(index,1);
+            updateEBlockUsers();
+        }
+        
         $(document).ready(function(){
             $('#addE').click(function() {
                 mods = []
@@ -453,14 +454,15 @@
                 $('#editElection').modal('show');
             });
             $('.datepicker').datepicker();
-                $('.combobox').combobox();
+            $('.combobox').combobox();
 
-                $(".combobox").change(function() {
-                    if ($(this).val()) {
-                        selectConstituency($(this).val());
-                    }
-                });
+            $(".combobox").change(function() {
+                if ($(this).val()) {
+                    selectConstituency($(this).val());
+                }
+            });
             getModerators();
+            getUsers();
 
          <?php if (!empty($callback) && $callback != "/"): ?>
             selectConstituency(<?php echo $constituentID; ?>);

@@ -171,6 +171,11 @@ class ElectionsController extends AppController {
         foreach (explode(',', $election['Election']['mods']) as $mod) {
             $moderators[] = $this->User->find('first', array('conditions' => array('User.id' => $mod)));
         }
+        
+        $blockusers = array();
+        foreach (explode(',', $election['Election']['blockusers']) as $use) {
+            $blockusers[] = $this->User->find('first', array('conditions' => array('User.id' => $use)));
+        }
 
         $data = array(
             "name" => $election['Election']['name'],
@@ -180,6 +185,7 @@ class ElectionsController extends AppController {
             "description" => $election['Election']['description'],
             "moderate" => in_array($this->_currentUser['User']['id'], explode(',', $election['Election']['mods'])) ? true : false,
             "mods" => $moderators,
+            "blockusers" => $blockusers,
             "offices" => $this->Office->find('all', array('conditions' => array('Office.election_id = ' => $id))),
             "run" => $candidate
         );
