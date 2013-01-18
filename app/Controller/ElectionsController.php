@@ -173,8 +173,12 @@ class ElectionsController extends AppController {
         }
         
         $blockusers = array();
+        $blockthisuser = 0;
         foreach (explode(',', $election['Election']['blockusers']) as $use) {
             $blockusers[] = $this->User->find('first', array('conditions' => array('User.id' => $use)));
+            if ($this->_currentUser['User']['id'] == $use) :
+                $blockthisuser = 1;
+            endif;
         }
 
         $data = array(
@@ -187,7 +191,8 @@ class ElectionsController extends AppController {
             "mods" => $moderators,
             "blockusers" => $blockusers,
             "offices" => $this->Office->find('all', array('conditions' => array('Office.election_id = ' => $id))),
-            "run" => $candidate
+            "run" => $candidate,
+            "blockthisuser" => $blockthisuser
         );
         $this->set('election', $data);
     }

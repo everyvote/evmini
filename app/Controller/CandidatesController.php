@@ -42,7 +42,12 @@ class CandidatesController extends AppController {
         $constituancy = $this->Candidate->Election->find('first', array('id' => $candidate['Candidate']['election_id']));
         
         $moderators = array_values(explode(",",$constituancy['Election']['mods']));
-        $blockUsers = array_values(explode(",",$constituancy['Election']['blockusers']));
+        $blockedUsers = array_values(explode(",",$constituancy['Election']['blockusers']));
+        
+        if (empty($blockedUsers)) :
+            $blockedUsers[] = 0;
+        endif;
+
 
         $this->showBack = TRUE;
         //Get associated votes and comments to display
@@ -50,23 +55,25 @@ class CandidatesController extends AppController {
         $this->loadModel('Comment');
 
         $votes = array(
-            'positive' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $id, 'Vote.stances_id = ' => 1, 'Vote.user_id NOT' => $blockUsers))),
-            'negative' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $id, 'Vote.stances_id = ' => 3, 'Vote.user_id NOT' => $blockUsers))),
+            'positive' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $id, 'Vote.stances_id = ' => 1, 'Vote.user_id NOT' => $blockedUsers))),
+            'negative' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $id, 'Vote.stances_id = ' => 3, 'Vote.user_id NOT' => $blockedUsers))),
             'casted' => $this->Vote->find('first', array('conditions' => array('Vote.candidacy_id = ' => $id, 'Vote.user_id = ' => $this->_currentUser['User']['id'])))
         );
 
         // Get all votes
-        $all_votes = $this->Vote->findAllByCandidacyId($id);
+        //$all_votes = $this->Vote->findAllByCandidacyId($id);
+        
+        $all_votes = $this->Vote->find('all', array('conditions' => array('Vote.candidacy_id = ' => $id,'Vote.user_id NOT' => $blockedUsers)));
 
         // Get comments
         $this->Comment->order = 'Comment.date DESC';
-        $comments = $this->Comment->find('all',  array('conditions' => array('Comment.candidacy_id' => $id, 'Comment.user_id NOT' => $blockUsers)) );
+        $comments = $this->Comment->find('all',  array('conditions' => array('Comment.candidacy_id' => $id, 'Comment.user_id NOT' => $blockedUsers)));
 
         // Get all the elections for this user.
         $allConstituencies = $this->Candidate->find('all', array('conditions' => array('Candidate.user_id' => $this->_currentUser['User']['id']),
             'recursive' => 2));
 
-        $this->set(compact('candidate', 'votes', 'all_votes', 'allConstituencies','electionID', 'comments','moderators'));
+        $this->set(compact('candidate', 'votes', 'all_votes', 'allConstituencies','electionID', 'comments','moderators', 'blockedUsers'));
 
     }
 
@@ -147,10 +154,16 @@ class CandidatesController extends AppController {
         $this->layout = 'ajax';
         $data = array();
         $this->loadModel('Vote');
+        $blockedUsers =array();
         
         // Pull the Moderators
         $election = $this->Candidate->Election->find('first', array('conditions' => array('Election.id' => $id)));
         $mods = explode(",", $election['Election']['mods']);
+        $blockedUsers = array_values(explode(",",$election['Election']['blockusers']));
+        
+        if (empty($blockedUsers)) :
+            $blockedUsers[] = 0;
+        endif;
         
         $moderators = array();
         if (is_array($mods)) :
@@ -173,9 +186,14 @@ class CandidatesController extends AppController {
         endif;
         foreach ($this->Candidate->find('all', array('conditions' => $conditions, 'order' => $order)) as $candidate) {
             $votes = array('Votes' => array(
-                    'positive' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $candidate['Candidate']['id'], 'Vote.stances_id = ' => 1))),
-                    'negative' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $candidate['Candidate']['id'], 'Vote.stances_id = ' => 3))),
-                    'casted' => $this->Vote->find('first', array('conditions' => array('Vote.candidacy_id = ' => $candidate['Candidate']['id'], 'Vote.user_id = ' => $this->_currentUser['User']['id'])))
+                    'positive' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $candidate['Candidate']['id'], 
+                                                                                         'Vote.stances_id = ' => 1, 
+                                                                                         'Vote.user_id NOT' => $blockedUsers))),
+                    'negative' => $this->Vote->find('count', array('conditions' => array('Vote.candidacy_id = ' => $candidate['Candidate']['id'], 
+                                                                                         'Vote.stances_id = ' => 3,
+                                                                                         'Vote.user_id NOT' => $blockedUsers))),
+                    'casted' => $this->Vote->find('first', array('conditions' => array('Vote.candidacy_id = ' => $candidate['Candidate']['id'], 
+                                                                                       'Vote.user_id = ' => $this->_currentUser['User']['id'])))
                     ));
             $data[] = array_merge($candidate, $votes);
         }

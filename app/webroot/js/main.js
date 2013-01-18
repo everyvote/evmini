@@ -44,6 +44,7 @@ function selectElection(id) {
                 });
                 $('#runUl').html(runUl);
                 $('#filterOffices').html(filterUi);
+                blockthisuser = data.blockthisuser;
                 if(data.moderate) {
                     editEc(data.constituency_id);
                     $('#editETitle').val(data.name);
@@ -67,7 +68,7 @@ function selectElection(id) {
                         updateEModerators();
                     });
                     
-                    eblocks = [];
+                    eusers = [];
                     $.each(data.blockusers,function(index,item){
                         if (item) {
                         var mod=[]
@@ -150,25 +151,20 @@ function leaveRace(id) {
     }
 }
 function vote(candidate,id) {
-    if(confirm("Are you sure with your vote for this candidate?")) {
-        $.ajax({
-            url:url+'votes/cast/'+candidate+'/'+id,
-            success: function(data) {
-                //$('#votes'+candidate+" .btn").attr('onclick','').addClass('disabled');
-                //if(id==1) {
-                //    $('#votes'+candidate+"_3").removeClass('btn-danger');
-                //    $('#votes'+candidate+"_3 .icon-white").removeClass('icon-white');
-                //}
-                //else if(id==3) {
-                //    $('#votes'+candidate+'_1').removeClass('btn-success');
-                //        $('#votes'+candidate+"_1 .icon-white").removeClass('icon-white');
-                //    }
-                data = eval( '(' + data + ')' );
-                $('#votes_c'+candidate+'_1').html(data.Votes.positive);
-                $('#votes_c'+candidate+'_2').html(data.Votes.neutral);
-                $('#votes_c'+candidate+'_3').html(data.Votes.negative);
-            }
-        });
+    if (blockthisuser == 1) {
+        alert('You are not able to vote for this candidate.');
+    } else {
+        if(confirm("Are you sure with your vote for this candidate?")) {
+            $.ajax({
+                url:url+'votes/cast/'+candidate+'/'+id,
+                    success: function(data) {
+                        data = eval( '(' + data + ')' );
+                        $('#votes_c'+candidate+'_1').html(data.Votes.positive);
+                        $('#votes_c'+candidate+'_2').html(data.Votes.neutral);
+                        $('#votes_c'+candidate+'_3').html(data.Votes.negative);
+                    }
+                });
+        }
     }
 }
 function post(candidate,electionID) {

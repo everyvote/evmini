@@ -239,6 +239,7 @@
         var users=[];
         var eusers=[];
         var currentElection=0;
+        var blockthisuser=0;
         function addElection() {
             $.ajax({
                 url: '/elections/add',
