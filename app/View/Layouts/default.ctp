@@ -242,7 +242,7 @@
         var blockthisuser=0;
         function addElection() {
             $.ajax({
-                url: '/elections/add',
+                url: url+'/elections/add',
                 type: "POST",
                 dataType: 'json',
                 data: {
@@ -275,7 +275,7 @@
         
         function updateElection() {
             $.ajax({
-                url: '/elections/edit/'+currentElection,
+                url: url+'/elections/edit/'+currentElection,
                 type: "POST",
                 dataType: 'json',
                 data: {
@@ -300,7 +300,7 @@
         
         function getUsers() {
             $.ajax({
-                url: '/users/json',
+                url: url+'/users/json',
                 dataType: 'json',
                 async: false,
                 success: function(data) {
@@ -344,7 +344,7 @@
         
         function getModerators() {
             $.ajax({
-                url: '/users/json',
+                url: url+'/users/json',
                 dataType: 'json',
                 async: false,
                 success: function(data) {
