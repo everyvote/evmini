@@ -42,8 +42,8 @@ class CandidatesController extends AppController {
         $constituancy = $this->Candidate->Election->find('first', array('id' => $candidate['Candidate']['election_id']));
         
         $moderators = array_values(explode(",",$constituancy['Election']['mods']));
-        $blockedUsers = array_values(explode(",",$constituancy['Election']['blockusers']));
-        
+        $blockedUsers = array_values(explode(",",$candidate['Election']['blockusers']));
+
         if (empty($blockedUsers)) :
             $blockedUsers[] = 0;
         endif;
