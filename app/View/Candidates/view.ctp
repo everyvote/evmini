@@ -34,9 +34,12 @@
             <button id="show-supporters" class="show-votes btn btn-success btn-small">Supporters <span class="badge badge-success"><?=$votes['positive']?></span></button>
             <button id="show-opposers" class="show-votes btn btn-danger btn-small">Opposers <span class="badge badge-important"><?=$votes['negative']?></span></button>
         </div>
+        <?php 
+            if (!in_array($currentUser['User']['id'], $blockedUsers)) : ?>
         <div class="span3">
             <button class="btn btn-small btn-primary pull-right add-comment" id="add-comment-<?= $candidate['Candidate']['id'] ?>"><i class="icon-comment"></i> Add new comment <span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_2"><?=count($comments)?></span></a>
         </div>
+        <?php endif; ?>
     </div>
 
     <hr>
