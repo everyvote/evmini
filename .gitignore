@@ -1,6 +1,5 @@
 /app/Config/database.php
 /app/Config/facebook.php
-/app/tmp
 /lib/Cake/Console/Templates/skel/tmp/
 /plugins
 /vendors
@@ -8,3 +7,11 @@
 /dist
 .DS_Store
 /tags
+
+/app/tmp/cache/models/empty
+/app/tmp/cache/persistent/empty
+/app/tmp/cache/views/empty
+/app/tmp/logs/empty
+/app/tmp/sessions/empty
+/app/tmp/tests/empty
+/.gitignore

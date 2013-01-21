@@ -4,17 +4,57 @@ App::uses('AppModel', 'Model');
  * Election Model
  *
  * @property Constituency $Constituency
- * @property Candidacy $Candidacy
+ * @property Candidate $Candidate
  */
 class Election extends AppModel {
 
 /**
- * Display field
+ * Validation rules
  *
- * @var string
+ * @var array
  */
-	public $displayField = 'name';
-
+	public $validate = array(
+		'constituency_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'name' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'startdate' => array(
+			'datetime' => array(
+				'rule' => array('datetime'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'enddate' => array(
+			'datetime' => array(
+				'rule' => array('datetime'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -39,8 +79,21 @@ class Election extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Candidacy' => array(
-			'className' => 'Candidacy',
+		'Candidate' => array(
+			'className' => 'Candidate',
+			'foreignKey' => 'election_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Office' => array(
+			'className' => 'Office',
 			'foreignKey' => 'election_id',
 			'dependent' => false,
 			'conditions' => '',

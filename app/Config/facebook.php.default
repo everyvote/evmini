@@ -14,3 +14,4 @@ $config['FacebookUserOverride'] = 1;
 $config['Facebook.appId']      = 'APPID';
 $config['Facebook.secret']     = 'SECRET';
 $config['Facebook.fileUpload'] = false;
+$config['Facebook.scope']      = 'publish_stream';

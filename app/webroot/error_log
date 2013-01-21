@@ -1,0 +1,11 @@
+[27-Oct-2012 20:44:59 UTC] PHP Fatal error:  Call to a member function api() on a non-object in /home/controlp/public_html/evmini/app/Controller/CandidatesController.php on line 170
+[27-Oct-2012 20:45:19 UTC] PHP Fatal error:  Call to a member function api() on a non-object in /home/controlp/public_html/evmini/app/Controller/CandidatesController.php on line 170
+[27-Oct-2012 20:45:47 UTC] PHP Fatal error:  Call to a member function api() on a non-object in /home/controlp/public_html/evmini/app/Controller/CandidatesController.php on line 170
+[27-Oct-2012 20:45:53 UTC] PHP Fatal error:  Call to a member function api() on a non-object in /home/controlp/public_html/evmini/app/Controller/CandidatesController.php on line 170
+[27-Oct-2012 20:46:30 UTC] PHP Fatal error:  Call to a member function api() on a non-object in /home/controlp/public_html/evmini/app/Controller/CandidatesController.php on line 171
+[27-Oct-2012 20:46:31 UTC] PHP Fatal error:  Call to a member function api() on a non-object in /home/controlp/public_html/evmini/app/Controller/CandidatesController.php on line 171
+[30-Oct-2012 18:27:35 UTC] PHP Fatal error:  Call to a member function api() on a non-object in /home/controlp/public_html/evmini/app/Controller/CandidatesController.php on line 180
+[30-Oct-2012 18:28:25 UTC] PHP Fatal error:  Call to a member function api() on a non-object in /home/controlp/public_html/evmini/app/Controller/CandidatesController.php on line 180
+[30-Oct-2012 18:29:57 UTC] PHP Fatal error:  Call to a member function api() on a non-object in /home/controlp/public_html/evmini/app/Controller/CandidatesController.php on line 180
+[30-Oct-2012 18:30:05 UTC] PHP Fatal error:  Call to a member function api() on a non-object in /home/controlp/public_html/evmini/app/Controller/CandidatesController.php on line 180
+[30-Oct-2012 18:30:10 UTC] PHP Fatal error:  Call to a member function api() on a non-object in /home/controlp/public_html/evmini/app/Controller/CandidatesController.php on line 180

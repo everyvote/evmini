@@ -4,17 +4,67 @@ App::uses('AppModel', 'Model');
  * Office Model
  *
  * @property Constituency $Constituency
- * @property Candidacy $Candidacy
+ * @property Candidate $Candidate
  */
 class Office extends AppModel {
 
 /**
- * Display field
+ * Validation rules
  *
- * @var string
+ * @var array
  */
-	public $displayField = 'name';
-
+	public $validate = array(
+		'constituency_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'name' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'description' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'term_start' => array(
+			'datetime' => array(
+				'rule' => array('datetime'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'term_end' => array(
+			'datetime' => array(
+				'rule' => array('datetime'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -25,8 +75,8 @@ class Office extends AppModel {
  */
 	public $belongsTo = array(
 		'Constituency' => array(
-			'className' => 'Constituency',
-			'foreignKey' => 'constituency_id',
+			'className' => 'Election',
+			'foreignKey' => 'election_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -39,8 +89,8 @@ class Office extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Candidacy' => array(
-			'className' => 'Candidacy',
+		'Candidate' => array(
+			'className' => 'Candidate',
 			'foreignKey' => 'office_id',
 			'dependent' => false,
 			'conditions' => '',
