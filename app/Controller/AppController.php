@@ -185,12 +185,71 @@ class AppController extends Controller {
         $url = $this->_facebook->getLoginUrl(array(
             'canvas'       => 1,
             'fbconnect'    => 0,
-            'redirect_uri' => 'http://'.$_SERVER['SERVER_NAME'].Router::url('/'),
+            'redirect_uri' => 'http://'.$_SERVER['SERVER_NAME'].':8000'.Router::url('/'),
             'prev'         => 'http://www.facebook.com',
             'scope'        => 'user_about_me,publish_stream'
         ));
         echo "<script>top.location.href='$url';</script>";
         exit();
     }
+	
+	
+	/**
+	 * sendJson
+	 * Serializes $content into json and sends it out.
+	 * 
+	 * @param $content
+	 */
+	protected function sendJSON($response)
+	{
+		Configure::write('debug', 2);
+		
+		$this->set('response', $response);
+		
+		$this->layout = '';
+		
+		$this->render('/Layouts/json');
+		
+	}
+	
+	/**
+	 * selectorJSON
+	 * 
+	 * This is a dynamic view that returns the coorisponding
+	 * model's {[id:name]} fields for use in a jQuery Autocomplete.
+	 * 
+	 * This may need to be overidden if the model doesn't have the name field.
+	 * 
+	 */
+	public function selectorJSON() {
+		
+		// Obtain the model we're working with based on the controller name.
+		$modelName = Inflector::singularize($this->name);
+		$model = $this->$modelName;
+		
+		// Obtain a simple list of {id:name}
+		$places = $model->find('list', array('conditions' => array($modelName.".name LIKE" => "%".$_GET['term']."%"),
+													      'recursive' => 0, 'limit' => 10));
+		
+		$json = array();
+		
+		// Translate the model's output for jQuery Autocomplete
+		foreach ($places as $key => $p) {
+			
+			$pair = new Object();
+			
+			$pair->id = $key;
+			$pair->label = $p;
+			$json[] = $pair;
+			
+		}
+		
+		
+		// FIRE!
+		$this->sendJson(json_encode($json));
+		
+	}
+	
+	
 }
 
