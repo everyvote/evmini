@@ -332,7 +332,6 @@
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                   //  console.log(textStatus, errorThrown);  NOT SUPPORTeD IN IE
-                  alert('errorThrown');
                   return true;
                 }
             });
@@ -366,7 +365,6 @@
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     //console.log(textStatus, errorThrown);   NPT SUPPORTED IN IE9
-                    alert('ErrorThrown');
                     return true;
                 }
             });
