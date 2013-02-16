@@ -4,17 +4,12 @@
         </div>
         <div class="span9">
             <p>
-                <div class="dropdown span6" id="constituencyselect" style="margin: 0;">
-                    <strong><?=ucfirst(Inflector::pluralize($CONSTITUENCY))?></strong>
-                    <select class="combobox">
-                        <option></option>
-                        <?php foreach ($constituencies as $id => $constituency): ?>
-                        <option value="<?=h($id);?>"  <?php echo ($constituentID == $id) ? "selected" : ""; ?> ><?=h($constituency);?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
                 <div class="span3" style="float:right; margin:24px 0 0;">
                     <button class="btn pull-right btn-small btn-primary" id="share" data-toggle="modal" data-target="#shareModal"><i class="icon-white icon-bullhorn"></i> Share This Election</button>
+                </div>
+                <div>
+                        <strong style="display:inline-block;width:140px;"><?=ucfirst($CONSTITUENCY)?></strong>
+                        <?php echo $this->EvForm->selector('Constituency', 'edit', 'span5', 'selectConstituency(ui.item.id)'); ?>
                 </div>
             </p>
         </div>

@@ -33,14 +33,9 @@
                 </div>
 
                 <div class="modal-body" style="height:500px;">
-                    <div class="dropdown" id="addEcDrop">
-                        <strong style="display:inline-block;width:140px;"><?=ucfirst($CONSTITUENCY)?></strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a <?=$CONSTITUENCY?></span> <i class="icon-chevron-down"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <?php foreach ($constituencies as $id => $constituency): ?>
-                                  <li id="addEc_<?=h($id);?>"><a href="#" onclick="addEc(<?=h($id);?>)"><?=h($constituency);?></a></li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <input type="hidden" name="addEc" id="addEc" />
+                    <div>
+                        <strong style="display:inline-block;width:140px;"><?=ucfirst($CONSTITUENCY)?></strong>
+                        <?php echo $this->EvForm->selector('Constituency', 'add', 'span5', 'addEc(ui.item.id)'); ?>
                     </div>
                     <div>
                         <strong style="display:inline-block;width:140px;">Election:</strong>
@@ -81,14 +76,9 @@
                     <h6>Edit Election <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
                 </div>
                     <div class="modal-body" style="height:500px;">
-                    <div class="dropdown" id="editEcDrop">
-                        <strong style="display:inline-block;width:140px;"><?=$CONSTITUENCY?></strong> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select a <?=$CONSTITUENCY?></span> <i class="icon-chevron-down"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <?php foreach ($constituencies as $id => $constituency): ?>
-                                    <li id="editEc_<?=h($id);?>"><a href="#" onclick="editEc(<?=h($id);?>)"><?=h($constituency);?></a></li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <input type="hidden" name="editEc" id="editEc" />
+                    <div>
+                        <strong style="display:inline-block;width:140px;"><?=ucfirst($CONSTITUENCY)?></strong>
+                        <?php echo $this->EvForm->selector('Constituency', 'edit', 'span5'); ?>
                     </div>
                     <div>
                         <strong style="display:inline-block;width:140px;">Election:</strong>
@@ -242,7 +232,7 @@
                 type: "POST",
                 dataType: 'json',
                 data: {
-                    constituency_id: $('#addEc').val(),
+                    constituency_id: $('#ConstituencyaddValue').val(),
                     name: $('#addETitle').val(),
                     description: $('#addEDesc').val(),
                     startdate: $('#addEDate').val(),
@@ -253,9 +243,9 @@
                 success: function(data) {
                     result = eval(data);
                     if(result.status=="success") {
-                        selectConstituency($('#addEc').val());
+                        selectConstituency($('#ConstituencyaddValue').val());
                         selectElection(result.election);
-                        $('#addEc').val('');
+                        $('#ConstituencyaddValue').val('');
                         $('#addETitle').val('');
                         $('#addEDesc').val('');
                         $('#addEDate').val('');
@@ -275,7 +265,7 @@
                 type: "POST",
                 dataType: 'json',
                 data: {
-                    constituency_id: $('#editEc').val(),
+                    constituency_id: $('#ConstituencyeditValue').val(),
                     name: $('#editETitle').val(),
                     description: $('#editEDesc').val(),
                     startdate: $('#editEDate').val(),

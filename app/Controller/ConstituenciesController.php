@@ -8,6 +8,8 @@ App::uses('AppController', 'Controller');
 class ConstituenciesController extends AppController {
 
     var $uses = array('Candidate', 'Constituency');
+    
+    public $helpers = array("Html", "Form", "TwitterBootstrap.TwitterBootstrap", "EvForm");
 
     /**
      * index method

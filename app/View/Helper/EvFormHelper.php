@@ -55,8 +55,8 @@ class EvFormHelper extends AppHelper {
 		$(document).ready(function(){
 			
 			$("#<?=$model.$pfx?> input[type=text]").autocomplete({
-				  source: "<?=FULL_BASE_URL?>/evmini/<?=Inflector::tableize($model)?>/selectorJSON",
-				  minLength: 3,
+				  source: "<?=FULL_BASE_URL?>/<?=Inflector::tableize($model)?>/selectorJSON",
+				  minLength: 1,
 				  select: function( event, ui ) {
 					
 					$("#<?=$model.$pfx?>Value")[0].setAttribute('value', ui.item.id);

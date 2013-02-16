@@ -227,8 +227,14 @@ class AppController extends Controller {
 		$modelName = Inflector::singularize($this->name);
 		$model = $this->$modelName;
 		
+		// Need to handle empty $_GET conditions
+		$term = "";
+		if (isset($_GET)  && !empty($_GET['term'])) :
+		  $term = $_GET['term'];
+        endif;
+		
 		// Obtain a simple list of {id:name}
-		$places = $model->find('list', array('conditions' => array($modelName.".name LIKE" => "%".$_GET['term']."%"),
+		$places = $model->find('list', array('conditions' => array($modelName.".name LIKE" => "%".$term."%"),
 													      'recursive' => 0, 'limit' => 10));
 		
 		$json = array();

@@ -53,6 +53,7 @@ function selectElection(id) {
                     $('#editCDate').val(data.enddate);
                     currentElection = id;
                     if($('#editE').hasClass('hidden')) {
+                        $('#Constituencyedit input').val( data.constituency_name ).text();
                         $('#editE').hide().removeClass('hidden').fadeIn('slow');
                     }
                     if($('#addE').hasClass('hidden')) {
@@ -197,12 +198,12 @@ function postElection() {
 }
 
 function addEc(id) {
-    $('#addEc').val(id);
+   // $('#ConstituencyaddValue').val(id);
     $('#addEcDrop a span').html($('#editEc_'+id+' a').html());
     $('div.modal-footer button.btn-primary').removeAttr('disabled');
 }
 function editEc(id) {
-    $('#editEc').val(id);
+    $('#ConstituencyeditValue').val(id);
     $('#editEcDrop a span').html($('#editEc_'+id+' a').html());
 }
 

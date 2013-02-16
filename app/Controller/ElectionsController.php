@@ -186,6 +186,7 @@ class ElectionsController extends AppController {
             "startdate" => date("m/d/Y", strtotime($election['Election']['startdate'])),
             "enddate" => date("m/d/Y", strtotime($election['Election']['enddate'])),
             "constituency_id" => $election['Election']['constituency_id'],
+            "constituency_name" => $election['Constituency']['name'],
             "description" => $election['Election']['description'],
             "moderate" => in_array($this->_currentUser['User']['id'], explode(',', $election['Election']['mods'])) ? true : false,
             "mods" => $moderators,
