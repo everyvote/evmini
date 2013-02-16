@@ -8,7 +8,7 @@
     						 <button class="btn pull-right btn-small btn-primary" id="share" data-toggle="modal" data-target="#shareModal"><i class="icon-white icon-bullhorn"></i> Share This Election</button>
                         </div>
                         <div>
-                        <strong style="display:inline-block;width:140px;"><?=ucfirst($CONSTITUENCY)?></strong>
+                        <strong style="display:inline-block;width:140px;"><?=ucfirst(Inflector::pluralize($CONSTITUENCY))?></strong>
                         <?php echo $this->EvForm->selector('Constituency', 'add', 'span5', 'selectConstituency(ui.item.id)'); ?>
                     </div>
 					</p>
