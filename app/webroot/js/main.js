@@ -35,7 +35,7 @@ function selectElection(id) {
                 $('#leave').hide();
             }
             $('#electionDescription').fadeOut('fast', function() {
-                $(this).html(data.description).fadeIn('slow');
+                $(this).html(nl2br(data.description)).fadeIn('slow');
                 runUl = "";
                 filterUi = "";
                 $.each(data.offices, function(i, office) {
@@ -242,4 +242,9 @@ function removeComment(id) {
             window.location.reload();
         }
     });
+}
+
+function nl2br (str, is_xhtml) {
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
