@@ -103,6 +103,7 @@ class ElectionsController extends AppController {
             $data['startdate'] = date('Y-m-d h:i:s', strtotime($data['startdate']));
             $data['enddate'] = date('Y-m-d h:i:s', strtotime($data['enddate']));
             if ($this->Election->save($data)) {
+                echo json_encode(array("status" => "success", "election" => $this->Election->id));
                 $this->Session->setFlash(__('The election has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {

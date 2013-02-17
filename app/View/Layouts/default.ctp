@@ -277,7 +277,7 @@
                 success: function(data) {
                     result = eval(data);
                     if(result.status=="success") {
-                        alert("Election updated successfully!");
+                        selectElection(currentElection);
                     }
                 }
             });
