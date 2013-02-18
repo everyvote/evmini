@@ -182,10 +182,16 @@ class AppController extends Controller {
      * @author khoople
      */
     private function _redirectToLoginUrl() {
+		
+		
+	// Determine whether we're on HTTP / HTTPS
+    $proto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
+              || $_SERVER['SERVER_PORT'] == 443) ? "https" :"http";
+		
         $url = $this->_facebook->getLoginUrl(array(
             'canvas'       => 1,
             'fbconnect'    => 0,
-            'redirect_uri' => 'http://'.$_SERVER['SERVER_NAME'].Router::url('/'),
+            'redirect_uri' => $proto.'://'.$_SERVER['SERVER_NAME'].Router::url('/'),
             'prev'         => 'http://www.facebook.com',
             'scope'        => 'user_about_me,publish_stream'
         ));
