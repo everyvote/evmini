@@ -93,13 +93,25 @@ class AppController extends Controller {
         $this->_initFacebook();
         $facebookId = $this->_facebook->getUser();
 
-
         // If can't get facebook uid, they must accept the app and/or login
 
                 //CPB
         if (!$facebookId) {
             $this->_redirectToLoginUrl();
+        } else {
+            // make sure the user is still logged in
+            try {
+                $me = $this->_facebook->api('/me');
+                if ($me) {
+                    //User is logged in
+                }
+            } catch (FacebookApiException $e) {
+                //User is not logged in
+                $this->_redirectToLoginUrl();
+            }
+            
         }
+        
         $this->loadModel('User');
 
         $user = $this->User->findByFacebookId($facebookId);
