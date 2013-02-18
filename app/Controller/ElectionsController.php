@@ -36,6 +36,8 @@ class ElectionsController extends AppController {
             throw new NotFoundException(__('Invalid election'));
         }
         //$this->set('election', $this->Election->read(null, $id));
+        
+        $offices = $this->Election->Office->find('all', array('conditions' => array('election_id' => $id)));
 
         $election = $this->Election->read(null, $id);
         $electionID = $id;
@@ -46,7 +48,7 @@ class ElectionsController extends AppController {
         $allConstituencies = $this->Election->Candidate->find('all', array('conditions' => array('Candidate.user_id' => $this->_currentUser['User']['id']),
                                                                            'recursive' => 2));
         
-        $this->set(compact('callback','election', 'electionID', 'constituentID', 'officeID', 'allConstituencies'));
+        $this->set(compact('callback','election', 'electionID', 'constituentID', 'officeID', 'allConstituencies', 'offices'));
 
         //$this->redirect(array('controller' => 'constituencies', 'action' => 'index', 'home'));
     }
