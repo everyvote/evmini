@@ -94,7 +94,20 @@
                     </div>
                     <div>
                         <strong style="display:inline-block;width:140px;">Offices:</strong>
-                        <input name="offices" id="editEOffices" class="span5" size="16" type="text">
+                        <?php 
+                            $officeText = "";
+                            $officeID = "";
+                            $officeName = array();
+                            $officeIDs = array();
+                            foreach($offices as $office) :
+                                $officeName[] = $office['Office']['name'];
+                                $officeIDs[] = $office['Office']['id'];
+                            endforeach;
+                            $officeText .= implode(",", $officeName);
+                            $officeID .= implode(",", $officeIDs);
+                        ?>
+                        <input name="offices" id="editEOffices" class="span5" size="16" type="text" value="<?php echo $officeText; ?>">
+                        <input name="officeids" id="editEOfficeids" type="hidden" value="<?php echo $officeID; ?>">
                         <p style="text-align:right;font-size:12px;color:#999;">use commas to separate, include district #s (example: Senator - District 1, Senator - District 2, etc.)</p>
                     </div>
                     <div>
@@ -186,11 +199,47 @@
                     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><em class="icon-ok icon-white"></em> Okay</button>
                 </div>
             </div>
+            
+            
+            
+            <div class="modal" style="display:none; width: 660px;" id="contactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <h6>Contact Us <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+                </div>
+                <div class="modal-body">
+                    
+                    <div>
+                        <strong style="display:inline-block;width:140px;">Name</strong>
+                        <input type="text" class="span5" id="contactName" name="contactName" />
+                    </div>
+                    
+                    <div>
+                        <strong style="display:inline-block;width:140px;">Email Address</strong>
+                        <input type="text" class="span5" id="contactEmail" name="contactEmail" />
+                    </div>
+                    
+                    <div>
+                        <strong style="display:inline-block;width:140px;">University Name</strong>
+                        <input type="text" class="span5" id="contactUniversity" name="contactUniversity" />
+                    </div>
+                    
+                    <div>
+                        <strong style="display:inline-block;width:140px;">Message</strong>
+                        <textarea name="description" id="contactMessage" style="width:410px;height:140px;resize:none;"cols="40" rows="10"></textarea>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" id="contactbutton" data-dismiss="modal" aria-hidden="true" onclick="contactEV();"><em class="icon-ok icon-white"></em> Submit</button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-x"></em> Cancel</button>
+                </div>
+            </div>
 
             <!-- Header container -->
             <div class="row">
                 <div class="span2">
                     <a href="<?=Router::url('/', true)?>"><?=$this->Html->image(Router::url('/', true).'img/copy-logo.png')?></a>
+                    <a id="contactEV" data-target="#contactForm" data-toggle="modal" href="#">Contact EV</a>
                     <?php if($back) : ?>
                         <a class="btn btn-small btn-primary" id="back" href="<?php echo $this->base; ?>/elections/view/<?php echo $electionID; ?>">Return to Election</a>
                     <?php endif; ?>
@@ -279,6 +328,24 @@
                     if(result.status=="success") {
                         selectElection(currentElection);
                     }
+                }
+            });
+            return false;
+        }
+        
+        function contactEV() {
+            $.ajax({
+                url: url+'constituencies/contact/',
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    name: $('#contactName').val(),
+                    email: $('#contactEmail').val(),
+                    university: $('#contactUniversity').val(),
+                    message: $('#contactMessage').val(),
+                },
+                success: function(data) {
+                    result = eval(data);
                 }
             });
             return false;
