@@ -244,12 +244,10 @@
                         <a class="btn btn-small btn-primary" id="back" href="<?php echo $this->base; ?>/elections/view/<?php echo $electionID; ?>">Return to Election</a>
                     <?php endif; ?>
                 </div>
-                <div class="span4 offset3 menu" id="menu">
+                <div class="span7 offset3 menu" id="menu">
                     <div>
                         <a class="btn btn-primary btn-small hidden" id="editE" href="#"><i class="icon-pencil icon-white"></i> Edit Election</a>
                         <a class="btn btn-small btn-primary" id="addE" href="#"> <i class="icon-plus icon-white"></i> Add Election</a>
-                    </div>
-                    <div class="pt5">
                         <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#">My Profile</a>
                         <div class="dropdown inline-block">
                         <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#">Run for Office</a>
@@ -258,6 +256,16 @@
                           </div>
                         <a class="btn btn-small btn-danger hidden" id="leave" href="#">Leave Race</a>
                     </div>
+<!--                    <div class="pt5">
+                        <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#">My Profile</a>
+                        <div class="dropdown inline-block">
+                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#">Run for Office</a>
+                          <ul class="dropdown-menu" role="menu" id="runUl" aria-labelledby="dLabel">
+                          </ul>
+                          </div>
+                        <a class="btn btn-small btn-danger hidden" id="leave" href="#">Leave Race</a>
+                    </div>
+                    -->
                 </div>
             </div>
             <hr>
