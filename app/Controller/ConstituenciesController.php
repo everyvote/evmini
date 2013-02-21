@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Constituencies Controller
  *
@@ -125,5 +126,27 @@ class ConstituenciesController extends AppController {
             throw new NotFoundException(__('Invalid constituency'));
         }
         $this->set('constituency', $this->Constituency->read(null, $id));
+    }
+    
+    public function contact () {
+    
+        //$adminEmail = Configure::read('contactEmail');
+        $adminEmail = 'contactus@everyvote.org';
+        
+        if (!$this->request->is('post')) {
+            throw new MethodNotAllowedException();
+        } else {
+            $contactData = $this->request->data;
+            
+            $email = new CakeEmail();
+            $email->viewVars(array('subject' => $contactData['university'], 'msg' => $contactData['message']));
+            $email->to($adminEmail)
+                  ->subject($contactData['university'])
+                  ->from($contactData['email'])
+                  ->send($contactData['message']);
+                  
+    
+        }
+        return;
     }
 }
