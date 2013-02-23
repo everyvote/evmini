@@ -201,3 +201,5 @@ Configure::write('Opauth.Strategy.Facebook', array(
  */
 Configure::write('Opauth.path', '/evmini/auth/');
 Configure::write('Opauth.callback_url', '/evmini/auth/callback');
+
+Configure::write('contactEmail', 'peter@phpwerks.com');

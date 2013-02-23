@@ -15,12 +15,20 @@
         </div>
         
         <div class="span9">
+        <!--
             <p>
                 <div class="dropdown hidden" id="electionsselect">
                     <strong>Election:</strong>  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span><?php echo $election['Election']['name']; ?></span> <i class="icon-chevron-down"></i></a>
                     <ul class="dropdown-menu" role="menu" id="electionslist">
 						  						  						  						  						                            
                     </ul>
+                </div>
+            </p>
+        -->
+            <p>
+                <div class="dropdown hidden" id="electionsselect">
+                    <strong>Election:</strong>
+                    <?php echo $this->EvForm->selector('Election', 'edit', 'span5', 'selectElection(ui.item.id)'); ?>
                 </div>
             </p>
             <p id="electionDescription">

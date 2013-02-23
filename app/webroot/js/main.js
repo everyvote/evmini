@@ -1,5 +1,7 @@
 var election=0;
 var constituency=0;
+var filter_id = 0;
+var sorting_id = 0;
 function selectConstituency(id) {
    // $('#constituencyselect a span').html($('#c'+id+" a").html());
    // $('#clogo').hide().removeClass('hidden');
@@ -20,7 +22,7 @@ function selectConstituency(id) {
     constituency=id;
 }
 function selectElection(id) {
-    $('#electionsselect a span').html($('#e'+id+" a").html());
+    //$('#electionsselect a span').html($('#e'+id+" a").html());
     $.ajax({
         url:url+'elections/load/'+id,
         success: function(data) {
@@ -55,6 +57,8 @@ function selectElection(id) {
                     if($('#editE').hasClass('hidden')) {
                         $('#Constituencyedit input').val( data.constituency_name ).text();
                         $('#ConstituencyeditValue').val( data.constituency_id );
+                        $('#Electionedit input').val( data.name ).text();
+                        $('#ElectioneditValue').val( id );
                         $('#editE').hide().removeClass('hidden').fadeIn('slow');
                     }
                     if($('#addE').hasClass('hidden')) {
@@ -97,6 +101,11 @@ function selectElection(id) {
                 
                 // Load set of candidates randomly.
                 loadCandidates(id,0,5);
+                // Reset the sort/filter list
+                $('#sort-list span').html('Random');
+                $('#filter-list span').html('All Offices');
+                filter_id = 0;
+                sorting_id = 0;
                 
                 election = id;
             });
@@ -223,15 +232,17 @@ function editAbout(id) {
 }
 
 function sortElection(id) {
+    sorting_id = id;
     $('#sort-list span').html($('#sorting div.pull-right ul li[id='+id+'] a').html());
-    $('#filter-list span').html('All Offices');
-    loadCandidates(election,0,id);
+ //   $('#filter-list span').html('All Offices');
+    loadCandidates(election,filter_id,id);
 }
 
 function filterElections(id) {
+    filter_id = id;
     $('#filter-list span').html($('#sorting div.pull-left ul li[id=o-'+id+'] a').html());
-    $('#sort-list span').html('Random');
-    loadCandidates(election, id, 0);
+//    $('#sort-list span').html('Random');
+    loadCandidates(election, id, sorting_id);
 }
 
 function removeComment(id) {

@@ -14,6 +14,7 @@
 					</p>
 				</div>
 				<div class="span9">
+				<!--
 					<p>
 						<div class="dropdown hidden" id="electionsselect">
 						<strong>Election:</strong>  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Select an election</span> <i class="icon-chevron-down"></i></a>
@@ -22,6 +23,15 @@
 						  </ul>
 						 </div>
 					</p>
+					-->
+					
+					<p>
+					   <div class="hidden" id="electionsselect">
+    					   <strong>Election:</strong>
+    					   <?php echo $this->EvForm->selector('Election', 'add', 'span5', 'selectElection(ui.item.id)'); ?>
+					   </div>
+    				</p>
+    				
 					<p id="electionDescription">
 						
 					</p>

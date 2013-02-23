@@ -52,7 +52,7 @@
                     <div>
                         <strong style="display:inline-block;width:140px;">Offices:</strong>
                         <input name="offices" id="addEOffices" class="span5" size="16" type="text">
-                        <p style="font-size:12px;color:#999;">use commas to separate, include district #s (example: Senator - District 1, Senator - District 2, etc.)</p>
+                        <p style="font-size:12px;color:#999;">use commas to separate, include district #s (example: Senator - District 1, etc.)</p>
                     </div>
                     <div>
                         <strong style="display:inline-block;width:140px;">Moderator:</strong>
@@ -108,7 +108,7 @@
                         ?>
                         <input name="offices" id="editEOffices" class="span5" size="16" type="text" value="<?php echo $officeText; ?>">
                         <input name="officeids" id="editEOfficeids" type="hidden" value="<?php echo $officeID; ?>">
-                        <p style="text-align:right;font-size:12px;color:#999;">use commas to separate, include district #s (example: Senator - District 1, Senator - District 2, etc.)</p>
+                        <p style="text-align:right;font-size:12px;color:#999;">use commas to separate, include district #s (example: Senator - District 1, etc.)</p>
                     </div>
                     <div>
                         <strong style="display:inline-block;width:140px;">Moderator:</strong>
@@ -244,12 +244,10 @@
                         <a class="btn btn-small btn-primary" id="back" href="<?php echo $this->base; ?>/elections/view/<?php echo $electionID; ?>">Return to Election</a>
                     <?php endif; ?>
                 </div>
-                <div class="span4 offset3 menu" id="menu">
+                <div class="span7 offset3 menu" id="menu">
                     <div>
                         <a class="btn btn-primary btn-small hidden" id="editE" href="#"><i class="icon-pencil icon-white"></i> Edit Election</a>
                         <a class="btn btn-small btn-primary" id="addE" href="#"> <i class="icon-plus icon-white"></i> Add Election</a>
-                    </div>
-                    <div class="pt5">
                         <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#">My Profile</a>
                         <div class="dropdown inline-block">
                         <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#">Run for Office</a>
@@ -258,6 +256,16 @@
                           </div>
                         <a class="btn btn-small btn-danger hidden" id="leave" href="#">Leave Race</a>
                     </div>
+<!--                    <div class="pt5">
+                        <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#">My Profile</a>
+                        <div class="dropdown inline-block">
+                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#">Run for Office</a>
+                          <ul class="dropdown-menu" role="menu" id="runUl" aria-labelledby="dLabel">
+                          </ul>
+                          </div>
+                        <a class="btn btn-small btn-danger hidden" id="leave" href="#">Leave Race</a>
+                    </div>
+                    -->
                 </div>
             </div>
             <hr>
