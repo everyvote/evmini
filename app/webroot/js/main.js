@@ -22,7 +22,7 @@ function selectConstituency(id) {
     constituency=id;
 }
 function selectElection(id) {
-    //$('#electionsselect a span').html($('#e'+id+" a").html());
+    $('#electionsselect a span').html($('#e'+id+" a").html());
     $.ajax({
         url:url+'elections/load/'+id,
         success: function(data) {
@@ -57,8 +57,6 @@ function selectElection(id) {
                     if($('#editE').hasClass('hidden')) {
                         $('#Constituencyedit input').val( data.constituency_name ).text();
                         $('#ConstituencyeditValue').val( data.constituency_id );
-                        $('#Electionedit input').val( data.name ).text();
-                        $('#ElectioneditValue').val( id );
                         $('#editE').hide().removeClass('hidden').fadeIn('slow');
                     }
                     if($('#addE').hasClass('hidden')) {
