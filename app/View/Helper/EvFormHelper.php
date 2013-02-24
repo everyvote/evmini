@@ -55,7 +55,7 @@ class EvFormHelper extends AppHelper {
 		$(document).ready(function(){
 			
 			$("#<?=$model.$pfx?> input[type=text]").autocomplete({
-				  source: "<?=FULL_BASE_URL?>/<?=Inflector::tableize($model)?>/selectorJSON",
+				  source: "<?=Router::url('/', true)?>/<?=Inflector::tableize($model)?>/selectorJSON",
 				  minLength: 1,
 				  select: function( event, ui ) {
 					
