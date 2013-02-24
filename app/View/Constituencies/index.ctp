@@ -9,7 +9,7 @@
                         </div>
                         <div>
                         <strong style="display:inline-block;width:140px;"><?=ucfirst(Inflector::pluralize($CONSTITUENCY))?></strong>
-                        <?php echo $this->EvForm->selector('Constituency', 'add', 'span5', 'selectConstituency(ui.item.id)'); ?>
+                        <?php echo $this->EvForm->selector('Constituency', 'find', 'span5', 'selectConstituency(ui.item.id)'); ?>
                     </div>
 					</p>
 				</div>
