@@ -108,11 +108,8 @@ class ElectionsController extends AppController {
             
                 if ($data['officeid']) {
                     $office = $this->Election->Office->read(null, $data['officeid']);
-                    var_dump($office);
                     $office['Office']['name'] = $data['office'];
                     $this->Election->Office->save($office);
-                    
-                    print_r($this->Election->Office->validationErrors);
                     
                 } else {
                     $this->Election->Office->create();
