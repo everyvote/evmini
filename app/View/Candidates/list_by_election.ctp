@@ -7,7 +7,10 @@
 <?php
 	else :
 ?>
-	<?php foreach($candidates as $candidate) : ?>
+	<?php foreach($candidates as $candidate) : 
+    	
+    	   if ($candidate['Office']['active'] == 1) :
+	?>
             <div class="row">
                 <div class="span3">
 					<p><?= $this->Html->link(
@@ -42,7 +45,10 @@
                 </div>
             </div>
             <hr>
-	<?php endforeach; ?>
+            
+	<?php 
+	   endif;
+	   endforeach; ?>
 <?php
 	endif;
 ?>
