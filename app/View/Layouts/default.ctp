@@ -521,11 +521,13 @@
         
         function removeMod(index) {
             mods.splice(index,1);
-            updateModerators();
+            emods.splice(index,1);
+            updateEModerators();
 
         }
         function removeEMod(index) {
             emods.splice(index,1);
+            mods.splice(index,1);
             updateEModerators();
         }
         
