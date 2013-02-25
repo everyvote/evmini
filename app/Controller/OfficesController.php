@@ -100,4 +100,24 @@ class OfficesController extends AppController {
 		$this->Session->setFlash(__('Office was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+	
+	public function json($id = null) {
+		$this->layout='ajax';
+		
+		$data = $this->Office->find('all', array('conditions' => array('Office.election_id' => $id)));
+		$offices = array();
+		foreach($data as $office) {
+			$offices[]=array('id'=>$office['Office']['id'],'value'=>$office['Office']['name'],'label'=>$office['Office']['name']);
+		}
+		$this->set('offices', $offices);	
+	}
+	
+	public function json_delete($id = null) {
+    	$this->layout='ajax';
+    	
+    	$data = $this->Office->read(null, $id);
+    	$data['Office']['active'] = 0;
+    	$this->Office->save($data['Office']);
+
+	}
 }

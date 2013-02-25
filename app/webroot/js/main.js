@@ -84,6 +84,17 @@ function selectElection(id) {
                         }
                     });
                     
+                    eoffs = [];
+                    $.each(data.offices, function(index, item){
+                        if (item) {
+                            var off=[] 
+                                off[0]=item.Office.id;
+                                off[1]=item.Office.name;
+                                eoffs.push(off);
+                                updateEOffices();
+                        }
+                    });
+                    
                 }
                 else {
                     $('#editE').fadeOut('fast',function() {

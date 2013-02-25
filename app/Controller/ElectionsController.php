@@ -105,6 +105,22 @@ class ElectionsController extends AppController {
             $data['startdate'] = date('Y-m-d h:i:s', strtotime($data['startdate']));
             $data['enddate'] = date('Y-m-d h:i:s', strtotime($data['enddate']));
             if ($this->Election->save($data)) {
+            
+                if ($data['officeid']) {
+                    $office = $this->Election->Office->read(null, $data['officeid']);
+                    var_dump($office);
+                    $office['Office']['name'] = $data['office'];
+                    $this->Election->Office->save($office);
+                    
+                    print_r($this->Election->Office->validationErrors);
+                    
+                } else {
+                    $this->Election->Office->create();
+                    $this->Election->Office->set('election_id', $id);
+                    $this->Election->Office->set('name', $data['office']);
+                    $this->Election->Office->save();
+                }
+                
                 echo json_encode(array("status" => "success", "election" => $this->Election->id));
                 $this->Session->setFlash(__('The election has been saved'));
                 $this->redirect(array('action' => 'index'));
@@ -170,6 +186,7 @@ class ElectionsController extends AppController {
             throw new NotFoundException(__('Invalid election'));
         }
         $election = $this->Election->read(null, $id);
+        
         $moderators = array();
         foreach (explode(',', $election['Election']['mods']) as $mod) {
             $moderators[] = $this->User->find('first', array('conditions' => array('User.id' => $mod)));
@@ -194,9 +211,9 @@ class ElectionsController extends AppController {
             "moderate" => in_array($this->_currentUser['User']['id'], explode(',', $election['Election']['mods'])) ? true : false,
             "mods" => $moderators,
             "blockusers" => $blockusers,
-            "offices" => $this->Office->find('all', array('conditions' => array('Office.election_id = ' => $id))),
+            "offices" => $this->Office->find('all', array('conditions' => array('Office.election_id = ' => $id, 'Office.active' => 1))),
             "run" => $candidate,
-            "blockthisuser" => $blockthisuser
+            "blockthisuser" => $blockthisuser,
         );
         $this->set('election', $data);
     }

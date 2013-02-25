@@ -92,24 +92,16 @@
                         <strong style="display:inline-block;width:140px;">Close date:</strong>
                         <input class="datepicker span5" name="closedate" id="editCDate" size="16" type="text">
                     </div>
+                    
                     <div>
                         <strong style="display:inline-block;width:140px;">Offices:</strong>
-                        <?php 
-                            $officeText = "";
-                            $officeID = "";
-                            $officeName = array();
-                            $officeIDs = array();
-                            foreach($offices as $office) :
-                                $officeName[] = $office['Office']['name'];
-                                $officeIDs[] = $office['Office']['id'];
-                            endforeach;
-                            $officeText .= implode(",", $officeName);
-                            $officeID .= implode(",", $officeIDs);
-                        ?>
-                        <input name="offices" id="editEOffices" class="span5" size="16" type="text" value="<?php echo $officeText; ?>">
-                        <input name="officeids" id="editEOfficeids" type="hidden" value="<?php echo $officeID; ?>">
-                        <p style="text-align:right;font-size:12px;color:#999;">use commas to separate, include district #s (example: Senator - District 1, etc.)</p>
+                        <input id="eoffices" class="span5" size="16" type="text">
+                        <ul id="eofficesList"></ul>
+                        <input type="hidden" name="offices" id="eoffs" />
                     </div>
+                    
+                    
+                    
                     <div>
                         <strong style="display:inline-block;width:140px;">Moderator:</strong>
                         <input id="emoderators" class="span5" size="16" type="text">
@@ -281,6 +273,7 @@
         var emods=[];
         var users=[];
         var eusers=[];
+        var eoffs= [];
         var currentElection=0;
         var blockthisuser=0;
         function addElection() {
@@ -329,12 +322,15 @@
                     enddate: $('#editCDate').val(),
                     offices: $('#editEOffices').val(),
                     mods: $('#emods').val(),
-                    blockusers: $('#eblock').val()
+                    blockusers: $('#eblock').val(),
+                    office: $('#eoffices').val(),
+                    officeid: $('#eoffs').val(),
                 },
                 success: function(data) {
                     result = eval(data);
                     if(result.status=="success") {
                         selectElection(currentElection);
+                        $('#eoffices').val('');
                     }
                 }
             });
@@ -434,6 +430,35 @@
                 }
             });
         }
+        
+        function getOffices() {
+            $.ajax({
+                url: url+'offices/json/'+currentElection,
+                dataType: 'json',
+                async: false,
+                success: function(data) {
+                    options = {
+                        source:eval(data),
+                        autoFocus: true,
+                        select:function(event,item){
+                            var mod=[];
+                            off[0] = item.item.id;
+                            off[1] = item.item.value;
+                            eoffs.push(off);
+                            $('#eoffices').val('');
+                            updateEOffices();
+                            return false;
+                        }
+                     };
+                     return true;
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    //console.log(textStatus, errorThrown);   NPT SUPPORTED IN IE9
+                    return true;
+                }
+            });
+        }
+        
         function updateModerators() {
             var modlist = '';
             var ids = [];
@@ -482,14 +507,48 @@
             $('#eblockuserList').html(userlist);
         }
         
+        function updateEOffices() {
+            var officelist = '';
+            var ids = [];
+            jQuery.each(eoffs, function(index, off) {
+                officelist+="<li><a href='#' onclick='editEOffice("+index+")'>"+off[1]+"</a> <a href='#' onclick='removeEOffice("+index+")'>[x]</a></li>";
+                ids.push(off[0]);
+            
+            });
+            
+            $('#eofficesList').html(officelist);
+        }
+        
         function removeMod(index) {
             mods.splice(index,1);
             updateModerators();
+
         }
         function removeEMod(index) {
             emods.splice(index,1);
             updateEModerators();
         }
+        
+        function removeEOffice(index) {
+            
+            $.ajax({
+                url: url+'offices/json_delete/'+eoffs[index][0],
+                type: "POST",
+                dataType: 'json',
+                success: function(data) {
+                    eoffs.splice(index,1);            
+                    updateEOffices(index);  
+                }
+            });
+                        
+        }
+        
+        function editEOffice(index) {
+            
+            $('#eoffices').val(eoffs[index][1]);
+            $('#eoffs').val(eoffs[index][0]);
+        }
+        
         function removeUser(index) {
             users.splice(index,1);
             updateBlockUsers();
@@ -523,14 +582,16 @@
             });
             getModerators();
             getUsers();
+            getOffices();
 
          <?php if (!empty($callback) && $callback != "/"): ?>
             selectConstituency(<?php echo $constituentID; ?>);
             selectElection(<?php echo $officeID; ?>);
         <?php endif; ?>
         });
-
+        
         </script>
+        
     </body>
 
 </html>
