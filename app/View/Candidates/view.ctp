@@ -16,7 +16,7 @@
             </p>
         </div>
         <div class="span6">
-            <button class="btn pull-right btn-small btn-primary" id="share" data-toggle="modal" data-target="#shareModal"><i class="icon-white icon-bullhorn"></i> Share the profile</button>
+            <button class="btn pull-right btn-small btn-primary" id="share" data-toggle="modal" data-target="#shareModal"><i class="icon-white icon-bullhorn"></i> Share this Profile</button>
             <h3><a href="#"><?=$candidate['User']['name']?></a></h3>
             <p><strong>Running for:</strong> <?=$candidate['Office']['name']?></p>
             <p id="aboutme"><?= $this->EvText->format($candidate['Candidate']['about_text']) ?></p>
@@ -155,7 +155,7 @@
 
     <div class="modal" style="display:none" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
         <div class="modal-header">
-            <h6>Share the Profile <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+            <h6>Share this Profile <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
 
         </div>
         <div class="modal-body">
