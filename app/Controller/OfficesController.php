@@ -118,6 +118,8 @@ class OfficesController extends AppController {
     	$data = $this->Office->read(null, $id);
     	$data['Office']['active'] = 0;
     	$this->Office->save($data['Office']);
+//print_r($this->Office->validationErrors);
+
 
 	}
 }

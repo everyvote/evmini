@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" disabled="disabled" data-dismiss="modal" aria-hidden="true" onclick="addElection();"><em class="icon-ok icon-white"></em> Okay</button>
+                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="addElection();"><em class="icon-ok icon-white"></em> Okay</button>
                     <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
                 </div>
             </div>
@@ -232,10 +232,27 @@
                 <div class="span2">
                     <a href="<?=Router::url('/', true)?>"><?=$this->Html->image(Router::url('/', true).'img/copy-logo.png')?></a>
                     <a id="contactEV" data-target="#contactForm" data-toggle="modal" href="#">Contact EV</a>
-                    <?php if($back) : ?>
-                        <a class="btn btn-small btn-primary" id="back" href="<?php echo $this->base; ?>/elections/view/<?php echo $electionID; ?>">Return to Election</a>
-                    <?php endif; ?>
                 </div>
+                <?php 
+                    if ($back) : ?>
+                <div class="span1 offset3 menu" id="menu" style="float:left">
+                    <a class="btn btn-small btn-primary" id="back" href="<?php echo $this->base; ?>/elections/view/<?php echo $electionID; ?>">Return to Election</a>
+                </div> 
+                <div class="span6 offset3 menu" id="menu">
+                    <div>
+                        <a class="btn btn-primary btn-small hidden" id="editE" href="#"><i class="icon-pencil icon-white"></i> Edit Election</a>
+                        <a class="btn btn-small btn-primary" id="addE" href="#"> <i class="icon-plus icon-white"></i> Add Election</a>
+                        <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#">My Profile</a>
+                        <div class="dropdown inline-block">
+                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#">Run for Office</a>
+                          <ul class="dropdown-menu" role="menu" id="runUl" aria-labelledby="dLabel">
+                          </ul>
+                          </div>
+                        <a class="btn btn-small btn-danger hidden" id="leave" href="#">Leave Race</a>
+                    </div>
+                </div>
+                <?php 
+                    else: ?>
                 <div class="span7 offset3 menu" id="menu">
                     <div>
                         <a class="btn btn-primary btn-small hidden" id="editE" href="#"><i class="icon-pencil icon-white"></i> Edit Election</a>
@@ -248,17 +265,8 @@
                           </div>
                         <a class="btn btn-small btn-danger hidden" id="leave" href="#">Leave Race</a>
                     </div>
-<!--                    <div class="pt5">
-                        <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#">My Profile</a>
-                        <div class="dropdown inline-block">
-                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#">Run for Office</a>
-                          <ul class="dropdown-menu" role="menu" id="runUl" aria-labelledby="dLabel">
-                          </ul>
-                          </div>
-                        <a class="btn btn-small btn-danger hidden" id="leave" href="#">Leave Race</a>
-                    </div>
-                    -->
                 </div>
+                <?php endif ?>    
             </div>
             <hr>
             <?php echo $this->fetch('content'); ?>
