@@ -257,8 +257,9 @@ class CandidatesController extends AppController {
     public function post($id, $electionID) {
         $this->layout='ajax';
         $candidate = $this->Candidate->read(null,$id);
+		// TODO: determine if https in a nice way.
         $post_data = array(
-            'link' => "http://mini.everyvote.org/candidates/view/".$id."/".$electionID,
+            'link' => 'https://'.$_SERVER['SERVER_NAME'].Router::url("/candidates/view/").$id."/".$electionID,
             //'message'=> $candidate['User']['name']." running for ".$candidate['Office']['name'],
             'message' => $this->request->data['message'],
             'name' => $candidate['User']['name']." running for ".$candidate['Office']['name'],

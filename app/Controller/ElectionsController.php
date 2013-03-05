@@ -219,8 +219,9 @@ class ElectionsController extends AppController {
         $this->layout = 'ajax';
         if ($this->request->is('post')) {
             $election = $this->Election->read(null, $id);
+			// TODO: determine if https in a nice way.
             $post_data = array(
-                'link' => "http://mini.everyvote.org/elections/view/" . $id,
+                'link' => 'https://'.$_SERVER['SERVER_NAME'].Router::url("/elections/view/").$id,
                 'message' => $this->request->data['message'],
                 'name' => $election['Election']['name'],
                 'description' => $election['Election']['description']
