@@ -52,8 +52,8 @@
                 	<li id="5"><a href="#" onclick="sortElection(5);">Random</a></li>
                     <li id="1"><a href="#" onclick="sortElection(1);">Date Added</a></li>
                     <li id="2"><a href="#" onclick="sortElection(2);">Alphabetical</a></li>
-                    <li id="3"><a href="#" onclick="sortElection(3);">Most support votes</a></li>
-                    <li id="4"><a href="#" onclick="sortElection(4);">Most opposite votes</a></li>
+                    <li id="3"><a href="#" onclick="sortElection(3);">Most supported</a></li>
+                    <li id="4"><a href="#" onclick="sortElection(4);">Most opposed</a></li>
                 </ul>
             </div>
         </div>
