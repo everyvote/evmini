@@ -235,16 +235,30 @@ class CandidatesController extends AppController {
     }
 
     public function run($id) {
+        
+        if (strtoupper($_SERVER['REQUEST_METHOD']) != "POST")
+            throw new BadRequestException();
+
+        // Obtain "About me"
+        $description = isset($_POST["description"]) ? $_POST["description"] : "";
+
+
         $this->layout = 'ajax';
         $this->loadModel('Office');
         $office = $this->Office->read(null,$id);
 
         $data['user_id'] = $this->_currentUser['User']['id'];
         $data['office_id'] = $id;
-        $data['about_text'] = $_POST["description"];
+        $data['about_text'] = $description;
         $data['election_id'] = $office['Office']['election_id'];
 
-        $this->Candidate->Save($data);
+        $result = $this->Candidate->Save($data);
+        
+        
+        if (!$result) {
+            throw new InternalErrorException($this->validationErrors);
+        }
+        
     }
 
     public function leave($id) {

@@ -47,7 +47,7 @@ class Candidate extends AppModel {
         ),
         'about_text' => array(
             'notempty' => array(
-                'rule' => array('notempty'),
+                'rule' => array('allowEmpty' => true)
                 //'message' => 'Your custom message here',
                 //'allowEmpty' => false,
                 //'required' => false,

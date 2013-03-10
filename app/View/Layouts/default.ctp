@@ -134,7 +134,7 @@
                         <div class="span2"><img src="<?=$currentUser['User']['image']?>" alt="<?=$currentUser['User']['name']?>" class="img-rounded" /></div>
                         <div class="span4">
                             <h5><?=$currentUser['User']['name']?></h5>
-                            <h6>About me:</h6>
+                            <h6>About me (optional):</h6>
                             <p>
                                 <textarea id="aboutrun" style="resize:none;width:300px" cols="30" rows="5"></textarea>
                             </p>
