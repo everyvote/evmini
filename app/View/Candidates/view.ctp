@@ -6,13 +6,15 @@
         <div class="span3">
             <p><a href="#" class="thumbnail"><img src="<?=$candidate['User']['image']?>" class="img-rounded" /></a></p>
             <p class="pagination-centered" id="votes<?=$candidate['Candidate']['id']?>">
-            <?php if(!$votes['casted']['Vote']['stances_id']) : ?>
+            <?php //if(!$votes['casted']['Vote']['stances_id']) : ?>
                 <a class="btn btn-small btn-success" id="votes<?=$candidate['Candidate']['id']?>_1" href="#" onclick="vote(<?=$candidate['Candidate']['id']?>,1);"><i class="icon-thumbs-up"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_1"><?=$votes['positive']?></span></a>
                 <a class="btn btn-small btn-danger" id="votes<?=$candidate['Candidate']['id']?>_3" href="#" onclick="vote(<?=$candidate['Candidate']['id']?>,3);"><i class="icon-thumbs-down"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_3"><?=$votes['negative']?></span></a>
-            <?php else : ?>
+            <?php //else : ?>
+                <!--
                 <a class="btn btn-small disabled <?=$votes['casted']['Vote']['stances_id']==1 ? 'btn-success' : '' ?>" id="votes<?=$candidate['Candidate']['id']?>_1" href="#"><i class="icon-thumbs-up"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_1"><?=$votes['positive']?></span></a>
                 <a class="btn btn-small disabled <?=$votes['casted']['Vote']['stances_id']==3 ? 'btn-danger' : '' ?>" id="votes<?=$candidate['Candidate']['id']?>_3" href="#"><i class="icon-thumbs-down"></i><span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_3"><?=$votes['negative']?></span></a>
-            <?php endif; ?>
+                -->
+            <?php //endif; ?>
             </p>
         </div>
         <div class="span6">

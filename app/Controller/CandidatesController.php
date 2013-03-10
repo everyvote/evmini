@@ -163,6 +163,8 @@ class CandidatesController extends AppController {
         
         if (empty($blockedUsers)) :
             $blockedUsers[] = 0;
+        else :
+            $conditions[] = array('Candidate.user_id NOT' => $blockedUsers);
         endif;
         
         $moderators = array();
@@ -172,7 +174,6 @@ class CandidatesController extends AppController {
                 $moderators[] = $user['User']['name'];
             endforeach;
         endif;
-        
         
         $conditions[] = array('Candidate.election_id = ' => $id);
 
@@ -185,12 +186,10 @@ class CandidatesController extends AppController {
             $order = array('User.name');
         endif;
 		
-		// If the sort flag is set to 5, then have the model sort randomly.
-		if ($sorting == '5'):
-			
-			$order = array('rand()');
-			
-		endif;
+	// If the sort flag is set to 5, then have the model sort randomly.
+	if ($sorting == '5'):
+            $order = array('rand()');
+        endif;
 		
         foreach ($this->Candidate->find('all', array('conditions' => $conditions, 'order' => $order)) as $candidate) {
             $votes = array('Votes' => array(
