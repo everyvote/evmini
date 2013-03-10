@@ -175,7 +175,6 @@ class CandidatesController extends AppController {
             endforeach;
         endif;
         
-        
         $conditions[] = array('Candidate.election_id = ' => $id);
 
         if ($filter != 0) :
