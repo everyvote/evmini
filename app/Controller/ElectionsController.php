@@ -223,7 +223,7 @@ class ElectionsController extends AppController {
             $post_data = array(
                 'link' => 'https://'.$_SERVER['SERVER_NAME'].Router::url("/elections/view/").$id,
                 'message' => $this->request->data['message'],
-                'name' => $election['Election']['name'],
+                'name' => $election['Election']['name'] . " - " . $election['Constituency']['name'],
                 'description' => $election['Election']['description']
             );
             try {
