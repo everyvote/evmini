@@ -20,10 +20,10 @@
 					?></p>
 					<p class="pagination-centered" id="votes<?=$candidate['Candidate']['id']?>">
 					<?php //if(!$candidate['Votes']['casted']['Vote']['stances_id']) : ?>
-					<a class="btn btn-small btn-success" id="votes<?=$candidate['Candidate']['id']?>_1" href="#" onclick="vote(<?=$candidate['Candidate']['id']?>,1);">
+					<a class="btn btn-small btn-success" id="votes<?=$candidate['Candidate']['id']?>_1" href="javascript:vote(<?=$candidate['Candidate']['id']?>,1)">
                         <i class="icon-thumbs-up"></i><span class="badge btn-success" id="votes_c<?=$candidate['Candidate']['id']?>_1"></span>
                     </a>
-                    <a class="btn btn-small btn-danger" id="votes<?=$candidate['Candidate']['id']?>_3" href="#" onclick="vote(<?=$candidate['Candidate']['id']?>,3);">
+                    <a class="btn btn-small btn-danger" id="votes<?=$candidate['Candidate']['id']?>_3" href="javascript:vote(<?=$candidate['Candidate']['id']?>,3)">
                         <i class="icon-thumbs-down"></i><span class="badge btn-danger" id="votes_c<?=$candidate['Candidate']['id']?>_3"></span>
                     </a>
 					<?php //else : ?>
