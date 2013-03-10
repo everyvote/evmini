@@ -139,11 +139,13 @@ class ConstituenciesController extends AppController {
             $contactData = $this->request->data;
             
             $email = new CakeEmail();
-            $email->viewVars(array('subject' => $contactData['university'], 'msg' => $contactData['message']));
+            $email->viewVars(array('university' => $contactData['university'], 'msg' => $contactData['message'], 'email' =>$contactData['email'], 'name' => $contactData['name']));
+            $email->template('default')
+                    ->emailFormat('html');
             $email->to($adminEmail)
                   ->subject($contactData['university'])
                   ->from($contactData['email'])
-                  ->send($contactData['message']);
+                  ->send();
                   
     
         }
