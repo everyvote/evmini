@@ -177,17 +177,16 @@ function vote(candidate,id) {
     if (blockthisuser == 1) {
         alert('You are not able to vote for this candidate.');
     } else {
-        if(confirm("Are you sure with your vote for this candidate?")) {
-            $.ajax({
-                url:url+'votes/cast/'+candidate+'/'+id,
-                    success: function(data) {
-                        data = eval( '(' + data + ')' );
-                        $('#votes_c'+candidate+'_1').html(data.Votes.positive);
-                        $('#votes_c'+candidate+'_2').html(data.Votes.neutral);
-                        $('#votes_c'+candidate+'_3').html(data.Votes.negative);
-                    }
-                });
-        }
+        
+        $.ajax({
+            url:url+'votes/cast/'+candidate+'/'+id,
+                success: function(data) {
+                    data = eval( '(' + data + ')' );
+                    $('#votes_c'+candidate+'_1').html(data.Votes.positive);
+                    $('#votes_c'+candidate+'_2').html(data.Votes.neutral);
+                    $('#votes_c'+candidate+'_3').html(data.Votes.negative);
+                }
+            });
     }
 }
 function post(candidate,electionID) {
