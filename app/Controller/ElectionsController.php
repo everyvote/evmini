@@ -96,16 +96,35 @@ class ElectionsController extends AppController {
      * @return void
      */
     public function edit($id = null) {
+        
+        $this->layout = '';
+        
         $this->Election->id = $id;
+        
+        // Complain if we can't find the election by specified ID.
         if (!$this->Election->exists()) {
             throw new NotFoundException(__('Invalid election'));
         }
+        
+        // Case: new election data is coming in.
         if ($this->request->is('post') || $this->request->is('put')) {
+            
             $data = $this->request->data;
+            
+            // Fix dates
             $data['startdate'] = date('Y-m-d h:i:s', strtotime($data['startdate']));
             $data['enddate'] = date('Y-m-d h:i:s', strtotime($data['enddate']));
-            if ($this->Election->save($data)) {
             
+            
+            // Save the info.
+            $saveResult = $this->Election->save($data);
+            
+            
+            // If the election was saved in to the model successfully
+            if ($saveResult) {
+            
+                // Do something with offices that I'm not entirely sure
+                // what's going on without some data investigation.
                 if ($data['officeid']) {
                     $office = $this->Election->Office->read(null, $data['officeid']);
                     $office['Office']['name'] = $data['office'];
@@ -118,9 +137,13 @@ class ElectionsController extends AppController {
                     $this->Election->Office->save();
                 }
                 
+                // Finally, return some JSON
                 echo json_encode(array("status" => "success", "election" => $this->Election->id));
+                
                 $this->Session->setFlash(__('The election has been saved'));
                 $this->redirect(array('action' => 'index'));
+            
+            // If the election could not be saved
             } else {
                 $this->Session->setFlash(__('The election could not be saved. Please, try again.'));
             }
