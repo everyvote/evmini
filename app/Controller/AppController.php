@@ -118,7 +118,10 @@ class AppController extends Controller {
 
 
         if ($user) {
-            $this->_currentUser = $user;
+            //$this->_currentUser = $user;
+            // Update the user record with the new image
+            $this->_currentUser = $this->_updateUser($user, $facebookId);
+            
         } else {
             $this->_currentUser = $this->_createUser($facebookId);
         }
@@ -183,6 +186,43 @@ class AppController extends Controller {
         $data['User']['id'] = $this->User->id;
 
         return $data;
+    }
+    
+    /**
+     * Update the user record with an updated profile picture
+     *
+     * TODO: Need error trapping here badly
+     *
+     * @author khoople
+     *
+     * @param int $facebookId
+     * @return array
+     */
+    private function _updateUser($user, $facebookId) {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "http://graph.facebook.com/$facebookId/picture?type=large");
+
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_exec($ch);
+
+        $url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+
+        curl_close($ch);
+
+        $data['User'] = array(
+            'image' => $url,
+            'id'    => $user['User']['id']
+        );
+
+        // Create the new user
+        $this->User->Save($data);
+        
+        return $this->User->findById($user['User']['id']);
+
     }
 
     /**
