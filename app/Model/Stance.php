@@ -10,6 +10,7 @@ class Stance extends AppModel {
  * Validation rules
  *
  * @var array
+ * ouiyhiuyghiuygiuygiuyg
  */
 	public $validate = array(
 		'name' => array(
