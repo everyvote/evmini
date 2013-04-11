@@ -1,6 +1,6 @@
 <?php $this->Html->script('candidate', array('inline' => false)); ?>
 <div class="candidacies view">
-    <h2><?php  echo __('Candidate Profile'); ?></h2>
+    <h2><?=__("Jelölt profilja") ?></h2>
 
     <div class="row">
         <div class="span3">
@@ -18,12 +18,12 @@
             </p>
         </div>
         <div class="span6">
-            <button class="btn pull-right btn-small btn-primary" id="share" data-toggle="modal" data-target="#shareModal"><i class="icon-white icon-bullhorn"></i> Share this Profile</button>
+            <button class="btn pull-right btn-small btn-primary" id="share" data-toggle="modal" data-target="#shareModal"><i class="icon-white icon-bullhorn"></i> <?=__("Választás profil") ?></button>
             <h3><a href="#"><?=$candidate['User']['name']?></a></h3>
-            <p><strong>Running for:</strong> <?=$candidate['Office']['name']?></p>
+            <p><strong><?=__("Jelölöm magam erre:")?></strong> <?=$candidate['Office']['name']?></p>
             <p id="aboutme"><?= $this->EvText->format($candidate['Candidate']['about_text']) ?></p>
             <?php if ($candidate['User']['id'] == $currentUser['User']['id']): ?>
-                <p><a data-toggle="modal" data-target="#aboutModal" href="#">Edit Profile</a></p>
+                <p><a data-toggle="modal" data-target="#aboutModal" href="#"><?=__("Profil szerkesztése") ?></a></p>
             <? endif; ?>
         </div>
     </div>
@@ -32,13 +32,14 @@
 
     <div class="row">
         <div class="btn-group span6" data-toggle="buttons-radio">
-            <button class="show-comments btn btn-small active">Comments <span class="badge"><?=count($comments)?></span></button>
-            <button id="show-supporters" class="show-votes btn btn-success btn-small">Supporters <span class="badge badge-success"><?=$votes['positive']?></span></button>
-            <button id="show-opposers" class="show-votes btn btn-danger btn-small">Opposers <span class="badge badge-important"><?=$votes['negative']?></span></button>
+            <button class="show-comments btn btn-small active"><?=__("Hozzászólások") ?> <span class="badge"><?=count($comments)?></span></button>
+            <button id="show-supporters" class="show-votes btn btn-success btn-small"><?=__("Támogatók") ?> <span class="badge badge-success"><?=$votes['positive']?></span></button>
+            <button id="show-opposers" class="show-votes btn btn-danger btn-small"><?=__("Kihívók") ?> <span class="badge badge-important"><?=$votes['negative']?></span></button>
         </div>
         <?php if (!in_array($currentUser['User']['id'], $blockedUsers)) : ?>
         <div class="span3">
-            <button class="btn btn-small btn-primary pull-right add-comment" id="add-comment-<?= $candidate['Candidate']['id'] ?>"><i class="icon-comment"></i> Add new comment <span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_2"><?=count($comments)?></span></button>
+            <button class="btn btn-small btn-primary pull-right add-comment" id="add-comment-<?= $candidate['Candidate']['id'] ?>"><i class="icon-comment"></i> 
+			new comment <span class="badge badge-inverse" id="votes_c<?=$candidate['Candidate']['id']?>_2"><?=count($comments)?></span></button>
         </div>
         <?php endif; ?>
     </div>
@@ -135,7 +136,7 @@
 
     <div class="modal" style="display:none" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
         <div class="modal-header">
-            <h6>My Profile <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+            <h6><?=__("Profilom") ?> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
 
         </div>
         <div class="modal-body">
@@ -157,7 +158,7 @@
 
     <div class="modal" style="display:none" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
         <div class="modal-header">
-            <h6>Share this Profile <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+            <h6><?=__("Választás profil") ?> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
 
         </div>
         <div class="modal-body">

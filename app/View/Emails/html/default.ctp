@@ -16,10 +16,10 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 ?>
-<p><b>Name: </b><?php echo $name;?></p>
-<p><b>University: </b><?php echo $university;?></p>
-<p><b>Email: </b><?php echo $email;?></p>
-<p><b>Message: </b><?php echo $msg;?></p>
+<p><b><?=__("Name:") ?> </b><?php echo $name;?></p>
+<p><b><?=__("University:") ?> </b><?php echo $university;?></p>
+<p><b><?=__("Email:") ?> </b><?php echo $email;?></p>
+<p><b><?=__("Message:") ?> </b><?php echo $msg;?></p>
 <?php
  echo $content;
 ?>

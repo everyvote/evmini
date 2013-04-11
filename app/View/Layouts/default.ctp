@@ -38,19 +38,19 @@
                         <?php echo $this->EvForm->selector('Constituency', 'add', 'span5', 'addEc(ui.item.id)'); ?>
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;">Election:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Election:") ?></strong>
                         <input type="text" class="span5" id="addETitle" name="election" />
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;">Election date:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Választás napja:") ?></strong>
                         <input class="datepicker span5" name="date" id="addEDate" size="16" type="text">
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;">Close date:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Választás lezárásának napja:") ?></strong>
                         <input class="datepicker span5" name="closedate" id="addCDate" size="16" type="text">
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;">Offices:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Pozíciók:") ?></strong>
                         <input name="offices" id="addEOffices" class="span5" size="16" type="text">
                         <p style="font-size:12px;color:#999;">use commas to separate, include district #s (example: Senator - District 1, etc.)</p>
                     </div>
@@ -61,7 +61,7 @@
                         <input type="hidden" name="moderators" id="mods" />
                     </div>
                     <div>
-                        <strong style="display:block;">Election description:</strong>
+                        <strong style="display:block;"><?=__("Választás leírása:") ?></strong>
                         <textarea name="description" id="addEDesc" style="width:510px;height:140px;resize:none;"cols="40" rows="10"></textarea>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
 
             <div class="modal" style="display:none" id="editElection" tabindex="-1" role="dialog">
                 <div class="modal-header">
-                    <h6>Edit Election <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+                    <h6><?=__("Választás szerkesztése") ?><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
                 </div>
                     <div class="modal-body" style="height:500px;">
                     <div>
@@ -81,20 +81,20 @@
                         <?php echo $this->EvForm->selector('Constituency', 'edit', 'span5'); ?>
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;">Election:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Választás:") ?></strong>
                         <input type="text" class="span5" id="editETitle" name="election" />
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;">Election date:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Választás napja:") ?></strong>
                          <input class="datepicker span5" name="date" id="editEDate" size="16" type="text">
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;">Close date:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Választás lezárásának napja:") ?></strong>
                         <input class="datepicker span5" name="closedate" id="editCDate" size="16" type="text">
                     </div>
                     
                     <div>
-                        <strong style="display:inline-block;width:140px;">Offices:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Pozíciók:") ?></strong>
                         <input id="eoffices" class="span5" size="16" type="text">
                         <ul id="eofficesList"></ul>
                         <input type="hidden" name="offices" id="eoffs" />
@@ -109,13 +109,13 @@
                         <input type="hidden" name="moderators" id="emods" />
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;">Block Users:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Felhasználók letiltása") ?>:</strong>
                         <input id="eblockusers" class="span5" size="16" type="text">
                         <ul id="eblockuserList"></ul>
                         <input type="hidden" name="blockusers" id="eblock" />
                     </div>
                     <div>
-                        <strong style="display:block;">Election description:</strong>
+                        <strong style="display:block;"><?=__("Választás leírása:") ?></strong>
                         <textarea name="description" id="editEDesc" style="width:510px;height:140px;resize:none;"cols="40" rows="10"></textarea>
                     </div>
                 </div>
@@ -134,7 +134,7 @@
                         <div class="span2"><img src="<?=$currentUser['User']['image']?>" alt="<?=$currentUser['User']['name']?>" class="img-rounded" /></div>
                         <div class="span4">
                             <h5><?=$currentUser['User']['name']?></h5>
-                            <h6>About me (optional):</h6>
+                            <h6><?=__("About me:") ?></h6>
                             <p>
                                 <textarea id="aboutrun" style="resize:none;width:300px" cols="30" rows="5"></textarea>
                             </p>
@@ -150,7 +150,7 @@
 
             <div class="modal" style="display:none; width: 660px;" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-header">
-                    <h6>My Profile <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+                    <h6><?=__("Profilom") ?><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
                 </div>
                 <div class="modal-body">
                 <?php
@@ -196,7 +196,7 @@
             
             <div class="modal" style="display:none; width: 660px;" id="contactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-header">
-                    <h6>Contact Us <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+                    <h6><?=__("Contact Us") ?> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
                 </div>
                 <div class="modal-body">
                     
@@ -231,39 +231,39 @@
             <div class="row">
                 <div class="span2">
                     <a href="<?=Router::url('/', true)?>"><?=$this->Html->image(Router::url('/', true).'img/copy-logo.png')?></a>
-                    <a id="contactEV" data-target="#contactForm" data-toggle="modal" href="#">Contact EV</a>
+                    <a id="contactEV" data-target="#contactForm" data-toggle="modal" href="#"><?=__("Kapcsolat") ?></a>
                 </div>
                 <?php 
                     if ($back) : ?>
                 <div class="span1 offset3 menu" id="menu" style="float:left">
-                    <a class="btn btn-small btn-primary" id="back" href="<?php echo $this->base; ?>/elections/view/<?php echo $electionID; ?>">Return to Election</a>
+                    <a class="btn btn-small btn-primary" id="back" href="<?php echo $this->base; ?>/elections/view/<?php echo $electionID; ?>"><?=__("Return to Election") ?></a>
                 </div> 
                 <div class="span6 offset3 menu" id="menu">
                     <div>
-                        <a class="btn btn-primary btn-small hidden" id="editE" href="#"><i class="icon-pencil icon-white"></i> Edit Election</a>
-                        <a class="btn btn-small btn-primary" id="addE" href="#"> <i class="icon-plus icon-white"></i> Add Election</a>
-                        <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#">My Profile</a>
+                        <a class="btn btn-primary btn-small hidden" id="editE" href="#"><i class="icon-pencil icon-white"></i> <?=__("Választás szerkesztése") ?></a>
+                        <a class="btn btn-small btn-primary" id="addE" href="#"> <i class="icon-plus icon-white"></i><?=__("Választás hozzáadása") ?></a>
+                        <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#"><?=__("Profilom <br />-") ?></a>
                         <div class="dropdown inline-block">
-                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#">Run for Office</a>
+                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#">Jelölöm magam <br \>-</a>
                           <ul class="dropdown-menu" role="menu" id="runUl" aria-labelledby="dLabel">
                           </ul>
                           </div>
-                        <a class="btn btn-small btn-danger hidden" id="leave" href="#">Leave Race</a>
+                        <a class="btn btn-small btn-danger hidden" id="leave" href="#">Indulás visszavonása</a>
                     </div>
                 </div>
                 <?php 
                     else: ?>
                 <div class="span7 offset3 menu" id="menu">
                     <div>
-                        <a class="btn btn-primary btn-small hidden" id="editE" href="#"><i class="icon-pencil icon-white"></i> Edit Election</a>
-                        <a class="btn btn-small btn-primary" id="addE" href="#"> <i class="icon-plus icon-white"></i> Add Election</a>
-                        <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#">My Profile</a>
+                        <a class="btn btn-primary btn-small hidden" id="editE" href="#"><i class="icon-pencil icon-white"></i><?=__("Választás szerkesztése") ?></a>
+                        <a class="btn btn-small btn-primary" id="addE" href="#"> <i class="icon-plus icon-white"></i><?=__("Választás hozzáadása") ?></a>
+                        <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#"><?=__("Profilom <br />-") ?></a>
                         <div class="dropdown inline-block">
-                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#">Run for Office</a>
+                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#"><?=__("Jelölöm magam <br \>-") ?></a>
                           <ul class="dropdown-menu" role="menu" id="runUl" aria-labelledby="dLabel">
                           </ul>
                           </div>
-                        <a class="btn btn-small btn-danger hidden" id="leave" href="#">Leave Race</a>
+                        <a class="btn btn-small btn-danger hidden" id="leave" href="#"><?=__("Indulás visszavonása") ?></a>
                     </div>
                 </div>
                 <?php endif ?>    

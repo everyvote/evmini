@@ -5,7 +5,7 @@
         <div class="span9">
             <p>
                 <div class="span3" style="float:right; margin:24px 0 0;">
-                    <button class="btn pull-right btn-small btn-primary" id="share" data-toggle="modal" data-target="#shareModal"><i class="icon-white icon-bullhorn"></i> Share this Election</button>
+                    <button class="btn pull-right btn-small btn-primary" id="share" data-toggle="modal" data-target="#shareModal"><i class="icon-white icon-bullhorn"></i> <?=__("Választás megosztása") ?></button>
                 </div>
                 <div>
                         <strong style="display:inline-block;width:140px;"><?=ucfirst($CONSTITUENCY)?></strong>
@@ -17,7 +17,7 @@
         <div class="span9">
             <p>
                 <div class="dropdown hidden" id="electionsselect">
-                    <strong>Election:</strong>  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span><?php echo $election['Election']['name']; ?></span> <i class="icon-chevron-down"></i></a>
+                    <strong><?=__("Választás:") ?></strong>  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span><?php echo $election['Election']['name']; ?></span> <i class="icon-chevron-down"></i></a>
                     <ul class="dropdown-menu" role="menu" id="electionslist">
 
                     </ul>
@@ -39,7 +39,7 @@
 
         <div class="span9 hidden" id="sorting">
             <div class="dropdown pull-left">
-                <strong>Showing:</strong> <a id="filter-list" class="dropdown-toggle" data-toggle="dropdown" href="#"><span>All Offices</span> <i class="icon-chevron-down"></i></a>
+                <strong><?=__("Mutasd") ?></strong> <a id="filter-list" class="dropdown-toggle" data-toggle="dropdown" href="#"><span>All Offices</span> <i class="icon-chevron-down"></i></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                     <li><a href="#" onclick="filterElections(0);">All Offices</a></li>
                     <span id="filterOffices"></span>
@@ -47,7 +47,7 @@
             </div>
 
             <div class="dropdown pull-right">
-                <strong>Sort by:</strong> <a id="sort-list" class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Random</span> <i class="icon-chevron-down"></i></a>
+                <strong><?=__("Rendezd:") ?></strong> <a id="sort-list" class="dropdown-toggle" data-toggle="dropdown" href="#"><span>Random</span> <i class="icon-chevron-down"></i></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                 	<li id="5"><a href="#" onclick="sortElection(5);">Random</a></li>
                     <li id="1"><a href="#" onclick="sortElection(1);">Date Added</a></li>
@@ -64,7 +64,7 @@
     </div>
     <div class="modal" style="display:none" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
         <div class="modal-header">
-            <h6>Share this Election <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+            <h6><?=__("Választás megosztása") ?> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
         </div>
         <div class="modal-body">
             <div class="row">

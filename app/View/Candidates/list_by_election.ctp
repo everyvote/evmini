@@ -41,7 +41,7 @@
 						"/candidates/view/".$candidate['Candidate']['id']."/".$candidate['Candidate']['election_id'], 
 							array('target' => '_blank'));
 					?></h3>
-                    <p><strong>Running for:</strong> <?=$candidate['Office']['name']?></p>
+                    <p><strong><?=__("Jelölöm magam erre:") ?></strong> <?=$candidate['Office']['name']?></p>
                     <p><?=substr($candidate['Candidate']['about_text'], 0, 350) ?>...</p>
                 </div>
             </div>
