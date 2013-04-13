@@ -128,8 +128,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="save-comment"><em class="icon-ok icon-white"></em> Submit</button>
-                <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
+                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="save-comment"><em class="icon-ok icon-white"></em><?=__("Küldés") ?></button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em><?=__("Törlés") ?></button>
             </div>
         </form>
     </div>
@@ -144,7 +144,7 @@
                 <div class="span2"><img src="<?=$currentUser['User']['image']?>" alt="<?=$currentUser['User']['name']?>" class="img-rounded" /></div>
                 <div class="span4">
                     <h5><?=$currentUser['User']['name']?></h5>
-                    <h6>About me:</h6>
+                    <h6><?=__("Rólam:") ?></h6>
                     <p>
                         <textarea id="aboutprofile" style="resize:none;width:300px" cols="30" rows="5"><?= $candidate['Candidate']['about_text'] ?></textarea>
                     </p>
@@ -152,7 +152,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" id="aboutupd" data-dismiss="modal" aria-hidden="true" onclick="editAbout(<?= $candidate['Candidate']['id'];?>)"><em class="icon-ok icon-white"></em>Okay</button>
+            <button class="btn btn-primary" id="aboutupd" data-dismiss="modal" aria-hidden="true" onclick="editAbout(<?= $candidate['Candidate']['id'];?>)"><em class="icon-ok icon-white"></em><?=__("Oké") ?></button>
         </div>
     </div>
 
@@ -166,7 +166,7 @@
                 <div class="span2"><img src="<?=$currentUser['User']['image']?>" alt="<?=$currentUser['User']['name']?>" class="img-rounded" /></div>
                 <div class="span4">
                     <h5><?=$currentUser['User']['name']?></h5>
-                    <h6>Message:</h6>
+                    <h6><?=__("Üzenet") ?>:</h6>
                     <p>
                         <textarea id="message" style="resize:none;width:300px" cols="30" rows="5"></textarea>
                     </p>

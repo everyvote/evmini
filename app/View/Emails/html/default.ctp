@@ -19,7 +19,7 @@
 <p><b><?=__("Name:") ?> </b><?php echo $name;?></p>
 <p><b><?=__("University:") ?> </b><?php echo $university;?></p>
 <p><b><?=__("Email:") ?> </b><?php echo $email;?></p>
-<p><b><?=__("Message:") ?> </b><?php echo $msg;?></p>
+<p><b><?=__("Üzenet") ?>" </b><?php echo $msg;?></p>
 <?php
  echo $content;
 ?>

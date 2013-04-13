@@ -29,7 +29,7 @@
         <div class="container">
             <div class="modal" style="display:none" id="addElection" tabindex="-1" role="dialog">
                 <div class="modal-header">
-                    <h6>Add New Election <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+                    <h6><?=__("Választás hozzáadása") ?><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
                 </div>
 
                 <div class="modal-body" style="height:500px;">
@@ -38,7 +38,7 @@
                         <?php echo $this->EvForm->selector('Constituency', 'add', 'span5', 'addEc(ui.item.id)'); ?>
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;"><?=__("Election:") ?></strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Választás:") ?></strong>
                         <input type="text" class="span5" id="addETitle" name="election" />
                     </div>
                     <div>
@@ -50,12 +50,12 @@
                         <input class="datepicker span5" name="closedate" id="addCDate" size="16" type="text">
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;"><?=__("Pozíciók:") ?></strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Tisztségek:") ?></strong>
                         <input name="offices" id="addEOffices" class="span5" size="16" type="text">
-                        <p style="font-size:12px;color:#999;">use commas to separate, include district #s (example: Senator - District 1, etc.)</p>
+                        <p style="font-size:12px;color:#999;"><?=__("vesszővel válaszd el egymástól, vagy add meg a választórekületek számát") ?></p>
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;">Moderator:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Moderátor:") ?></strong>
                         <input id="moderators" class="span5" size="16" type="text">
                         <ul id="moderatorsList"></ul>
                         <input type="hidden" name="moderators" id="mods" />
@@ -66,8 +66,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="addElection();"><em class="icon-ok icon-white"></em> Okay</button>
-                    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
+                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="addElection();"><em class="icon-ok icon-white"></em><?=__("Oké") ?></button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em><?=__("Törlés") ?></button>
                 </div>
             </div>
 
@@ -94,7 +94,7 @@
                     </div>
                     
                     <div>
-                        <strong style="display:inline-block;width:140px;"><?=__("Pozíciók:") ?></strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Tisztségek:") ?></strong>
                         <input id="eoffices" class="span5" size="16" type="text">
                         <ul id="eofficesList"></ul>
                         <input type="hidden" name="offices" id="eoffs" />
@@ -103,13 +103,13 @@
                     
                     
                     <div>
-                        <strong style="display:inline-block;width:140px;">Moderator:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Moderator:") ?></strong>
                         <input id="emoderators" class="span5" size="16" type="text">
                         <ul id="emoderatorsList"></ul>
                         <input type="hidden" name="moderators" id="emods" />
                     </div>
                     <div>
-                        <strong style="display:inline-block;width:140px;"><?=__("Felhasználók letiltása") ?>:</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Felhasználók letiltása:") ?>:</strong>
                         <input id="eblockusers" class="span5" size="16" type="text">
                         <ul id="eblockuserList"></ul>
                         <input type="hidden" name="blockusers" id="eblock" />
@@ -120,21 +120,21 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="updateElection();"><em class="icon-ok icon-white"></em> Okay</button>
-                    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em> Cancel</button>
+                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="updateElection();"><em class="icon-ok icon-white"></em><?=__("Oké") ?></button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-remove"></em><?=__("Törlés") ?></button>
                 </div>
             </div>
 
             <div class="modal" style="display:none" id="runForOffice" tabindex="-1" role="dialog" aria-labelledby="runForOfficeLabel" aria-hidden="true">
                 <div class="modal-header">
-                    <h6>Run for <span id="runFor"></span> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+                    <h6><?=__("Jelölöm magam erre") ?><span id="runFor"></span> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="span2"><img src="<?=$currentUser['User']['image']?>" alt="<?=$currentUser['User']['name']?>" class="img-rounded" /></div>
                         <div class="span4">
                             <h5><?=$currentUser['User']['name']?></h5>
-                            <h6><?=__("About me:") ?></h6>
+                            <h6><?=__("Rólam:") ?></h6>
                             <p>
                                 <textarea id="aboutrun" style="resize:none;width:300px" cols="30" rows="5"></textarea>
                             </p>
@@ -142,8 +142,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" id="runbutton" data-dismiss="modal" aria-hidden="true"><em class="icon-ok icon-white"></em> Run</button>
-                    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-x"></em> Cancel</button>
+                    <button class="btn btn-danger" id="runbutton" data-dismiss="modal" aria-hidden="true"><em class="icon-ok icon-white"></em><?=__("Jelölés") ?></button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-x"></em><?=__("Törlés") ?></button>
                 </div>
             </div>
 
@@ -188,7 +188,7 @@
                     <?php endif; ?>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><em class="icon-ok icon-white"></em> Okay</button>
+                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><em class="icon-ok icon-white"></em><?=__("Oké") ?></button>
                 </div>
             </div>
             
@@ -196,17 +196,17 @@
             
             <div class="modal" style="display:none; width: 660px;" id="contactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-header">
-                    <h6><?=__("Contact Us") ?> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
+                    <h6><?=__("Kapcsolat") ?> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></h6>
                 </div>
                 <div class="modal-body">
                     
                     <div>
-                        <strong style="display:inline-block;width:140px;">Name</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Név") ?></strong>
                         <input type="text" class="span5" id="contactName" name="contactName" />
                     </div>
                     
                     <div>
-                        <strong style="display:inline-block;width:140px;">Email Address</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("E-mail cím") ?></strong>
                         <input type="text" class="span5" id="contactEmail" name="contactEmail" />
                     </div>
                     
@@ -216,14 +216,14 @@
                     </div>
                     
                     <div>
-                        <strong style="display:inline-block;width:140px;">Message</strong>
+                        <strong style="display:inline-block;width:140px;"><?=__("Üzenet") ?></strong>
                         <textarea name="description" id="contactMessage" style="width:410px;height:140px;resize:none;"cols="40" rows="10"></textarea>
                     </div>
                     
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" id="contactbutton" data-dismiss="modal" aria-hidden="true" onclick="contactEV();"><em class="icon-ok icon-white"></em> Submit</button>
-                    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-x"></em> Cancel</button>
+                    <button class="btn btn-danger" id="contactbutton" data-dismiss="modal" aria-hidden="true" onclick="contactEV();"><em class="icon-ok icon-white"></em><?=__("Küldés") ?></button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true"><em class="icon-x"></em><?=__("Törlés") ?></button>
                 </div>
             </div>
 
@@ -236,7 +236,7 @@
                 <?php 
                     if ($back) : ?>
                 <div class="span1 offset3 menu" id="menu" style="float:left">
-                    <a class="btn btn-small btn-primary" id="back" href="<?php echo $this->base; ?>/elections/view/<?php echo $electionID; ?>"><?=__("Return to Election") ?></a>
+                    <a class="btn btn-small btn-primary" id="back" href="<?php echo $this->base; ?>/elections/view/<?php echo $electionID; ?>"><?=__("Vissza a választáshoz") ?></a>
                 </div> 
                 <div class="span6 offset3 menu" id="menu">
                     <div>
@@ -244,11 +244,11 @@
                         <a class="btn btn-small btn-primary" id="addE" href="#"> <i class="icon-plus icon-white"></i><?=__("Választás hozzáadása") ?></a>
                         <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#"><?=__("Profilom <br />-") ?></a>
                         <div class="dropdown inline-block">
-                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#">Jelölöm magam <br \>-</a>
+                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#"><?=__("Jelölöm magam <br \>.") ?></a>
                           <ul class="dropdown-menu" role="menu" id="runUl" aria-labelledby="dLabel">
                           </ul>
                           </div>
-                        <a class="btn btn-small btn-danger hidden" id="leave" href="#">Indulás visszavonása</a>
+                        <a class="btn btn-small btn-danger hidden" id="leave" href="#"><?=__("Indulás visszavonása") ?></a>
                     </div>
                 </div>
                 <?php 
@@ -259,7 +259,7 @@
                         <a class="btn btn-small btn-primary" id="addE" href="#"> <i class="icon-plus icon-white"></i><?=__("Választás hozzáadása") ?></a>
                         <a class="btn btn-primary btn-small" data-toggle="modal" data-target="#myModal" href="#"><?=__("Profilom <br />-") ?></a>
                         <div class="dropdown inline-block">
-                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#"><?=__("Jelölöm magam <br \>-") ?></a>
+                        <a class="btn btn-small btn-success hidden" id="run" class="dropdown-toggle" data-toggle="dropdown" href="#"><?=__("Jelölöm magam erre") ?></a>
                           <ul class="dropdown-menu" role="menu" id="runUl" aria-labelledby="dLabel">
                           </ul>
                           </div>

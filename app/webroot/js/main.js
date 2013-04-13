@@ -126,7 +126,7 @@ function selectElection(id) {
                     }
                 });
                 if (_mods != "") {
-                    $(this).html("<strong>Moderator(s):</strong><br/>" + _mods).fadeIn('slow');
+                    $(this).html("<strong><?=__("Moderátorok:") ?></strong><br/>" + _mods).fadeIn('slow');
                 }
             });
         }
