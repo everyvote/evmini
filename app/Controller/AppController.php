@@ -54,7 +54,7 @@ class AppController extends Controller {
      *
      * @var array
      */
-    public $uses = array('User');
+    public $uses = array('User', 'Candidate');
 
     public $helpers = array("Html", "Form", "TwitterBootstrap.TwitterBootstrap");
 
@@ -313,6 +313,50 @@ class AppController extends Controller {
 		$this->sendJson(json_encode($json));
 		
 	}
+    
+    public function notifyCandidate ($candidate, $action){
+        $candidateRec = $this->Candidate->find('first', array('conditions' => array('Candidate.id' => $candidate)));
+        $candidateUserID = $candidateRec['Candidate']['user_id'];
+        
+        $candidateUserRec = $this->User->find('first', array('conditions' => array('User.id' => $candidateUserID)));
+        $candidateFBID = $candidateUserRec['User']['facebook_id'];
+        
+        // Build message
+        $msg = $this->_currentUser['User']['name'];
+        switch ($action) {
+            case 'Supports':
+            case 'Opposes':
+                $msg .= ' ' . strtolower($action) . ' you for ' . $candidateRec['Office']['name'];
+                break;
+
+            default:
+                $msg .= ' commented on your profile';
+                break;
+        }
+        
+        try {
+            // Try send this user a notification
+            $fb_response = $this->_facebook->api('/' . $candidateFBID . '/notifications', 'POST',
+                array(
+                    'access_token' => $this->_facebook->getAppId() . '|' . $this->_facebook->getApiSecret(),
+                    'href' => '',
+                    'template' => $msg, // Message to be displayed within the notification
+                    )
+                );
+                
+            if (!$fb_response['success']) {
+                // Notification failed to send
+                echo '<p><strong>Failed to send notification</strong></p>'."\n";
+                echo '<p><pre>' . print_r($fb_response, true) . '</pre></p>'."\n";
+            } 
+ 
+        } catch (FacebookApiException $e) {
+            // Notification failed to send
+            echo '<p><pre>' . print_r($e, true) . '</pre></p>';
+        }
+        
+        
+    }
 	
 	
 }

@@ -113,6 +113,8 @@ class VotesController extends AppController {
             $this->Vote->delete($votes['Vote']['id']);
         else:
             $this->Vote->Save($data);
+            // Send notification
+            $this->notifyCandidate($candidate, ($stance == 1) ? "Supports" : "Opposes");
         endif;
 
         $votes = array('Votes' => array(

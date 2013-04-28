@@ -284,6 +284,8 @@ class CandidatesController extends AppController {
                'date' => date('Y-m-d H:i:s')
             );
             $this->Comment->save($comment);
+            $this->notifyCandidate($this->request->data('candidate_id'), "Commented");
+             
         }
         $this->redirect(array('controller' => 'candidates', 'action' => 'view', $this->request->data('candidate_id'), $this->request->data('election_id')));
         exit();
